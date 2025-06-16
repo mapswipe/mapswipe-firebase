@@ -4,6 +4,27 @@
 
 # Organisation
 
+UserGroupMembershipActionEnum:
+  model: alias
+  type:
+    type: enum
+    members:
+      - value: 'join'
+        label: 'Join'
+      - value: 'leave'
+        label: 'Leave'
+
+Announcement:
+  model: document
+  path: v2/announcement
+  type:
+    type: object
+    fields:
+      url:
+        type: string
+      text:
+        type: string
+
 Organisation:
   model: document
   path: organisations/{organisation_id}
@@ -60,20 +81,19 @@ ProjectStatus:
       - type: literal
         value: finished
 
-# NOTE: This could be an enum
-ProjectType:
+ProjectTypeEnum:
   model: alias
   docs: Represents a project type
   type:
-    type: union
-    variants:
-      - type: literal
+    type: enum
+    members:
+      - label: 'Find'
         value: 1
-      - type: literal
+      - label: 'Validate'
         value: 2
-      - type: literal
+      - label: 'Compare'
         value: 3
-      - type: literal
+      - label: 'Completeness'
         value: 4
 
 Project:
@@ -117,9 +137,9 @@ Project:
       projectTopicKey:
         type: string
       projectType:
-        type: ProjectType
+        type: ProjectTypeEnum
       project_type:
-        type: ProjectType
+        type: ProjectTypeEnum
       requestingOrganisation:
         type: string
       requiredResults:
@@ -242,7 +262,7 @@ UserGroup:
       users:
         type:
           type: map
-          valueType: string
+          valueType: unknown
 
 UserGroupObsolete:
   model: document
@@ -263,9 +283,8 @@ UserGroupMembership:
   type:
     type: object
     fields:
-      # TODO: this is an enum
       action:
-        type: string
+        type: UserGroupMembershipActionEnum
       timestamp:
         type: timestamp
       userGroupId:
@@ -292,6 +311,15 @@ User:
       # NOTE: We can remove this
       usernameKey:
         type: string
+      accessibility:
+        optional: true
+        type: boolean
+      userGroups:
+        optional: true
+        type:
+          type: map
+          valueType: unknown
+
 
 UserContribution:
   model: alias
