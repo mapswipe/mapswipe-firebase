@@ -1,0 +1,310 @@
+# yaml-language-server: $schema=https://schema.typesync.org/v0.13.json
+
+# NOTE: projectUsers and groupUsers cannot be modeled
+
+# Organisation
+
+Organisation:
+  model: document
+  path: organisations/{organisation_id}
+  type:
+    type: object
+    fields:
+      name:
+        type: string
+      description:
+        type: string
+      # NOTE: We can remove this
+      nameKey:
+        type: string
+
+# Team
+
+Team:
+  model: document
+  path: teams/{teamId}
+  docs: Represents a mapswipe team
+  type:
+    type: object
+    fields:
+      teamName:
+        type: string
+      teamToken:
+        type: timestamp
+
+# Project
+
+ProjectRasterTileServer:
+  model: alias
+  docs: Represents a raster tile server
+  type:
+    type: object
+    fields:
+      apiKey:
+        optional: true
+        type: string
+      credits:
+        type: string
+      name:
+        # TODO: We might need to use enum here
+        type: string
+      url:
+        type: string
+
+ProjectStatus:
+  model: alias
+  docs: Represents a project status
+  type:
+    type: union
+    variants:
+      - type: literal
+        value: finished
+
+# NOTE: This could be an enum
+ProjectType:
+  model: alias
+  docs: Represents a project type
+  type:
+    type: union
+    variants:
+      - type: literal
+        value: 1
+      - type: literal
+        value: 2
+      - type: literal
+        value: 3
+      - type: literal
+        value: 4
+
+Project:
+  model: document
+  path: projects/{projectId}
+  docs: Represents a mapswipe project
+  type:
+    type: object
+    fields:
+      created:
+        type: timestamp
+      createdBy:
+        type: string
+      contributorCount:
+        type: int
+      groupMaxSize:
+        type: int
+      groupSize:
+        type: int
+      image:
+        type: string
+      isFeatured:
+        type: boolean
+      lookFor:
+        type: string
+      name:
+        type: string
+      progress:
+        type: int
+      projectDetails:
+        type: string
+      projectId:
+        type: string
+      projectNumber:
+        type: string
+      projectRegion:
+        type: string
+      projectTopic:
+        type: string
+      # NOTE: We can remove this
+      projectTopicKey:
+        type: string
+      projectType:
+        type: ProjectType
+      project_type:
+        type: ProjectType
+      requestingOrganisation:
+        type: string
+      requiredResults:
+        type: int
+      resultCount:
+        type: int
+      status:
+        type: ProjectStatus
+      tutorialId:
+        type: string
+      verificationNumber:
+        type: int
+      zoomLevel:
+        type: int
+      tileServer:
+        type: ProjectRasterTileServer
+      tileServerB:
+        type: ProjectRasterTileServer
+        optional: true
+
+# Mapping
+
+MappingGroup:
+  model: alias
+  # model: document
+  # path: groups/{projectId}/{groupId}
+  docs: Represents a group in a mapswipe project
+  type:
+    type: object
+    fields:
+      finishedCount:
+        type: int
+      groupId:
+        type: string
+      numberOfTasks:
+        type: int
+      progress:
+        type: int
+      projectId:
+        type: string
+      requiredCount:
+        type: int
+      # NOTE: These are string but with numeric values
+      xMax:
+        type: string
+        optional: true
+      xMin:
+        type: string
+        optional: true
+      yMax:
+        type: string
+        optional: true
+      yMin:
+        type: string
+        optional: true
+
+MappingTask:
+  model: alias
+  # model: document
+  # path: tasks/{projectId}/{groupId}/{index}
+  docs: Repesents a task in a group in a project
+  type:
+    type: object
+    fields:
+      groupId:
+        type: string
+      projectId:
+        type: string
+      taskId:
+        type: string
+      taskX:
+        type: string
+        optional: true
+      taskY:
+        type: string
+        optional: true
+      url:
+        type: string
+
+MappingResult:
+  model: alias
+  #jmodel: document
+  #jpath: results/{projectId}/{groupId}/{taskId}
+  docs: Represents a mapswipe project
+  type:
+    type: object
+    fields:
+      appVersion:
+        type: string
+      endTime:
+        type: timestamp
+      startTime:
+        type: timestamp
+      results:
+        type:
+          type: map
+          valueType: int
+
+# User and User group
+
+UserGroup:
+  model: document
+  path: userGroups/{userGroupId}
+  docs: Represents a usergroup
+  type:
+    type: object
+    fields:
+      # TODO: this is an enum
+      createdAt:
+        type: int
+      createdBy:
+        type: string
+      description:
+        type: string
+      name:
+        type: string
+      # NOTE: We can remove this
+      nameKey:
+        type: string
+      users:
+        type:
+          type: map
+          valueType: string
+
+UserGroupObsolete:
+  model: document
+  path: user_groups/{userGroupId}
+  docs: Represents a usergroup
+  type:
+    type: object
+    fields:
+      name:
+        type: string
+      description:
+        type: string
+
+UserGroupMembership:
+  model: document
+  path: userGroupMembershipLogs/{userGroupId}
+  docs: Represents a user contribution
+  type:
+    type: object
+    fields:
+      # TODO: this is an enum
+      action:
+        type: string
+      timestamp:
+        type: timestamp
+      userGroupId:
+        type: string
+      userId:
+        type: string
+
+User:
+  model: document
+  path: users/{userId}
+  docs: Represents a user
+  type:
+    type: object
+    fields:
+      created:
+        type: timestamp
+      userName:
+        type: string
+      # NOTE: We can remove this
+      userNameKey:
+        type: string
+      username:
+        type: string
+      # NOTE: We can remove this
+      usernameKey:
+        type: string
+
+UserContribution:
+  model: alias
+  # model: document
+  # path: userContributions/{userId}/{projectId}/{groupId}
+  docs: Represents a user contribution
+  type:
+    type: object
+    fields:
+      endTime:
+        type: timestamp
+      startTime:
+        type: timestamp
+      timestamp:
+        type: timestamp
+
