@@ -7,9 +7,8 @@
     "build": "tsc",
     "build:watch": "tsc --watch",
     "generate:ts": "typesync generate-ts --target firebase-admin@10 --definition 'definition/**/*.yaml' --indentation 4 --outFile generated/models.ts",
-    "generate:py": "typesync generate-py --target firebase-admin@6 --definition 'definition/**/*.yaml' --indentation 4 --outFile generated/models.py",
+    "generate:py": "typesync generate-py --target firebase-admin@6 --definition 'definition/**/*.yaml' --indentation 4 --outFile generated/pyfirebase/pyfirebase_mapswipe/models.py",
     "generate:rules": "typesync generate-rules --definition 'definition/**/*.yaml' --outFile ../database.rules.json",
-    "generate": "yarn generate:ts && yarn generate:py",
     "serve": "yarn build && firebase emulators:start --only functions",
     "shell": "yarn build && firebase functions:shell",
     "start": "yarn shell",
@@ -41,7 +40,7 @@
     "typesync-cli": "^0.13.0"
   },
   "engines": {
-    "node": "20",
+    "node": "22.16.0",
     "yarn": "1.22.22"
   },
   "private": true

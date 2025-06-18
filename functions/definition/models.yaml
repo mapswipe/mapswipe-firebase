@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://schema.typesync.org/v0.13.json
 
-# NOTE: projectUsers and groupUsers cannot be modeled
+# NOTE: projectsUsers and groupsUsers cannot be modeled
 
 # Organisation
 
@@ -79,6 +79,8 @@ ProjectStatus:
     type: union
     variants:
       - type: literal
+        value: active
+      - type: literal
         value: finished
 
 ProjectTypeEnum:
@@ -87,45 +89,48 @@ ProjectTypeEnum:
   type:
     type: enum
     members:
-      - label: 'Find'
+      - label: 'FIND'
         value: 1
-      - label: 'Validate'
+      - label: 'VALIDATE'
         value: 2
-      - label: 'Compare'
+      - label: 'VALIDATE_IMAGE'
+        value: 10
+      - label: 'COMPARE'
         value: 3
-      - label: 'Completeness'
+      - label: 'COMPLETENESS'
         value: 4
 
-Project:
-  model: document
-  path: projects/{projectId}
-  docs: Represents a mapswipe project
+ProjectReadonlyType:
+  model: alias
+  docs: Represents fields that cannot be updated from backend
   type:
     type: object
     fields:
-      created:
-        type: timestamp
-      createdBy:
-        type: string
       contributorCount:
         type: int
-      groupMaxSize:
+      progress:
         type: int
-      groupSize:
+      resultCount:
         type: int
+      status:
+        type: ProjectStatus
+
+ProjectUpdateInput:
+  model: alias
+  docs: Represents fields that are valid while updating a project
+  type:
+    type: object
+    fields:
       image:
         type: string
+        optional: true
       isFeatured:
         type: boolean
       lookFor:
         type: string
       name:
         type: string
-      progress:
-        type: int
       projectDetails:
-        type: string
-      projectId:
         type: string
       projectNumber:
         type: string
@@ -136,29 +141,56 @@ Project:
       # NOTE: We can remove this
       projectTopicKey:
         type: string
+      requestingOrganisation:
+        type: string
+      tutorialId:
+        type: string
+
+ProjectCreateOnlyInput:
+  model: alias
+  docs: Represents fields that are valid only while creating a project
+  type:
+    type: object
+    fields:
+      created:
+        type: timestamp
+      createdBy:
+        type: string
+      groupMaxSize:
+        type: int
+      groupSize:
+        type: int
+      projectId:
+        type: string
       projectType:
         type: ProjectTypeEnum
       project_type:
         type: ProjectTypeEnum
-      requestingOrganisation:
-        type: string
       requiredResults:
         type: int
-      resultCount:
-        type: int
-      status:
-        type: ProjectStatus
-      tutorialId:
-        type: string
       verificationNumber:
         type: int
       zoomLevel:
         type: int
+        optional: true
       tileServer:
         type: ProjectRasterTileServer
+        optional: true
       tileServerB:
         type: ProjectRasterTileServer
         optional: true
+
+Project:
+  # model: document
+  # path: projects/{projectId}
+  model: alias
+  docs: Represents a mapswipe project
+  type:
+    type: union
+    variants:
+      - ProjectCreateOnlyInput
+      - ProjectUpdateInput
+      - ProjectReadonlyType
 
 # Mapping
 
@@ -221,22 +253,33 @@ MappingTask:
 
 MappingResult:
   model: alias
-  #jmodel: document
-  #jpath: results/{projectId}/{groupId}/{taskId}
+  # model: document
+  # path: results/{projectId}/{groupId}/{userId}
   docs: Represents a mapswipe project
   type:
     type: object
     fields:
       appVersion:
         type: string
+      clientType:
+        # FIXME: this is an enum
+        type: string
+        optional: true
       endTime:
         type: timestamp
       startTime:
         type: timestamp
       results:
         type:
+          # NOTE: The key is taskId
           type: map
           valueType: int
+      usergroups:
+        optional: true
+        type:
+          # NOTE: The key is usergroupId
+          type: map
+          valueType: boolean
 
 # User and User group
 
