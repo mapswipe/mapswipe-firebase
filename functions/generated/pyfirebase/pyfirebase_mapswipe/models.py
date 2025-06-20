@@ -48,7 +48,37 @@ class TypesyncModel(pydantic.BaseModel):
 
 # Model Definitions
 
-class MappingGroup(TypesyncModel):
+class FbEnumProjectStatus(enum.Enum):
+    """Represents a project status"""
+    ACTIVE = "active"
+    INACTIVE = "inactive"
+    PRIVATE_INACTIVE = "private_inactive"
+    PRIVATE_ACTIVE = "private_active"
+    FINISHED = "finished"
+
+class FbEnumProjectType(enum.Enum):
+    """Represents a project type"""
+    FIND = 1
+    VALIDATE = 2
+    VALIDATE_IMAGE = 10
+    COMPARE = 3
+    COMPLETENESS = 4
+
+class FbEnumRasterTileServerName(enum.Enum):
+    """Represents a project status"""
+    CUSTOM = "custom"
+    BING = "bing"
+    MAPBOX = "mapbox"
+    MAXAR_STANDARD = "maxarStandard"
+    MAXAR_PREMIUM = "maxarPremium"
+    ESRI = "esri"
+    ESRI_BETA = "esriBeta"
+
+class FbEnumUserGroupMembershipAction(enum.Enum):
+    JOIN = "join"
+    LEAVE = "leave"
+
+class FbMappingGroup(TypesyncModel):
     """Represents a group in a mapswipe project"""
     finishedCount: int
     groupId: str
@@ -56,10 +86,10 @@ class MappingGroup(TypesyncModel):
     progress: int
     projectId: str
     requiredCount: int
-    xMax: typing.Union[TypesyncUndefined, str] = UNDEFINED
-    xMin: typing.Union[TypesyncUndefined, str] = UNDEFINED
-    yMax: typing.Union[TypesyncUndefined, str] = UNDEFINED
-    yMin: typing.Union[TypesyncUndefined, str] = UNDEFINED
+    xMax: typing.Union[TypesyncUndefined, int] = UNDEFINED
+    xMin: typing.Union[TypesyncUndefined, int] = UNDEFINED
+    yMax: typing.Union[TypesyncUndefined, int] = UNDEFINED
+    yMin: typing.Union[TypesyncUndefined, int] = UNDEFINED
 
     class Config:
         use_enum_values = True
@@ -76,7 +106,7 @@ class MappingGroup(TypesyncModel):
             raise ValueError("'yMin' field cannot be set to None")
         super().__setattr__(name, value)
 
-class MappingResult(TypesyncModel):
+class FbMappingResult(TypesyncModel):
     """Represents a mapswipe project"""
     appVersion: str
     clientType: typing.Union[TypesyncUndefined, str] = UNDEFINED
@@ -96,14 +126,15 @@ class MappingResult(TypesyncModel):
             raise ValueError("'usergroups' field cannot be set to None")
         super().__setattr__(name, value)
 
-class MappingTask(TypesyncModel):
+class FbMappingTask(TypesyncModel):
     """Repesents a task in a group in a project"""
     groupId: str
     projectId: str
     taskId: str
-    taskX: typing.Union[TypesyncUndefined, str] = UNDEFINED
-    taskY: typing.Union[TypesyncUndefined, str] = UNDEFINED
-    url: str
+    taskX: typing.Union[TypesyncUndefined, int] = UNDEFINED
+    taskY: typing.Union[TypesyncUndefined, int] = UNDEFINED
+    url: typing.Union[TypesyncUndefined, str] = UNDEFINED
+    urlB: typing.Union[TypesyncUndefined, str] = UNDEFINED
 
     class Config:
         use_enum_values = True
@@ -114,44 +145,18 @@ class MappingTask(TypesyncModel):
             raise ValueError("'taskX' field cannot be set to None")
         if name == "taskY" and value is None:
             raise ValueError("'taskY' field cannot be set to None")
+        if name == "url" and value is None:
+            raise ValueError("'url' field cannot be set to None")
+        if name == "urlB" and value is None:
+            raise ValueError("'urlB' field cannot be set to None")
         super().__setattr__(name, value)
 
-Project = typing.Union[ProjectCreateOnlyInput, ProjectUpdateInput, ProjectReadonlyType]
-"""Represents a mapswipe project"""
-
-class ProjectCreateOnlyInput(TypesyncModel):
-    """Represents fields that are valid only while creating a project"""
-    created: datetime.datetime
-    createdBy: str
-    groupMaxSize: int
-    groupSize: int
-    projectId: str
-    projectType: ProjectTypeEnum
-    project_type: ProjectTypeEnum
-    requiredResults: int
-    verificationNumber: int
-    zoomLevel: typing.Union[TypesyncUndefined, int] = UNDEFINED
-    tileServer: typing.Union[TypesyncUndefined, ProjectRasterTileServer] = UNDEFINED
-    tileServerB: typing.Union[TypesyncUndefined, ProjectRasterTileServer] = UNDEFINED
-
-    class Config:
-        use_enum_values = True
-        extra = 'forbid'
-
-    def __setattr__(self, name: str, value: typing.Any) -> None:
-        if name == "zoomLevel" and value is None:
-            raise ValueError("'zoomLevel' field cannot be set to None")
-        if name == "tileServer" and value is None:
-            raise ValueError("'tileServer' field cannot be set to None")
-        if name == "tileServerB" and value is None:
-            raise ValueError("'tileServerB' field cannot be set to None")
-        super().__setattr__(name, value)
-
-class ProjectRasterTileServer(TypesyncModel):
+class FbObjRasterTileServer(TypesyncModel):
     """Represents a raster tile server"""
     apiKey: typing.Union[TypesyncUndefined, str] = UNDEFINED
+    wmtsLayerName: typing.Union[TypesyncUndefined, str] = UNDEFINED
     credits: str
-    name: str
+    name: FbEnumRasterTileServerName
     url: str
 
     class Config:
@@ -161,14 +166,45 @@ class ProjectRasterTileServer(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         if name == "apiKey" and value is None:
             raise ValueError("'apiKey' field cannot be set to None")
+        if name == "wmtsLayerName" and value is None:
+            raise ValueError("'wmtsLayerName' field cannot be set to None")
         super().__setattr__(name, value)
 
-class ProjectReadonlyType(TypesyncModel):
+class FbProjectCreateOnlyInput(TypesyncModel):
+    """Represents fields that are valid only while creating a project"""
+    created: datetime.datetime
+    createdBy: str
+    groupMaxSize: int
+    groupSize: int
+    maxTasksPerUser: typing.Union[TypesyncUndefined, int] = UNDEFINED
+    projectId: str
+    projectType: FbEnumProjectType
+    requiredResults: int
+    verificationNumber: int
+    zoomLevel: typing.Union[TypesyncUndefined, int] = UNDEFINED
+    tileServer: typing.Union[TypesyncUndefined, FbObjRasterTileServer] = UNDEFINED
+    tileServerB: typing.Union[TypesyncUndefined, FbObjRasterTileServer] = UNDEFINED
+
+    class Config:
+        use_enum_values = True
+        extra = 'forbid'
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        if name == "maxTasksPerUser" and value is None:
+            raise ValueError("'maxTasksPerUser' field cannot be set to None")
+        if name == "zoomLevel" and value is None:
+            raise ValueError("'zoomLevel' field cannot be set to None")
+        if name == "tileServer" and value is None:
+            raise ValueError("'tileServer' field cannot be set to None")
+        if name == "tileServerB" and value is None:
+            raise ValueError("'tileServerB' field cannot be set to None")
+        super().__setattr__(name, value)
+
+class FbProjectReadonlyType(TypesyncModel):
     """Represents fields that cannot be updated from backend"""
     contributorCount: int
     progress: int
     resultCount: int
-    status: ProjectStatus
 
     class Config:
         use_enum_values = True
@@ -177,30 +213,23 @@ class ProjectReadonlyType(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-ProjectStatus = typing.Union[typing.Literal["active"], typing.Literal["finished"]]
-"""Represents a project status"""
-
-class ProjectTypeEnum(enum.Enum):
-    """Represents a project type"""
-    FIND = 1
-    VALIDATE = 2
-    VALIDATE_IMAGE = 10
-    COMPARE = 3
-    COMPLETENESS = 4
-
-class ProjectUpdateInput(TypesyncModel):
+class FbProjectUpdateInput(TypesyncModel):
     """Represents fields that are valid while updating a project"""
     image: typing.Union[TypesyncUndefined, str] = UNDEFINED
     isFeatured: bool
     lookFor: str
     name: str
     projectDetails: str
-    projectNumber: str
+    projectNumber: int
     projectRegion: str
     projectTopic: str
     projectTopicKey: str
     requestingOrganisation: str
     tutorialId: str
+    language: str
+    manualUrl: typing.Union[TypesyncUndefined, str] = UNDEFINED
+    teamId: typing.Union[TypesyncUndefined, str] = UNDEFINED
+    status: FbEnumProjectStatus
 
     class Config:
         use_enum_values = True
@@ -209,9 +238,13 @@ class ProjectUpdateInput(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         if name == "image" and value is None:
             raise ValueError("'image' field cannot be set to None")
+        if name == "manualUrl" and value is None:
+            raise ValueError("'manualUrl' field cannot be set to None")
+        if name == "teamId" and value is None:
+            raise ValueError("'teamId' field cannot be set to None")
         super().__setattr__(name, value)
 
-class UserContribution(TypesyncModel):
+class FbUserContribution(TypesyncModel):
     """Represents a user contribution"""
     endTime: datetime.datetime
     startTime: datetime.datetime
@@ -224,11 +257,7 @@ class UserContribution(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-class UserGroupMembershipActionEnum(enum.Enum):
-    Join = "join"
-    Leave = "leave"
-
-class Announcement(TypesyncModel):
+class FbAnnouncement(TypesyncModel):
     url: str
     text: str
 
@@ -239,7 +268,7 @@ class Announcement(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-class Organisation(TypesyncModel):
+class FbOrganisation(TypesyncModel):
     name: str
     description: str
     nameKey: str
@@ -251,7 +280,7 @@ class Organisation(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-class Team(TypesyncModel):
+class FbTeam(TypesyncModel):
     """Represents a mapswipe team"""
     teamName: str
     teamToken: datetime.datetime
@@ -263,7 +292,7 @@ class Team(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-class User(TypesyncModel):
+class FbUser(TypesyncModel):
     """Represents a user"""
     created: datetime.datetime
     userName: str
@@ -284,7 +313,7 @@ class User(TypesyncModel):
             raise ValueError("'userGroups' field cannot be set to None")
         super().__setattr__(name, value)
 
-class UserGroup(TypesyncModel):
+class FbUserGroup(TypesyncModel):
     """Represents a usergroup"""
     createdAt: int
     createdBy: str
@@ -300,9 +329,9 @@ class UserGroup(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-class UserGroupMembership(TypesyncModel):
+class FbUserGroupMembership(TypesyncModel):
     """Represents a user contribution"""
-    action: UserGroupMembershipActionEnum
+    action: FbEnumUserGroupMembershipAction
     timestamp: datetime.datetime
     userGroupId: str
     userId: str
@@ -314,7 +343,7 @@ class UserGroupMembership(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-class UserGroupObsolete(TypesyncModel):
+class FbUserGroupObsolete(TypesyncModel):
     """Represents a usergroup"""
     name: str
     description: str

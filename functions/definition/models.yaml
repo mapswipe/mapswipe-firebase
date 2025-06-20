@@ -2,88 +2,61 @@
 
 # NOTE: projectsUsers and groupsUsers cannot be modeled
 
-# Organisation
+# XXX(tnagorra): The pydantic classess are generated in alphabetical order.
+# So, we must be careful on how we name the models so that the dependencies
+# are always generated before hand.
 
-UserGroupMembershipActionEnum:
+# ENUM
+
+FbEnumUserGroupMembershipAction:
   model: alias
   type:
     type: enum
     members:
-      - value: 'join'
-        label: 'Join'
-      - value: 'leave'
-        label: 'Leave'
+      - label: 'JOIN'
+        value: 'join'
+      - label: 'LEAVE'
+        value: 'leave'
 
-Announcement:
-  model: document
-  path: v2/announcement
-  type:
-    type: object
-    fields:
-      url:
-        type: string
-      text:
-        type: string
-
-Organisation:
-  model: document
-  path: organisations/{organisation_id}
-  type:
-    type: object
-    fields:
-      name:
-        type: string
-      description:
-        type: string
-      # NOTE: We can remove this
-      nameKey:
-        type: string
-
-# Team
-
-Team:
-  model: document
-  path: teams/{teamId}
-  docs: Represents a mapswipe team
-  type:
-    type: object
-    fields:
-      teamName:
-        type: string
-      teamToken:
-        type: timestamp
-
-# Project
-
-ProjectRasterTileServer:
-  model: alias
-  docs: Represents a raster tile server
-  type:
-    type: object
-    fields:
-      apiKey:
-        optional: true
-        type: string
-      credits:
-        type: string
-      name:
-        # TODO: We might need to use enum here
-        type: string
-      url:
-        type: string
-
-ProjectStatus:
+FbEnumRasterTileServerName:
   model: alias
   docs: Represents a project status
   type:
-    type: union
-    variants:
-      - type: literal
+    type: enum
+    members:
+      - label: CUSTOM
+        value: custom
+      - label: BING
+        value: bing
+      - label: MAPBOX
+        value: mapbox
+      - label: MAXAR_STANDARD
+        value: maxarStandard
+      - label: MAXAR_PREMIUM
+        value: maxarPremium
+      - label: ESRI
+        value: esri
+      - label: ESRI_BETA
+        value: esriBeta
+
+FbEnumProjectStatus:
+  model: alias
+  docs: Represents a project status
+  type:
+    type: enum
+    members:
+      - label: "ACTIVE"
         value: active
-      - type: literal
+      - label: "INACTIVE"
+        value: inactive
+      - label: "PRIVATE_INACTIVE"
+        value: private_inactive
+      - label: "PRIVATE_ACTIVE"
+        value: private_active
+      - label: "FINISHED"
         value: finished
 
-ProjectTypeEnum:
+FbEnumProjectType:
   model: alias
   docs: Represents a project type
   type:
@@ -100,7 +73,73 @@ ProjectTypeEnum:
       - label: 'COMPLETENESS'
         value: 4
 
-ProjectReadonlyType:
+# ANNOUNCEMENT
+
+FbAnnouncement:
+  model: document
+  path: v2/announcement
+  type:
+    type: object
+    fields:
+      url:
+        type: string
+      text:
+        type: string
+
+# ORGANISATION
+
+FbOrganisation:
+  model: document
+  path: organisations/{organisation_id}
+  type:
+    type: object
+    fields:
+      name:
+        type: string
+      description:
+        type: string
+      # NOTE: We can remove this
+      nameKey:
+        type: string
+
+# TEAM
+
+FbTeam:
+  model: document
+  path: teams/{teamId}
+  docs: Represents a mapswipe team
+  type:
+    type: object
+    fields:
+      teamName:
+        type: string
+      teamToken:
+        type: timestamp
+
+# PROJECT
+
+FbObjRasterTileServer:
+  model: alias
+  docs: Represents a raster tile server
+  type:
+    type: object
+    fields:
+      # NOTE: @deprecated
+      apiKey:
+        optional: true
+        type: string
+      # NOTE: @deprecated
+      wmtsLayerName:
+        optional: true
+        type: string
+      credits:
+        type: string
+      name:
+        type: FbEnumRasterTileServerName
+      url:
+        type: string
+
+FbProjectReadonlyType:
   model: alias
   docs: Represents fields that cannot be updated from backend
   type:
@@ -112,10 +151,8 @@ ProjectReadonlyType:
         type: int
       resultCount:
         type: int
-      status:
-        type: ProjectStatus
 
-ProjectUpdateInput:
+FbProjectUpdateInput:
   model: alias
   docs: Represents fields that are valid while updating a project
   type:
@@ -133,20 +170,31 @@ ProjectUpdateInput:
       projectDetails:
         type: string
       projectNumber:
-        type: string
+        type: int  # NOTE: This could also be str?
       projectRegion:
         type: string
       projectTopic:
         type: string
-      # NOTE: We can remove this
+        # NOTE: We can remove this later @deprecated
       projectTopicKey:
         type: string
       requestingOrganisation:
         type: string
       tutorialId:
         type: string
+        # NOTE: en-us
+      language:
+        type: string
+      manualUrl:
+        optional: true
+        type: string
+      teamId:
+        optional: true
+        type: string
+      status:
+        type: FbEnumProjectStatus
 
-ProjectCreateOnlyInput:
+FbProjectCreateOnlyInput:
   model: alias
   docs: Represents fields that are valid only while creating a project
   type:
@@ -156,45 +204,38 @@ ProjectCreateOnlyInput:
         type: timestamp
       createdBy:
         type: string
+      # NOTE: this is zero during project creation
       groupMaxSize:
         type: int
       groupSize:
         type: int
+      maxTasksPerUser:
+        optional: true
+        type: int
       projectId:
         type: string
       projectType:
-        type: ProjectTypeEnum
-      project_type:
-        type: ProjectTypeEnum
+        type: FbEnumProjectType
+      # project_type:
+      #   type: FbEnumProjectType
       requiredResults:
         type: int
       verificationNumber:
         type: int
+      # PROJECT SPECIFIC FIELDS
       zoomLevel:
         type: int
         optional: true
       tileServer:
-        type: ProjectRasterTileServer
+        type: FbObjRasterTileServer
         optional: true
       tileServerB:
-        type: ProjectRasterTileServer
+        type: FbObjRasterTileServer
         optional: true
 
-Project:
-  # model: document
-  # path: projects/{projectId}
-  model: alias
-  docs: Represents a mapswipe project
-  type:
-    type: union
-    variants:
-      - ProjectCreateOnlyInput
-      - ProjectUpdateInput
-      - ProjectReadonlyType
+# MAPPING
 
-# Mapping
-
-MappingGroup:
+FbMappingGroup:
   model: alias
   # model: document
   # path: groups/{projectId}/{groupId}
@@ -202,33 +243,36 @@ MappingGroup:
   type:
     type: object
     fields:
+      # default is zero
       finishedCount:
         type: int
+      # ex: g101
       groupId:
         type: string
       numberOfTasks:
         type: int
+      # default is zero
       progress:
         type: int
       projectId:
         type: string
       requiredCount:
         type: int
-      # NOTE: These are string but with numeric values
+      # PROJECT SPECIFIC FIELDS
       xMax:
-        type: string
+        type: int
         optional: true
       xMin:
-        type: string
+        type: int
         optional: true
       yMax:
-        type: string
+        type: int
         optional: true
       yMin:
-        type: string
+        type: int
         optional: true
 
-MappingTask:
+FbMappingTask:
   model: alias
   # model: document
   # path: tasks/{projectId}/{groupId}/{index}
@@ -241,17 +285,23 @@ MappingTask:
       projectId:
         type: string
       taskId:
-        type: string
+        type: string  # NOTE: int for street
+      # For find, completeness, compare
       taskX:
-        type: string
+        type: int  # NOTE: this was string previously
         optional: true
       taskY:
-        type: string
+        type: int  # NOTE: this was string previously
         optional: true
       url:
         type: string
+        optional: true
+      # For compare
+      urlB:
+        type: string
+        optional: true
 
-MappingResult:
+FbMappingResult:
   model: alias
   # model: document
   # path: results/{projectId}/{groupId}/{userId}
@@ -281,9 +331,9 @@ MappingResult:
           type: map
           valueType: boolean
 
-# User and User group
+# USER AND USER GROUP
 
-UserGroup:
+FbUserGroup:
   model: document
   path: userGroups/{userGroupId}
   docs: Represents a usergroup
@@ -307,7 +357,7 @@ UserGroup:
           type: map
           valueType: unknown
 
-UserGroupObsolete:
+FbUserGroupObsolete:
   model: document
   path: user_groups/{userGroupId}
   docs: Represents a usergroup
@@ -319,7 +369,7 @@ UserGroupObsolete:
       description:
         type: string
 
-UserGroupMembership:
+FbUserGroupMembership:
   model: document
   path: userGroupMembershipLogs/{userGroupId}
   docs: Represents a user contribution
@@ -327,7 +377,7 @@ UserGroupMembership:
     type: object
     fields:
       action:
-        type: UserGroupMembershipActionEnum
+        type: FbEnumUserGroupMembershipAction
       timestamp:
         type: timestamp
       userGroupId:
@@ -335,7 +385,7 @@ UserGroupMembership:
       userId:
         type: string
 
-User:
+FbUser:
   model: document
   path: users/{userId}
   docs: Represents a user
@@ -363,8 +413,7 @@ User:
           type: map
           valueType: unknown
 
-
-UserContribution:
+FbUserContribution:
   model: alias
   # model: document
   # path: userContributions/{userId}/{projectId}/{groupId}
@@ -378,4 +427,3 @@ UserContribution:
         type: timestamp
       timestamp:
         type: timestamp
-
