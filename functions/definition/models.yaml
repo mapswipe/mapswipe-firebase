@@ -8,6 +8,19 @@
 
 # ENUM
 
+FbEnumValidateInputType:
+  model: alias
+  type:
+    type: enum
+    members:
+      # FIXME: Add other types here
+      - label: 'AOI_FILE'
+        value: 'aoi_file'
+      - label: 'LINK'
+        value: 'link'
+      - label: 'TMID'
+        value: 'TMId'
+
 FbEnumUserGroupMembershipAction:
   model: alias
   type:
@@ -118,6 +131,40 @@ FbTeam:
 
 # PROJECT
 
+FbBaseObjCustomSubOption:
+  model: alias
+  docs: Represents a custom sub option
+  type:
+    type: object
+    fields:
+      value:
+        type: int
+      description:
+        type: string
+
+FbObjCustomOption:
+  model: alias
+  docs: Represents a custom option
+  type:
+    type: object
+    fields:
+      value:
+        type: int
+      title:
+        type: string
+      description:
+        type: string
+      # FIXME: Do we add enum here?
+      icon:
+        type: string
+      iconColor:
+        type: string
+      subOptions:
+        optional: true
+        type:
+          type: list
+          elementType: FbBaseObjCustomSubOption
+
 FbObjRasterTileServer:
   model: alias
   docs: Represents a raster tile server
@@ -145,10 +192,13 @@ FbProjectReadonlyType:
   type:
     type: object
     fields:
+      # NOTE: initially zero
       contributorCount:
         type: int
+      # NOTE: intially zero
       progress:
         type: int
+      # NOTE: intially zero
       resultCount:
         type: int
 
@@ -161,6 +211,7 @@ FbProjectUpdateInput:
       image:
         type: string
         optional: true
+      # NOTE: Initially false
       isFeatured:
         type: boolean
       lookFor:
@@ -175,14 +226,15 @@ FbProjectUpdateInput:
         type: string
       projectTopic:
         type: string
-        # NOTE: We can remove this later @deprecated
+      # NOTE: We can remove this later @deprecated
       projectTopicKey:
         type: string
+      # NOTE: Name of the organisation
       requestingOrganisation:
         type: string
       tutorialId:
         type: string
-        # NOTE: en-us
+        # NOTE: Initially en-us
       language:
         type: string
       manualUrl:
@@ -191,6 +243,7 @@ FbProjectUpdateInput:
       teamId:
         optional: true
         type: string
+      # NOTE: Intially inactive or private_inactive
       status:
         type: FbEnumProjectStatus
 
@@ -231,9 +284,67 @@ FbProjectFindCreateOnlyInput:
     fields:
       zoomLevel:
         type: int
-        optional: true
       tileServer:
         type: FbObjRasterTileServer
+
+FbProjectCompareCreateOnlyInput:
+  model: alias
+  docs: Represents fields that are valid only while creating a project for COMPARE
+  type:
+    type: object
+    fields:
+      zoomLevel:
+        type: int
+      tileServer:
+        type: FbObjRasterTileServer
+      tileServerB:
+        type: FbObjRasterTileServer
+
+
+FbProjectCompletenessCreateOnlyInput:
+  model: alias
+  docs: Represents fields that are valid only while creating a project for COMPLETENESS
+  type:
+    type: object
+    fields:
+      zoomLevel:
+        type: int
+      tileServer:
+        type: FbObjRasterTileServer
+      tileServerB:
+        type: FbObjRasterTileServer
+
+
+FbProjectValidateCreateOnlyInput:
+  model: alias
+  docs: Represents fields that are valid only while creating a project for VALIDATE
+  type:
+    type: object
+    fields:
+      customOptions:
+        optional: true
+        type:
+          type: list
+          elementType: FbObjCustomOption
+      filter:
+        type: string
+      inputType:
+        type: FbEnumValidateInputType
+      tileServer:
+        type: FbObjRasterTileServer
+
+
+FbProjectValidateImageCreateOnlyInput:
+  model: alias
+  docs: Represents fields that are valid only while creating a project for VALIDATE
+  type:
+    type: object
+    fields:
+      customOptions:
+        optional: true
+        type:
+          type: list
+          elementType: FbObjCustomOption
 
 # MAPPING
 
@@ -245,7 +356,7 @@ FbMappingGroup:
   type:
     type: object
     fields:
-      # default is zero
+      # Initially zero
       finishedCount:
         type: int
       # ex: g101
@@ -253,7 +364,7 @@ FbMappingGroup:
         type: string
       numberOfTasks:
         type: int
-      # default is zero
+      # NOTE: Initially zero
       progress:
         type: int
       projectId:
