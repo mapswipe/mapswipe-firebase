@@ -58,6 +58,7 @@ FbEnumProjectStatus:
   type:
     type: enum
     members:
+      # FIXME: tutorial always has status "tutorial"
       - label: "ACTIVE"
         value: active
       - label: "INACTIVE"
