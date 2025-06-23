@@ -181,9 +181,6 @@ class FbProjectCreateOnlyInput(TypesyncModel):
     projectType: FbEnumProjectType
     requiredResults: int
     verificationNumber: int
-    zoomLevel: typing.Union[TypesyncUndefined, int] = UNDEFINED
-    tileServer: typing.Union[TypesyncUndefined, FbObjRasterTileServer] = UNDEFINED
-    tileServerB: typing.Union[TypesyncUndefined, FbObjRasterTileServer] = UNDEFINED
 
     class Config:
         use_enum_values = True
@@ -192,12 +189,20 @@ class FbProjectCreateOnlyInput(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         if name == "maxTasksPerUser" and value is None:
             raise ValueError("'maxTasksPerUser' field cannot be set to None")
+        super().__setattr__(name, value)
+
+class FbProjectFindCreateOnlyInput(TypesyncModel):
+    """Represents fields that are valid only while creating a project for FIND"""
+    zoomLevel: typing.Union[TypesyncUndefined, int] = UNDEFINED
+    tileServer: FbObjRasterTileServer
+
+    class Config:
+        use_enum_values = True
+        extra = 'forbid'
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
         if name == "zoomLevel" and value is None:
             raise ValueError("'zoomLevel' field cannot be set to None")
-        if name == "tileServer" and value is None:
-            raise ValueError("'tileServer' field cannot be set to None")
-        if name == "tileServerB" and value is None:
-            raise ValueError("'tileServerB' field cannot be set to None")
         super().__setattr__(name, value)
 
 class FbProjectReadonlyType(TypesyncModel):

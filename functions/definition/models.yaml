@@ -222,16 +222,18 @@ FbProjectCreateOnlyInput:
         type: int
       verificationNumber:
         type: int
-      # PROJECT SPECIFIC FIELDS
+
+FbProjectFindCreateOnlyInput:
+  model: alias
+  docs: Represents fields that are valid only while creating a project for FIND
+  type:
+    type: object
+    fields:
       zoomLevel:
         type: int
         optional: true
       tileServer:
         type: FbObjRasterTileServer
-        optional: true
-      tileServerB:
-        type: FbObjRasterTileServer
-        optional: true
 
 # MAPPING
 
