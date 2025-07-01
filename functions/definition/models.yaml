@@ -349,7 +349,20 @@ FbProjectValidateImageCreateOnlyInput:
 
 # MAPPING
 
-FbMappingGroup:
+FbMappingGroupReadonlyType:
+  model: alias
+  docs: Represents fields that cannot be updated from backend
+  type:
+    type: object
+    fields:
+      # Initially zero
+      finishedCount:
+        type: int
+      # NOTE: Initially zero
+      progress:
+        type: int
+
+FbMappingGroupCreateOnlyInput:
   model: alias
   # model: document
   # path: groups/{projectId}/{groupId}
@@ -357,36 +370,30 @@ FbMappingGroup:
   type:
     type: object
     fields:
-      # Initially zero
-      finishedCount:
-        type: int
       # ex: g101
       groupId:
         type: string
-      numberOfTasks:
-        type: int
-      # NOTE: Initially zero
-      progress:
-        type: int
       projectId:
         type: string
+      numberOfTasks:
+        type: int
       requiredCount:
         type: int
       # PROJECT SPECIFIC FIELDS
-      xMax:
-        type: int
-        optional: true
-      xMin:
-        type: int
-        optional: true
-      yMax:
-        type: int
-        optional: true
-      yMin:
-        type: int
-        optional: true
+      # xMax:
+      #   type: int
+      #   optional: true
+      # xMin:
+      #   type: int
+      #   optional: true
+      # yMax:
+      #   type: int
+      #   optional: true
+      # yMin:
+      #   type: int
+      #   optional: true
 
-FbMappingTask:
+FbMappingTaskCreateOnlyInput:
   model: alias
   # model: document
   # path: tasks/{projectId}/{groupId}/{index}
@@ -394,26 +401,26 @@ FbMappingTask:
   type:
     type: object
     fields:
-      groupId:
-        type: string
       projectId:
+        type: string
+      groupId:
         type: string
       taskId:
         type: string  # NOTE: int for street
       # For find, completeness, compare
-      taskX:
-        type: int  # NOTE: this was string previously
-        optional: true
-      taskY:
-        type: int  # NOTE: this was string previously
-        optional: true
-      url:
-        type: string
-        optional: true
-      # For compare
-      urlB:
-        type: string
-        optional: true
+      # taskX:
+      #   type: int  # NOTE: this was string previously
+      #   optional: true
+      # taskY:
+      #   type: int  # NOTE: this was string previously
+      #   optional: true
+      # url:
+      #   type: string
+      #   optional: true
+      # # For compare
+      # urlB:
+      #   type: string
+      #   optional: true
 
 FbMappingResult:
   model: alias

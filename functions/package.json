@@ -40,8 +40,8 @@
     "typesync-cli": "^0.13.0"
   },
   "engines": {
-    "node": "22.16.0",
-    "yarn": "1.22.22"
+    "node": "22",
+    "yarn": "1.22"
   },
   "private": true
 }

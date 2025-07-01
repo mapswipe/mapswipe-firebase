@@ -95,32 +95,30 @@ class FbEnumValidateInputType(enum.Enum):
     LINK = "link"
     TMID = "TMId"
 
-class FbMappingGroup(TypesyncModel):
+class FbMappingGroupCreateOnlyInput(TypesyncModel):
     """Represents a group in a mapswipe project"""
-    finishedCount: int
     groupId: str
-    numberOfTasks: int
-    progress: int
     projectId: str
+    numberOfTasks: int
     requiredCount: int
-    xMax: typing.Union[TypesyncUndefined, int] = UNDEFINED
-    xMin: typing.Union[TypesyncUndefined, int] = UNDEFINED
-    yMax: typing.Union[TypesyncUndefined, int] = UNDEFINED
-    yMin: typing.Union[TypesyncUndefined, int] = UNDEFINED
 
     class Config:
         use_enum_values = True
         extra = 'forbid'
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
-        if name == "xMax" and value is None:
-            raise ValueError("'xMax' field cannot be set to None")
-        if name == "xMin" and value is None:
-            raise ValueError("'xMin' field cannot be set to None")
-        if name == "yMax" and value is None:
-            raise ValueError("'yMax' field cannot be set to None")
-        if name == "yMin" and value is None:
-            raise ValueError("'yMin' field cannot be set to None")
+        super().__setattr__(name, value)
+
+class FbMappingGroupReadonlyType(TypesyncModel):
+    """Represents fields that cannot be updated from backend"""
+    finishedCount: int
+    progress: int
+
+    class Config:
+        use_enum_values = True
+        extra = 'forbid'
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
 class FbMappingResult(TypesyncModel):
@@ -143,29 +141,17 @@ class FbMappingResult(TypesyncModel):
             raise ValueError("'usergroups' field cannot be set to None")
         super().__setattr__(name, value)
 
-class FbMappingTask(TypesyncModel):
+class FbMappingTaskCreateOnlyInput(TypesyncModel):
     """Repesents a task in a group in a project"""
-    groupId: str
     projectId: str
+    groupId: str
     taskId: str
-    taskX: typing.Union[TypesyncUndefined, int] = UNDEFINED
-    taskY: typing.Union[TypesyncUndefined, int] = UNDEFINED
-    url: typing.Union[TypesyncUndefined, str] = UNDEFINED
-    urlB: typing.Union[TypesyncUndefined, str] = UNDEFINED
 
     class Config:
         use_enum_values = True
         extra = 'forbid'
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
-        if name == "taskX" and value is None:
-            raise ValueError("'taskX' field cannot be set to None")
-        if name == "taskY" and value is None:
-            raise ValueError("'taskY' field cannot be set to None")
-        if name == "url" and value is None:
-            raise ValueError("'url' field cannot be set to None")
-        if name == "urlB" and value is None:
-            raise ValueError("'urlB' field cannot be set to None")
         super().__setattr__(name, value)
 
 class FbObjCustomOption(TypesyncModel):
