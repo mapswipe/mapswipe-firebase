@@ -1,7 +1,5 @@
 # yaml-language-server: $schema=https://schema.typesync.org/v0.13.json
 
-# NOTE: projectsUsers and groupsUsers cannot be modeled
-
 # XXX(tnagorra): The pydantic classess are generated in alphabetical order.
 # So, we must be careful on how we name the models so that the dependencies
 # are always generated before hand.
@@ -33,7 +31,7 @@ FbEnumUserGroupMembershipAction:
 
 FbEnumRasterTileServerName:
   model: alias
-  docs: Represents a project status
+  docs: Represents supported raster tile server
   type:
     type: enum
     members:
@@ -54,7 +52,7 @@ FbEnumRasterTileServerName:
 
 FbEnumProjectStatus:
   model: alias
-  docs: Represents a project status
+  docs: Represents project status
   type:
     type: enum
     members:
@@ -72,7 +70,7 @@ FbEnumProjectStatus:
 
 FbEnumProjectType:
   model: alias
-  docs: Represents a project type
+  docs: Represents project type
   type:
     type: enum
     members:
@@ -121,7 +119,7 @@ FbOrganisation:
 FbTeam:
   model: document
   path: teams/{teamId}
-  docs: Represents a mapswipe team
+  docs: Represents a team
   type:
     type: object
     fields:
@@ -134,7 +132,7 @@ FbTeam:
 
 FbBaseObjCustomSubOption:
   model: alias
-  docs: Represents a custom sub option
+  docs: Represents a custom sub-option
   type:
     type: object
     fields:
@@ -168,7 +166,7 @@ FbObjCustomOption:
 
 FbObjRasterTileServer:
   model: alias
-  docs: Represents a raster tile server
+  docs: Represents a raster tile server configuration
   type:
     type: object
     fields:
@@ -189,30 +187,26 @@ FbObjRasterTileServer:
 
 FbProjectReadonlyType:
   model: alias
-  docs: Represents fields that cannot be updated from backend
+  docs: Represents project fields that cannot be updated from backend
   type:
     type: object
     fields:
-      # NOTE: initially zero
       contributorCount:
         type: int
-      # NOTE: intially zero
       progress:
         type: int
-      # NOTE: intially zero
       resultCount:
         type: int
 
 FbProjectUpdateInput:
   model: alias
-  docs: Represents fields that are valid while updating a project
+  docs: Represents project fields that are valid while updating a project
   type:
     type: object
     fields:
       image:
         type: string
         optional: true
-      # NOTE: Initially false
       isFeatured:
         type: boolean
       lookFor:
@@ -222,12 +216,12 @@ FbProjectUpdateInput:
       projectDetails:
         type: string
       projectNumber:
-        type: int  # NOTE: This could also be str?
+        type: int
       projectRegion:
         type: string
       projectTopic:
         type: string
-      # NOTE: We can remove this later @deprecated
+      # TODO: We can remove this @deprecated
       projectTopicKey:
         type: string
       # NOTE: Name of the organisation
@@ -235,7 +229,6 @@ FbProjectUpdateInput:
         type: string
       tutorialId:
         type: string
-        # NOTE: Initially en-us
       language:
         type: string
       manualUrl:
@@ -244,13 +237,12 @@ FbProjectUpdateInput:
       teamId:
         optional: true
         type: string
-      # NOTE: Intially inactive or private_inactive
       status:
         type: FbEnumProjectStatus
 
 FbProjectCreateOnlyInput:
   model: alias
-  docs: Represents fields that are valid only while creating a project
+  docs: Represents project fields that are valid while creating a project
   type:
     type: object
     fields:
@@ -258,7 +250,6 @@ FbProjectCreateOnlyInput:
         type: timestamp
       createdBy:
         type: string
-      # NOTE: this is zero during project creation
       groupMaxSize:
         type: int
       groupSize:
@@ -279,7 +270,7 @@ FbProjectCreateOnlyInput:
 
 FbProjectFindCreateOnlyInput:
   model: alias
-  docs: Represents fields that are valid only while creating a project for FIND
+  docs: Represents FIND project fields that are valid while creating a project
   type:
     type: object
     fields:
@@ -290,7 +281,7 @@ FbProjectFindCreateOnlyInput:
 
 FbProjectCompareCreateOnlyInput:
   model: alias
-  docs: Represents fields that are valid only while creating a project for COMPARE
+  docs: Represents COMPARE project fields that are valid while creating a project
   type:
     type: object
     fields:
@@ -304,7 +295,7 @@ FbProjectCompareCreateOnlyInput:
 
 FbProjectCompletenessCreateOnlyInput:
   model: alias
-  docs: Represents fields that are valid only while creating a project for COMPLETENESS
+  docs: Represents COMPLETNESS project fields that are valid while creating a project
   type:
     type: object
     fields:
@@ -318,7 +309,7 @@ FbProjectCompletenessCreateOnlyInput:
 
 FbProjectValidateCreateOnlyInput:
   model: alias
-  docs: Represents fields that are valid only while creating a project for VALIDATE
+  docs: Represents VALIDATE project fields that are valid while creating a project
   type:
     type: object
     fields:
@@ -327,17 +318,21 @@ FbProjectValidateCreateOnlyInput:
         type:
           type: list
           elementType: FbObjCustomOption
-      filter:
-        type: string
-      inputType:
-        type: FbEnumValidateInputType
       tileServer:
         type: FbObjRasterTileServer
+      inputType:
+        type: FbEnumValidateInputType
+      filter:
+        type: string
+        optional: true
+      TMID:
+        type: string
+        optional: true
 
 
 FbProjectValidateImageCreateOnlyInput:
   model: alias
-  docs: Represents fields that are valid only while creating a project for VALIDATE
+  docs: Represents VALIDATE_IMAGE project fields that are valid while creating a project
   type:
     type: object
     fields:
@@ -351,76 +346,121 @@ FbProjectValidateImageCreateOnlyInput:
 
 FbMappingGroupReadonlyType:
   model: alias
-  docs: Represents fields that cannot be updated from backend
+  docs: Represents mapping group fields that cannot be updated from backend
   type:
     type: object
     fields:
-      # Initially zero
       finishedCount:
         type: int
-      # NOTE: Initially zero
       progress:
         type: int
 
 FbMappingGroupCreateOnlyInput:
   model: alias
-  # model: document
-  # path: groups/{projectId}/{groupId}
-  docs: Represents a group in a mapswipe project
+  docs: Represents mapping group fields that are valid while creating a mapping group
   type:
     type: object
     fields:
-      # ex: g101
-      groupId:
-        type: string
       projectId:
         type: string
       numberOfTasks:
         type: int
       requiredCount:
         type: int
-      # PROJECT SPECIFIC FIELDS
-      # xMax:
-      #   type: int
-      #   optional: true
-      # xMin:
-      #   type: int
-      #   optional: true
-      # yMax:
-      #   type: int
-      #   optional: true
-      # yMin:
-      #   type: int
-      #   optional: true
+
+FbMappingGroupTileMapServiceCreateOnlyInput:
+  model: alias
+  docs: Represents TILE_MAP_SERVICE mapping group fields that are valid while creating a mapping group
+  type:
+    type: object
+    fields:
+      groupId:
+        type: string
+      xMax:
+        type: int
+      xMin:
+        type: int
+      yMax:
+        type: int
+      yMin:
+        type: int
+
+FbMappingGroupValidateCreateOnlyInput:
+  model: alias
+  docs: Represents VALIDATE mapping group fields that are valid while creating a mapping group
+  type:
+    type: object
+    fields:
+      groupId:
+        type: string
+
+FbMappingGroupValidateImageCreateOnlyInput:
+  model: alias
+  docs: Represents VALIDATE_IMAGE mapping group fields that are valid while creating a mapping group
+  type:
+    type: object
+    fields:
+      groupId:
+        type: string
 
 FbMappingTaskCreateOnlyInput:
   model: alias
   # model: document
   # path: tasks/{projectId}/{groupId}/{index}
-  docs: Repesents a task in a group in a project
+  docs: Represents mapping task fields that are valid while creating a task
   type:
     type: object
     fields:
       projectId:
         type: string
+
+FbMappingTaskValidateCreateOnlyInput:
+  model: alias
+  docs: Represents VALIDATE mapping task fields that are valid while creating a task
+  type:
+    type: object
+    fields:
+      taskId:
+        type: string
+      geojson:
+        type:
+          type: map
+          valueType: any
+
+FbMappingTaskValidateImageCreateOnlyInput:
+  model: alias
+  docs: Represents VALIDATE_IMAGE mapping task fields that are valid while creating a task
+  type:
+    type: object
+    fields:
+      taskId:
+        type: string
+      question:
+        type: string
+        optional: true
+
+FbMappingTaskCompareCreateOnlyInput:
+  model: alias
+  docs: Represents COMPARE mapping task fields that are valid while creating a task
+  type:
+    type: object
+    fields:
       groupId:
         type: string
       taskId:
-        type: string  # NOTE: int for street
-      # For find, completeness, compare
-      # taskX:
-      #   type: int  # NOTE: this was string previously
-      #   optional: true
-      # taskY:
-      #   type: int  # NOTE: this was string previously
-      #   optional: true
-      # url:
-      #   type: string
-      #   optional: true
-      # # For compare
-      # urlB:
-      #   type: string
-      #   optional: true
+        type: string
+      taskX:
+        type: int
+        optional: true
+      taskY:
+        type: int
+        optional: true
+      url:
+        type: string
+        optional: true
+      urlB:
+        type: string
+        optional: true
 
 FbMappingResult:
   model: alias
@@ -470,7 +510,7 @@ FbUserGroup:
         type: string
       name:
         type: string
-      # NOTE: We can remove this
+      # NOTE: We can remove this @deprecated
       nameKey:
         type: string
       users:
@@ -517,12 +557,12 @@ FbUser:
         type: timestamp
       userName:
         type: string
-      # NOTE: We can remove this
+      # NOTE: We can remove this @deprecated
       userNameKey:
         type: string
       username:
         type: string
-      # NOTE: We can remove this
+      # NOTE: We can remove this @deprecated
       usernameKey:
         type: string
       accessibility:
