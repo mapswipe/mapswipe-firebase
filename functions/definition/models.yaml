@@ -1,0 +1,590 @@
+# yaml-language-server: $schema=https://schema.typesync.org/v0.13.json
+
+# XXX(tnagorra): The pydantic classess are generated in alphabetical order.
+# So, we must be careful on how we name the models so that the dependencies
+# are always generated before hand.
+
+# ENUM
+
+FbEnumValidateInputType:
+  model: alias
+  type:
+    type: enum
+    members:
+      # FIXME: Add other types here
+      - label: 'AOI_FILE'
+        value: 'aoi_file'
+      - label: 'LINK'
+        value: 'link'
+      - label: 'TMID'
+        value: 'TMId'
+
+FbEnumUserGroupMembershipAction:
+  model: alias
+  type:
+    type: enum
+    members:
+      - label: 'JOIN'
+        value: 'join'
+      - label: 'LEAVE'
+        value: 'leave'
+
+FbEnumRasterTileServerName:
+  model: alias
+  docs: Represents supported raster tile server
+  type:
+    type: enum
+    members:
+      - label: CUSTOM
+        value: custom
+      - label: BING
+        value: bing
+      - label: MAPBOX
+        value: mapbox
+      - label: MAXAR_STANDARD
+        value: maxarStandard
+      - label: MAXAR_PREMIUM
+        value: maxarPremium
+      - label: ESRI
+        value: esri
+      - label: ESRI_BETA
+        value: esriBeta
+
+FbEnumProjectStatus:
+  model: alias
+  docs: Represents project status
+  type:
+    type: enum
+    members:
+      # FIXME: tutorial always has status "tutorial"
+      - label: "ACTIVE"
+        value: active
+      - label: "INACTIVE"
+        value: inactive
+      - label: "PRIVATE_INACTIVE"
+        value: private_inactive
+      - label: "PRIVATE_ACTIVE"
+        value: private_active
+      - label: "FINISHED"
+        value: finished
+
+FbEnumProjectType:
+  model: alias
+  docs: Represents project type
+  type:
+    type: enum
+    members:
+      - label: 'FIND'
+        value: 1
+      - label: 'VALIDATE'
+        value: 2
+      - label: 'VALIDATE_IMAGE'
+        value: 10
+      - label: 'COMPARE'
+        value: 3
+      - label: 'COMPLETENESS'
+        value: 4
+
+# ANNOUNCEMENT
+
+FbAnnouncement:
+  model: document
+  path: v2/announcement
+  type:
+    type: object
+    fields:
+      url:
+        type: string
+      text:
+        type: string
+
+# ORGANISATION
+
+FbOrganisation:
+  model: document
+  path: organisations/{organisation_id}
+  type:
+    type: object
+    fields:
+      name:
+        type: string
+      description:
+        type: string
+      # NOTE: We can remove this
+      nameKey:
+        type: string
+
+# TEAM
+
+FbTeam:
+  model: document
+  path: teams/{teamId}
+  docs: Represents a team
+  type:
+    type: object
+    fields:
+      teamName:
+        type: string
+      teamToken:
+        type: timestamp
+
+# PROJECT
+
+FbBaseObjCustomSubOption:
+  model: alias
+  docs: Represents a custom sub-option
+  type:
+    type: object
+    fields:
+      value:
+        type: int
+      description:
+        type: string
+
+FbObjCustomOption:
+  model: alias
+  docs: Represents a custom option
+  type:
+    type: object
+    fields:
+      value:
+        type: int
+      title:
+        type: string
+      description:
+        type: string
+      # FIXME: Do we add enum here?
+      icon:
+        type: string
+      iconColor:
+        type: string
+      subOptions:
+        optional: true
+        type:
+          type: list
+          elementType: FbBaseObjCustomSubOption
+
+FbObjRasterTileServer:
+  model: alias
+  docs: Represents a raster tile server configuration
+  type:
+    type: object
+    fields:
+      # NOTE: @deprecated
+      apiKey:
+        optional: true
+        type: string
+      # NOTE: @deprecated
+      wmtsLayerName:
+        optional: true
+        type: string
+      credits:
+        type: string
+      name:
+        type: FbEnumRasterTileServerName
+      url:
+        type: string
+
+FbProjectReadonlyType:
+  model: alias
+  docs: Represents project fields that cannot be updated from backend
+  type:
+    type: object
+    fields:
+      contributorCount:
+        type: int
+      progress:
+        type: int
+      resultCount:
+        type: int
+
+FbProjectUpdateInput:
+  model: alias
+  docs: Represents project fields that are valid while updating a project
+  type:
+    type: object
+    fields:
+      image:
+        type: string
+        optional: true
+      isFeatured:
+        type: boolean
+      lookFor:
+        type: string
+      name:
+        type: string
+      projectDetails:
+        type: string
+      projectNumber:
+        type: int
+      projectRegion:
+        type: string
+      projectTopic:
+        type: string
+      # TODO: We can remove this @deprecated
+      projectTopicKey:
+        type: string
+      # NOTE: Name of the organisation
+      requestingOrganisation:
+        type: string
+      tutorialId:
+        type: string
+      language:
+        type: string
+      manualUrl:
+        optional: true
+        type: string
+      teamId:
+        optional: true
+        type: string
+      status:
+        type: FbEnumProjectStatus
+
+FbProjectCreateOnlyInput:
+  model: alias
+  docs: Represents project fields that are valid while creating a project
+  type:
+    type: object
+    fields:
+      created:
+        type: timestamp
+      createdBy:
+        type: string
+      groupMaxSize:
+        type: int
+      groupSize:
+        type: int
+      maxTasksPerUser:
+        optional: true
+        type: int
+      projectId:
+        type: string
+      projectType:
+        type: FbEnumProjectType
+      # project_type:
+      #   type: FbEnumProjectType
+      requiredResults:
+        type: int
+      verificationNumber:
+        type: int
+
+FbProjectFindCreateOnlyInput:
+  model: alias
+  docs: Represents FIND project fields that are valid while creating a project
+  type:
+    type: object
+    fields:
+      zoomLevel:
+        type: int
+      tileServer:
+        type: FbObjRasterTileServer
+
+FbProjectCompareCreateOnlyInput:
+  model: alias
+  docs: Represents COMPARE project fields that are valid while creating a project
+  type:
+    type: object
+    fields:
+      zoomLevel:
+        type: int
+      tileServer:
+        type: FbObjRasterTileServer
+      tileServerB:
+        type: FbObjRasterTileServer
+
+
+FbProjectCompletenessCreateOnlyInput:
+  model: alias
+  docs: Represents COMPLETNESS project fields that are valid while creating a project
+  type:
+    type: object
+    fields:
+      zoomLevel:
+        type: int
+      tileServer:
+        type: FbObjRasterTileServer
+      tileServerB:
+        type: FbObjRasterTileServer
+
+
+FbProjectValidateCreateOnlyInput:
+  model: alias
+  docs: Represents VALIDATE project fields that are valid while creating a project
+  type:
+    type: object
+    fields:
+      customOptions:
+        optional: true
+        type:
+          type: list
+          elementType: FbObjCustomOption
+      tileServer:
+        type: FbObjRasterTileServer
+      inputType:
+        type: FbEnumValidateInputType
+      filter:
+        type: string
+        optional: true
+      TMID:
+        type: string
+        optional: true
+
+
+FbProjectValidateImageCreateOnlyInput:
+  model: alias
+  docs: Represents VALIDATE_IMAGE project fields that are valid while creating a project
+  type:
+    type: object
+    fields:
+      customOptions:
+        optional: true
+        type:
+          type: list
+          elementType: FbObjCustomOption
+
+# MAPPING
+
+FbMappingGroupReadonlyType:
+  model: alias
+  docs: Represents mapping group fields that cannot be updated from backend
+  type:
+    type: object
+    fields:
+      finishedCount:
+        type: int
+      progress:
+        type: int
+
+FbMappingGroupCreateOnlyInput:
+  model: alias
+  docs: Represents mapping group fields that are valid while creating a mapping group
+  type:
+    type: object
+    fields:
+      projectId:
+        type: string
+      numberOfTasks:
+        type: int
+      requiredCount:
+        type: int
+
+FbMappingGroupTileMapServiceCreateOnlyInput:
+  model: alias
+  docs: Represents TILE_MAP_SERVICE mapping group fields that are valid while creating a mapping group
+  type:
+    type: object
+    fields:
+      groupId:
+        type: string
+      xMax:
+        type: int
+      xMin:
+        type: int
+      yMax:
+        type: int
+      yMin:
+        type: int
+
+FbMappingGroupValidateCreateOnlyInput:
+  model: alias
+  docs: Represents VALIDATE mapping group fields that are valid while creating a mapping group
+  type:
+    type: object
+    fields:
+      groupId:
+        type: string
+
+FbMappingGroupValidateImageCreateOnlyInput:
+  model: alias
+  docs: Represents VALIDATE_IMAGE mapping group fields that are valid while creating a mapping group
+  type:
+    type: object
+    fields:
+      groupId:
+        type: string
+
+FbMappingTaskCreateOnlyInput:
+  model: alias
+  # model: document
+  # path: tasks/{projectId}/{groupId}/{index}
+  docs: Represents mapping task fields that are valid while creating a task
+  type:
+    type: object
+    fields:
+      projectId:
+        type: string
+
+FbMappingTaskValidateCreateOnlyInput:
+  model: alias
+  docs: Represents VALIDATE mapping task fields that are valid while creating a task
+  type:
+    type: object
+    fields:
+      taskId:
+        type: string
+      geojson:
+        type:
+          type: map
+          valueType: any
+
+FbMappingTaskValidateImageCreateOnlyInput:
+  model: alias
+  docs: Represents VALIDATE_IMAGE mapping task fields that are valid while creating a task
+  type:
+    type: object
+    fields:
+      taskId:
+        type: string
+      question:
+        type: string
+        optional: true
+
+FbMappingTaskCompareCreateOnlyInput:
+  model: alias
+  docs: Represents COMPARE mapping task fields that are valid while creating a task
+  type:
+    type: object
+    fields:
+      groupId:
+        type: string
+      taskId:
+        type: string
+      taskX:
+        type: int
+        optional: true
+      taskY:
+        type: int
+        optional: true
+      url:
+        type: string
+        optional: true
+      urlB:
+        type: string
+        optional: true
+
+FbMappingResult:
+  model: alias
+  # model: document
+  # path: results/{projectId}/{groupId}/{userId}
+  docs: Represents a mapswipe project
+  type:
+    type: object
+    fields:
+      appVersion:
+        type: string
+      clientType:
+        # FIXME: this is an enum
+        type: string
+        optional: true
+      endTime:
+        type: timestamp
+      startTime:
+        type: timestamp
+      results:
+        type:
+          # NOTE: The key is taskId
+          type: map
+          valueType: int
+      usergroups:
+        optional: true
+        type:
+          # NOTE: The key is usergroupId
+          type: map
+          valueType: boolean
+
+# USER AND USER GROUP
+
+FbUserGroup:
+  model: document
+  path: userGroups/{userGroupId}
+  docs: Represents a usergroup
+  type:
+    type: object
+    fields:
+      # TODO: this is an enum
+      createdAt:
+        type: int
+      createdBy:
+        type: string
+      description:
+        type: string
+      name:
+        type: string
+      # NOTE: We can remove this @deprecated
+      nameKey:
+        type: string
+      users:
+        type:
+          type: map
+          valueType: unknown
+
+FbUserGroupObsolete:
+  model: document
+  path: user_groups/{userGroupId}
+  docs: Represents a usergroup
+  type:
+    type: object
+    fields:
+      name:
+        type: string
+      description:
+        type: string
+
+FbUserGroupMembership:
+  model: document
+  path: userGroupMembershipLogs/{userGroupId}
+  docs: Represents a user contribution
+  type:
+    type: object
+    fields:
+      action:
+        type: FbEnumUserGroupMembershipAction
+      timestamp:
+        type: timestamp
+      userGroupId:
+        type: string
+      userId:
+        type: string
+
+FbUser:
+  model: document
+  path: users/{userId}
+  docs: Represents a user
+  type:
+    type: object
+    fields:
+      created:
+        type: timestamp
+      userName:
+        type: string
+      # NOTE: We can remove this @deprecated
+      userNameKey:
+        type: string
+      username:
+        type: string
+      # NOTE: We can remove this @deprecated
+      usernameKey:
+        type: string
+      accessibility:
+        optional: true
+        type: boolean
+      userGroups:
+        optional: true
+        type:
+          type: map
+          valueType: unknown
+
+FbUserContribution:
+  model: alias
+  # model: document
+  # path: userContributions/{userId}/{projectId}/{groupId}
+  docs: Represents a user contribution
+  type:
+    type: object
+    fields:
+      endTime:
+        type: timestamp
+      startTime:
+        type: timestamp
+      timestamp:
+        type: timestamp

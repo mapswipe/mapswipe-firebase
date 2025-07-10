@@ -66,3 +66,7 @@ node_modules/
 
 # Firebase emulator temp export files
 firebase-export-*
+
+*.egg-info
+
+__pycache__
