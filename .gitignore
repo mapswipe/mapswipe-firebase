@@ -63,3 +63,10 @@ node_modules/
 .env
 
 .DS_Store
+
+# Firebase emulator temp export files
+firebase-export-*
+
+*.egg-info
+
+__pycache__
