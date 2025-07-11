@@ -1,3 +1,6 @@
+# NOTE: If you make any BREAKING CHANGE:
+# - Update the Docker image tag in `./.github/workflows/docker-push-dev.yml`
+# - Update the `mapswipe-backend` workflow to use the new image tag
 FROM node:22-bullseye-slim
 
 RUN apt-get update -y \
