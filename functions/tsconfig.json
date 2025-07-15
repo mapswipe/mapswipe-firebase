@@ -1,35 +1,36 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
-    "outDir": "lib",
-    "sourceMap": true,
+    "compilerOptions": {
+        "paths": {
+            "#generated/*": ["./generated/*"],
+            "#components/*": ["./src/components/*"],
+            "#views/*": ["./src/views/*"],
+            "#hooks/*": ["./src/hooks/*"],
+            "#utils/*": ["./src/utils/*"],
+            "#resources/*": ["./src/resources/*"],
+            "#base/*": ["./src/Base/*"]
+        },
 
-    "strict": true,
-    "alwaysStrict": true,
-    "strictNullChecks": true,
-    "noUncheckedIndexedAccess": true,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitOverride": true,
-    "noImplicitAny": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+        "target": "ESNext",
+        "lib": ["DOM", "DOM.Iterable", "ESNext"],
+        "module": "ESNext",
+        "skipLibCheck": true,
 
-    "target": "es2017",
+        /* Bundler mode */
+        "moduleResolution": "bundler",
+        "allowImportingTsExtensions": true,
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "noEmit": true,
+        "jsx": "react-jsx",
 
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+        /* Linting */
+        "strict": true,
+        /* "types": ["vite-plugin-svgr/client"], */
+        "noUnusedLocals": false,
+        "noUnusedParameters": true,
+        "noFallthroughCasesInSwitch": true
+    },
+    "include": ["src"],
+    "references": [{ "path": "./tsconfig.node.json" }]
 
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true
-  },
-  "compileOnSave": true,
-  "include": [
-    "src"
-  ]
 }
