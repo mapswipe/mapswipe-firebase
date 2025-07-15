@@ -384,7 +384,7 @@ class FbProjectValidateCreateOnlyInput(TypesyncModel):
     tileServer: FbObjRasterTileServer
     inputType: FbEnumValidateInputType
     filter: typing.Union[TypesyncUndefined, str] = UNDEFINED
-    TMID: typing.Union[TypesyncUndefined, str] = UNDEFINED
+    TMId: typing.Union[TypesyncUndefined, str] = UNDEFINED
 
     class Config:
         use_enum_values = True
@@ -395,8 +395,8 @@ class FbProjectValidateCreateOnlyInput(TypesyncModel):
             raise ValueError("'customOptions' field cannot be set to None")
         if name == "filter" and value is None:
             raise ValueError("'filter' field cannot be set to None")
-        if name == "TMID" and value is None:
-            raise ValueError("'TMID' field cannot be set to None")
+        if name == "TMId" and value is None:
+            raise ValueError("'TMId' field cannot be set to None")
         super().__setattr__(name, value)
 
 class FbProjectValidateImageCreateOnlyInput(TypesyncModel):
