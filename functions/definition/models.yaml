@@ -322,10 +322,13 @@ FbProjectValidateCreateOnlyInput:
         type: FbObjRasterTileServer
       inputType:
         type: FbEnumValidateInputType
+
+      # NOTE: available for aoi_file and TMId
       filter:
         type: string
         optional: true
-      TMID:
+      # NOTE: available for TMId
+      TMId:
         type: string
         optional: true
 
