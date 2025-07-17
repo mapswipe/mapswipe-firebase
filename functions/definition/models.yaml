@@ -2,12 +2,21 @@
 
 # ENUM
 
+FbEnumOverlayTileServerType:
+  model: alias
+  type:
+    type: enum
+    members:
+      - label: 'RASTER'
+        value: 'raster'
+      - label: 'VECTOR'
+        value: 'vector'
+
 FbEnumValidateInputType:
   model: alias
   type:
     type: enum
     members:
-      # FIXME: Add other types here
       - label: 'AOI_FILE'
         value: 'aoi_file'
       - label: 'LINK'
@@ -45,6 +54,21 @@ FbEnumRasterTileServerName:
         value: esri
       - label: ESRI_BETA
         value: esriBeta
+
+FbEnumVectorTileServerName:
+  model: alias
+  docs: Represents supported vector tile server
+  type:
+    type: enum
+    members:
+      - label: CUSTOM
+        value: custom
+      - label: OPEN_STREET_MAP
+        value: openStreetMap
+      - label: OPEN_FREE_MAP
+        value: openFreeMap
+      - label: VERSATILES
+        value: versatiles
 
 FbEnumProjectStatus:
   model: alias
@@ -166,7 +190,6 @@ FbObjRasterTileServer:
   type:
     type: object
     fields:
-      # NOTE: @deprecated
       apiKey:
         optional: true
         type: string
@@ -180,6 +203,78 @@ FbObjRasterTileServer:
         type: FbEnumRasterTileServerName
       url:
         type: string
+
+FbObjVectorTileServer:
+  model: alias
+  docs: Represents a vector tile server configuration
+  type:
+    type: object
+    fields:
+      credits:
+        type: string
+      name:
+        type: FbEnumVectorTileServerName
+      url:
+        type: string
+      minZoom:
+        type: int
+      maxZoom:
+        type: int
+
+FbObjRasterTileServerOverlay:
+  model: alias
+  docs: Represents an overlay layer for raster layer
+  type:
+    type: object
+    fields:
+      tileServer:
+        type: FbObjRasterTileServer
+      opacity:
+        type: double
+
+FbObjVectorTileServerOverlay:
+  model: alias
+  docs: Represents an overlay layer for vector layer
+  type:
+    type: object
+    fields:
+      tileServer:
+        type: FbObjVectorTileServer
+      fillColor:
+        type: string
+      fillOpacity:
+        type: double
+      lineColor:
+        type: string
+      lineOpacity:
+        type: double
+      lineWidth:
+        type: double
+      lineDasharray:
+        type:
+          type: list
+          elementType: int
+      circleColor:
+        type: string
+      circleOpacity:
+        type: double
+      circleRadius:
+        type: double
+
+FbObjUnifiedOverlayTileServer:
+  model: alias
+  docs: Represents an overlay layer
+  type:
+    type: object
+    fields:
+      type:
+        type: FbEnumOverlayTileServerType
+      raster:
+        optional: true
+        type: FbObjRasterTileServerOverlay
+      vector:
+        optional: true
+        type: FbObjVectorTileServerOverlay
 
 FbProjectReadonlyType:
   model: alias
@@ -288,7 +383,6 @@ FbProjectCompareCreateOnlyInput:
       tileServerB:
         type: FbObjRasterTileServer
 
-
 FbProjectCompletenessCreateOnlyInput:
   model: alias
   docs: Represents COMPLETNESS project fields that are valid while creating a project
@@ -301,7 +395,8 @@ FbProjectCompletenessCreateOnlyInput:
         type: FbObjRasterTileServer
       tileServerB:
         type: FbObjRasterTileServer
-
+      overlayTileServer:
+        type: FbObjUnifiedOverlayTileServer
 
 FbProjectValidateCreateOnlyInput:
   model: alias
