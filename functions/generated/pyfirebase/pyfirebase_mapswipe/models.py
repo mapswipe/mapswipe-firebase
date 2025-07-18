@@ -670,14 +670,20 @@ class FbOrganisation(TypesyncModel):
     """Represents the requesting organisation."""
 
     name: str
-    description: str
+    description: TypesyncUndefined | str = UNDEFINED
     nameKey: str
+    abbreviation: TypesyncUndefined | str = UNDEFINED
+    isArchived: bool
 
     class Config:
         use_enum_values = True
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
+        if name == "description" and value is None:
+            raise ValueError("'description' field cannot be set to None")
+        if name == "abbreviation" and value is None:
+            raise ValueError("'abbreviation' field cannot be set to None")
         super().__setattr__(name, value)
 
 
