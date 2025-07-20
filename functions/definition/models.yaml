@@ -1,9 +1,5 @@
 # yaml-language-server: $schema=https://schema.typesync.org/v0.13.json
 
-# XXX(tnagorra): The pydantic classess are generated in alphabetical order.
-# So, we must be careful on how we name the models so that the dependencies
-# are always generated before hand.
-
 # ENUM
 
 FbEnumValidateInputType:
