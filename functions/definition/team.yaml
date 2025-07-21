@@ -1,6 +1,6 @@
 FbTeam:
-  model: document
-  path: teams/{teamId}
+  model: alias
+  # path: teams/{teamId}
   docs: Represents a team to limit project visibility.
   type:
     type: object

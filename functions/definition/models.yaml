@@ -456,7 +456,6 @@ FbMappingGroupValidateImageCreateOnlyInput:
 
 FbMappingTaskCreateOnlyInput:
   model: alias
-  # model: document
   # path: tasks/{projectId}/{groupId}/{index}
   docs: Represents mapping task fields that are valid while creating a task
   type:
@@ -515,7 +514,6 @@ FbMappingTaskCompareCreateOnlyInput:
 
 FbMappingResult:
   model: alias
-  # model: document
   # path: results/{projectId}/{groupId}/{userId}
   docs: Represents a mapswipe project
   type:
@@ -546,8 +544,8 @@ FbMappingResult:
 # USER AND USER GROUP
 
 FbUserGroup:
-  model: document
-  path: userGroups/{userGroupId}
+  model: alias
+  # path: userGroups/{userGroupId}
   docs: Represents a usergroup
   type:
     type: object
@@ -570,8 +568,8 @@ FbUserGroup:
           valueType: unknown
 
 FbUserGroupObsolete:
-  model: document
-  path: user_groups/{userGroupId}
+  model: alias
+  # path: user_groups/{userGroupId}
   docs: Represents a usergroup
   type:
     type: object
@@ -582,8 +580,8 @@ FbUserGroupObsolete:
         type: string
 
 FbUserGroupMembership:
-  model: document
-  path: userGroupMembershipLogs/{userGroupId}
+  model: alias
+  # path: userGroupMembershipLogs/{userGroupId}
   docs: Represents a user contribution
   type:
     type: object
@@ -598,8 +596,8 @@ FbUserGroupMembership:
         type: string
 
 FbUser:
-  model: document
-  path: users/{userId}
+  model: alias
+  # path: users/{userId}
   docs: Represents a user
   type:
     type: object
@@ -627,7 +625,6 @@ FbUser:
 
 FbUserContribution:
   model: alias
-  # model: document
   # path: userContributions/{userId}/{projectId}/{groupId}
   docs: Represents a user contribution
   type:

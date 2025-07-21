@@ -1,6 +1,6 @@
 FbOrganisation:
-  model: document
-  path: organisations/{organisation_id}
+  model: alias
+  # path: organisations/{organisation_id}
   docs: Represents the requesting organisation.
   type:
     type: object

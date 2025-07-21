@@ -1,6 +1,6 @@
 FbAnnouncement:
-  model: document
-  path: v2/announcement
+  model: alias
+  # path: v2/announcement
   docs: Represents app announcements for the contributors.
   type:
     type: object
