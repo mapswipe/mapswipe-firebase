@@ -105,49 +105,6 @@ FbEnumProjectType:
       - label: 'COMPLETENESS'
         value: 4
 
-# ANNOUNCEMENT
-
-FbAnnouncement:
-  model: document
-  path: v2/announcement
-  type:
-    type: object
-    fields:
-      url:
-        type: string
-      text:
-        type: string
-
-# ORGANISATION
-
-FbOrganisation:
-  model: document
-  path: organisations/{organisation_id}
-  type:
-    type: object
-    fields:
-      name:
-        type: string
-      description:
-        type: string
-      # NOTE: We can remove this
-      nameKey:
-        type: string
-
-# TEAM
-
-FbTeam:
-  model: document
-  path: teams/{teamId}
-  docs: Represents a team
-  type:
-    type: object
-    fields:
-      teamName:
-        type: string
-      teamToken:
-        type: timestamp
-
 # PROJECT
 
 FbBaseObjCustomSubOption:
@@ -405,7 +362,7 @@ FbProjectValidateCreateOnlyInput:
     type: object
     fields:
       customOptions:
-        optional: true
+        # optional: true
         type:
           type: list
           elementType: FbObjCustomOption

@@ -1,0 +1,12 @@
+FbTeam:
+  model: document
+  path: teams/{teamId}
+  docs: Represents a team to limit project visibility.
+  type:
+    type: object
+    fields:
+      teamName:
+        type: string
+      teamToken:
+        type: timestamp
+

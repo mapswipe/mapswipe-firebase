@@ -1,0 +1,13 @@
+FbOrganisation:
+  model: document
+  path: organisations/{organisation_id}
+  docs: Represents the requesting organisation.
+  type:
+    type: object
+    fields:
+      name:
+        type: string
+      description:
+        type: string
+      nameKey: # NOTE: this is deprecated
+        type: string

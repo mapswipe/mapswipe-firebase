@@ -1,0 +1,11 @@
+FbAnnouncement:
+  model: document
+  path: v2/announcement
+  docs: Represents app announcements for the contributors.
+  type:
+    type: object
+    fields:
+      url:
+        type: string
+      text:
+        type: string
