@@ -1,0 +1,56 @@
+FbValidateTutorial:
+  model: alias
+  type:
+    type: object
+    fields:
+      inputGeometries: # NOTE: local path to geometry file
+        type: string
+      projectType:
+        type:
+          type: literal
+          value: 2
+      tileServer:
+        type: FbObjRasterTileServer
+      zoomLevel:
+        type: int
+      screens:
+        type:
+          type: list
+          elementType: FbScreen
+      customOptions:
+        # optional: true
+        type:
+          type: list
+          elementType: FbObjCustomOption
+
+FbValidateTutorialTaskProperties:
+  model: alias
+  type:
+    type: object
+    fields:
+      building:
+        type: string
+      description:
+        type: string
+      reference:
+        type: string # NOTE: not sure if this is int or string
+      screen:
+        type: string # NOTE: not sure if this is int or string
+
+FbValidateTutorialTask:
+  model: alias
+  type:
+    type: object
+    fields:
+      taskId:
+        type: string
+      geojson: # NOTE: polygon geometry object
+        type: unknown
+      properties:
+        type: FbValidateTutorialTaskProperties
+      screen:
+        type: int
+      reference:
+        type: int
+      geometry: # NOTE: geometry as WKT
+        type: string

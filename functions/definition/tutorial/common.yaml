@@ -1,0 +1,119 @@
+FbEnumInformationPageBlockType:
+  model: alias
+  type:
+    type: enum
+    members:
+      - label: 'TEXT'
+        value: 'text'
+      - label: 'IMAGE'
+        value: 'image'
+
+FbInformationPageBlock:
+  model: alias
+  type:
+    type: object
+    fields:
+      blockNumber:
+        type: int
+      blockType:
+        type: FbEnumInformationPageBlockType
+      textDescription: # NOTE: required if type is TEXT
+        type: string
+        optional: true
+      image: # NOTE: required if tyoe is IMAGE
+        type: string
+        optional: true
+
+FbInformationPage:
+  model: alias
+  type:
+    type: object
+    fields:
+      pageNumber:
+        type: int
+      title:
+        type: string
+      blocks:
+        type:
+          type: list
+          elementType: FbInformationPageBlock
+
+FbScreenBlock:
+  model: alias
+  type:
+    type: object
+    fields:
+      title:
+        type: string
+      description:
+        type: string
+      # FIXME: Do we add enum here?
+      icon:
+        type: string
+
+FbScreen:
+  model: alias
+  type:
+    type: object
+    fields:
+      hint:
+        type: FbScreenBlock
+      instructions:
+        type: FbScreenBlock
+      success:
+        type: FbScreenBlock
+
+FbBaseTutorial:
+  model: alias
+  type:
+    type: object
+    fields:
+      # deprecated
+      exampleImage1:
+        type: string
+        optional: true
+      exampleImage2:
+        type: string
+        optional: true
+      contributorCount: # NOTE: intially zero
+        type: int
+      informationPages:
+        type:
+          type: list
+          elementType: FbInformationPage
+      lookFor:
+        type: string
+      name:
+        type: string
+      progress:
+        type: int
+      projectDetails:
+        type: string
+      projectId:
+        type: string
+      projectTopicKey: # NOTE: deprecated
+        type: string
+      status:
+        type:
+          type: literal
+          value: tutorial
+      tutorialDraftId: # NOTE: deprecated
+        type: string
+
+FbBaseTutorialGroup:
+  model: alias
+  type:
+    type: object
+    fields:
+      finishedCount: # NOTE: initially zero
+        type: int
+      groupId: # NOTE: initially 101
+        type: int
+      numberOfTasks:
+        type: int
+      progress: # NOTE: initially zero
+        type: int
+      projectId:
+        type: string
+      requiredCount: # NOTE: always 5?
+        type: int
