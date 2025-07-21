@@ -48,10 +48,10 @@ class TypesyncModel(pydantic.BaseModel):
 
 # Model Definitions
 
-class FbBaseObjCustomSubOption(TypesyncModel):
-    """Represents a custom sub-option"""
-    value: int
-    description: str
+class FbAnnouncement(TypesyncModel):
+    """Represents app announcements for the contributors."""
+    url: str
+    text: str
 
     class Config:
         use_enum_values = True
@@ -59,6 +59,36 @@ class FbBaseObjCustomSubOption(TypesyncModel):
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
+
+class FbEnumOverlayTileServerType(enum.Enum):
+    RASTER = "raster"
+    VECTOR = "vector"
+
+class FbEnumValidateInputType(enum.Enum):
+    AOI_FILE = "aoi_file"
+    LINK = "link"
+    TMID = "TMId"
+
+class FbEnumUserGroupMembershipAction(enum.Enum):
+    JOIN = "join"
+    LEAVE = "leave"
+
+class FbEnumRasterTileServerName(enum.Enum):
+    """Represents supported raster tile server"""
+    CUSTOM = "custom"
+    BING = "bing"
+    MAPBOX = "mapbox"
+    MAXAR_STANDARD = "maxarStandard"
+    MAXAR_PREMIUM = "maxarPremium"
+    ESRI = "esri"
+    ESRI_BETA = "esriBeta"
+
+class FbEnumVectorTileServerName(enum.Enum):
+    """Represents supported vector tile server"""
+    CUSTOM = "custom"
+    OPEN_STREET_MAP = "openStreetMap"
+    OPEN_FREE_MAP = "openFreeMap"
+    VERSATILES = "versatiles"
 
 class FbEnumProjectStatus(enum.Enum):
     """Represents project status"""
@@ -76,166 +106,16 @@ class FbEnumProjectType(enum.Enum):
     COMPARE = 3
     COMPLETENESS = 4
 
-class FbEnumRasterTileServerName(enum.Enum):
-    """Represents supported raster tile server"""
-    CUSTOM = "custom"
-    BING = "bing"
-    MAPBOX = "mapbox"
-    MAXAR_STANDARD = "maxarStandard"
-    MAXAR_PREMIUM = "maxarPremium"
-    ESRI = "esri"
-    ESRI_BETA = "esriBeta"
-
-class FbEnumUserGroupMembershipAction(enum.Enum):
-    JOIN = "join"
-    LEAVE = "leave"
-
-class FbEnumValidateInputType(enum.Enum):
-    AOI_FILE = "aoi_file"
-    LINK = "link"
-    TMID = "TMId"
-
-class FbMappingGroupCreateOnlyInput(TypesyncModel):
-    """Represents mapping group fields that are valid while creating a mapping group"""
-    projectId: str
-    numberOfTasks: int
-    requiredCount: int
+class FbBaseObjCustomSubOption(TypesyncModel):
+    """Represents a custom sub-option"""
+    value: int
+    description: str
 
     class Config:
         use_enum_values = True
         extra = 'forbid'
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
-        super().__setattr__(name, value)
-
-class FbMappingGroupReadonlyType(TypesyncModel):
-    """Represents mapping group fields that cannot be updated from backend"""
-    finishedCount: int
-    progress: int
-
-    class Config:
-        use_enum_values = True
-        extra = 'forbid'
-
-    def __setattr__(self, name: str, value: typing.Any) -> None:
-        super().__setattr__(name, value)
-
-class FbMappingGroupTileMapServiceCreateOnlyInput(TypesyncModel):
-    """Represents TILE_MAP_SERVICE mapping group fields that are valid while creating a mapping group"""
-    groupId: str
-    xMax: int
-    xMin: int
-    yMax: int
-    yMin: int
-
-    class Config:
-        use_enum_values = True
-        extra = 'forbid'
-
-    def __setattr__(self, name: str, value: typing.Any) -> None:
-        super().__setattr__(name, value)
-
-class FbMappingGroupValidateCreateOnlyInput(TypesyncModel):
-    """Represents VALIDATE mapping group fields that are valid while creating a mapping group"""
-    groupId: str
-
-    class Config:
-        use_enum_values = True
-        extra = 'forbid'
-
-    def __setattr__(self, name: str, value: typing.Any) -> None:
-        super().__setattr__(name, value)
-
-class FbMappingGroupValidateImageCreateOnlyInput(TypesyncModel):
-    """Represents VALIDATE_IMAGE mapping group fields that are valid while creating a mapping group"""
-    groupId: str
-
-    class Config:
-        use_enum_values = True
-        extra = 'forbid'
-
-    def __setattr__(self, name: str, value: typing.Any) -> None:
-        super().__setattr__(name, value)
-
-class FbMappingResult(TypesyncModel):
-    """Represents a mapswipe project"""
-    appVersion: str
-    clientType: typing.Union[TypesyncUndefined, str] = UNDEFINED
-    endTime: datetime.datetime
-    startTime: datetime.datetime
-    results: typing.Dict[str, int]
-    usergroups: typing.Union[TypesyncUndefined, typing.Dict[str, bool]] = UNDEFINED
-
-    class Config:
-        use_enum_values = True
-        extra = 'forbid'
-
-    def __setattr__(self, name: str, value: typing.Any) -> None:
-        if name == "clientType" and value is None:
-            raise ValueError("'clientType' field cannot be set to None")
-        if name == "usergroups" and value is None:
-            raise ValueError("'usergroups' field cannot be set to None")
-        super().__setattr__(name, value)
-
-class FbMappingTaskCompareCreateOnlyInput(TypesyncModel):
-    """Represents COMPARE mapping task fields that are valid while creating a task"""
-    groupId: str
-    taskId: str
-    taskX: typing.Union[TypesyncUndefined, int] = UNDEFINED
-    taskY: typing.Union[TypesyncUndefined, int] = UNDEFINED
-    url: typing.Union[TypesyncUndefined, str] = UNDEFINED
-    urlB: typing.Union[TypesyncUndefined, str] = UNDEFINED
-
-    class Config:
-        use_enum_values = True
-        extra = 'forbid'
-
-    def __setattr__(self, name: str, value: typing.Any) -> None:
-        if name == "taskX" and value is None:
-            raise ValueError("'taskX' field cannot be set to None")
-        if name == "taskY" and value is None:
-            raise ValueError("'taskY' field cannot be set to None")
-        if name == "url" and value is None:
-            raise ValueError("'url' field cannot be set to None")
-        if name == "urlB" and value is None:
-            raise ValueError("'urlB' field cannot be set to None")
-        super().__setattr__(name, value)
-
-class FbMappingTaskCreateOnlyInput(TypesyncModel):
-    """Represents mapping task fields that are valid while creating a task"""
-    projectId: str
-
-    class Config:
-        use_enum_values = True
-        extra = 'forbid'
-
-    def __setattr__(self, name: str, value: typing.Any) -> None:
-        super().__setattr__(name, value)
-
-class FbMappingTaskValidateCreateOnlyInput(TypesyncModel):
-    """Represents VALIDATE mapping task fields that are valid while creating a task"""
-    taskId: str
-    geojson: typing.Dict[str, typing.Any]
-
-    class Config:
-        use_enum_values = True
-        extra = 'forbid'
-
-    def __setattr__(self, name: str, value: typing.Any) -> None:
-        super().__setattr__(name, value)
-
-class FbMappingTaskValidateImageCreateOnlyInput(TypesyncModel):
-    """Represents VALIDATE_IMAGE mapping task fields that are valid while creating a task"""
-    taskId: str
-    question: typing.Union[TypesyncUndefined, str] = UNDEFINED
-
-    class Config:
-        use_enum_values = True
-        extra = 'forbid'
-
-    def __setattr__(self, name: str, value: typing.Any) -> None:
-        if name == "question" and value is None:
-            raise ValueError("'question' field cannot be set to None")
         super().__setattr__(name, value)
 
 class FbObjCustomOption(TypesyncModel):
@@ -275,11 +155,13 @@ class FbObjRasterTileServer(TypesyncModel):
             raise ValueError("'wmtsLayerName' field cannot be set to None")
         super().__setattr__(name, value)
 
-class FbProjectCompareCreateOnlyInput(TypesyncModel):
-    """Represents COMPARE project fields that are valid while creating a project"""
-    zoomLevel: int
-    tileServer: FbObjRasterTileServer
-    tileServerB: FbObjRasterTileServer
+class FbObjVectorTileServer(TypesyncModel):
+    """Represents a vector tile server configuration"""
+    credits: str
+    name: FbEnumVectorTileServerName
+    url: str
+    minZoom: int
+    maxZoom: int
 
     class Config:
         use_enum_values = True
@@ -288,11 +170,10 @@ class FbProjectCompareCreateOnlyInput(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-class FbProjectCompletenessCreateOnlyInput(TypesyncModel):
-    """Represents COMPLETNESS project fields that are valid while creating a project"""
-    zoomLevel: int
+class FbObjRasterTileServerOverlay(TypesyncModel):
+    """Represents an overlay layer for raster layer"""
     tileServer: FbObjRasterTileServer
-    tileServerB: FbObjRasterTileServer
+    opacity: float
 
     class Config:
         use_enum_values = True
@@ -301,37 +182,41 @@ class FbProjectCompletenessCreateOnlyInput(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-class FbProjectCreateOnlyInput(TypesyncModel):
-    """Represents project fields that are valid while creating a project"""
-    created: datetime.datetime
-    createdBy: str
-    groupMaxSize: int
-    groupSize: int
-    maxTasksPerUser: typing.Union[TypesyncUndefined, int] = UNDEFINED
-    projectId: str
-    projectType: FbEnumProjectType
-    requiredResults: int
-    verificationNumber: int
+class FbObjVectorTileServerOverlay(TypesyncModel):
+    """Represents an overlay layer for vector layer"""
+    tileServer: FbObjVectorTileServer
+    fillColor: str
+    fillOpacity: float
+    lineColor: str
+    lineOpacity: float
+    lineWidth: float
+    lineDasharray: typing.List[int]
+    circleColor: str
+    circleOpacity: float
+    circleRadius: float
 
     class Config:
         use_enum_values = True
         extra = 'forbid'
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
-        if name == "maxTasksPerUser" and value is None:
-            raise ValueError("'maxTasksPerUser' field cannot be set to None")
         super().__setattr__(name, value)
 
-class FbProjectFindCreateOnlyInput(TypesyncModel):
-    """Represents FIND project fields that are valid while creating a project"""
-    zoomLevel: int
-    tileServer: FbObjRasterTileServer
+class FbObjUnifiedOverlayTileServer(TypesyncModel):
+    """Represents an overlay layer"""
+    type: FbEnumOverlayTileServerType
+    raster: typing.Union[TypesyncUndefined, FbObjRasterTileServerOverlay] = UNDEFINED
+    vector: typing.Union[TypesyncUndefined, FbObjVectorTileServerOverlay] = UNDEFINED
 
     class Config:
         use_enum_values = True
         extra = 'forbid'
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
+        if name == "raster" and value is None:
+            raise ValueError("'raster' field cannot be set to None")
+        if name == "vector" and value is None:
+            raise ValueError("'vector' field cannot be set to None")
         super().__setattr__(name, value)
 
 class FbProjectReadonlyType(TypesyncModel):
@@ -378,9 +263,69 @@ class FbProjectUpdateInput(TypesyncModel):
             raise ValueError("'teamId' field cannot be set to None")
         super().__setattr__(name, value)
 
+class FbProjectCreateOnlyInput(TypesyncModel):
+    """Represents project fields that are valid while creating a project"""
+    created: datetime.datetime
+    createdBy: str
+    groupMaxSize: int
+    groupSize: int
+    maxTasksPerUser: typing.Union[TypesyncUndefined, int] = UNDEFINED
+    projectId: str
+    projectType: FbEnumProjectType
+    requiredResults: int
+    verificationNumber: int
+
+    class Config:
+        use_enum_values = True
+        extra = 'forbid'
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        if name == "maxTasksPerUser" and value is None:
+            raise ValueError("'maxTasksPerUser' field cannot be set to None")
+        super().__setattr__(name, value)
+
+class FbProjectFindCreateOnlyInput(TypesyncModel):
+    """Represents FIND project fields that are valid while creating a project"""
+    zoomLevel: int
+    tileServer: FbObjRasterTileServer
+
+    class Config:
+        use_enum_values = True
+        extra = 'forbid'
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+class FbProjectCompareCreateOnlyInput(TypesyncModel):
+    """Represents COMPARE project fields that are valid while creating a project"""
+    zoomLevel: int
+    tileServer: FbObjRasterTileServer
+    tileServerB: FbObjRasterTileServer
+
+    class Config:
+        use_enum_values = True
+        extra = 'forbid'
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+class FbProjectCompletenessCreateOnlyInput(TypesyncModel):
+    """Represents COMPLETNESS project fields that are valid while creating a project"""
+    zoomLevel: int
+    tileServer: FbObjRasterTileServer
+    tileServerB: FbObjRasterTileServer
+    overlayTileServer: FbObjUnifiedOverlayTileServer
+
+    class Config:
+        use_enum_values = True
+        extra = 'forbid'
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
 class FbProjectValidateCreateOnlyInput(TypesyncModel):
     """Represents VALIDATE project fields that are valid while creating a project"""
-    customOptions: typing.Union[TypesyncUndefined, typing.List[FbObjCustomOption]] = UNDEFINED
+    customOptions: typing.List[FbObjCustomOption]
     tileServer: FbObjRasterTileServer
     inputType: FbEnumValidateInputType
     filter: typing.Union[TypesyncUndefined, str] = UNDEFINED
@@ -391,8 +336,6 @@ class FbProjectValidateCreateOnlyInput(TypesyncModel):
         extra = 'forbid'
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
-        if name == "customOptions" and value is None:
-            raise ValueError("'customOptions' field cannot be set to None")
         if name == "filter" and value is None:
             raise ValueError("'filter' field cannot be set to None")
         if name == "TMId" and value is None:
@@ -412,11 +355,157 @@ class FbProjectValidateImageCreateOnlyInput(TypesyncModel):
             raise ValueError("'customOptions' field cannot be set to None")
         super().__setattr__(name, value)
 
-class FbUserContribution(TypesyncModel):
-    """Represents a user contribution"""
+class FbMappingGroupReadonlyType(TypesyncModel):
+    """Represents mapping group fields that cannot be updated from backend"""
+    finishedCount: int
+    progress: int
+
+    class Config:
+        use_enum_values = True
+        extra = 'forbid'
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+class FbMappingGroupCreateOnlyInput(TypesyncModel):
+    """Represents mapping group fields that are valid while creating a mapping group"""
+    projectId: str
+    numberOfTasks: int
+    requiredCount: int
+
+    class Config:
+        use_enum_values = True
+        extra = 'forbid'
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+class FbMappingGroupTileMapServiceCreateOnlyInput(TypesyncModel):
+    """Represents TILE_MAP_SERVICE mapping group fields that are valid while creating a mapping group"""
+    groupId: str
+    xMax: int
+    xMin: int
+    yMax: int
+    yMin: int
+
+    class Config:
+        use_enum_values = True
+        extra = 'forbid'
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+class FbMappingGroupValidateCreateOnlyInput(TypesyncModel):
+    """Represents VALIDATE mapping group fields that are valid while creating a mapping group"""
+    groupId: str
+
+    class Config:
+        use_enum_values = True
+        extra = 'forbid'
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+class FbMappingGroupValidateImageCreateOnlyInput(TypesyncModel):
+    """Represents VALIDATE_IMAGE mapping group fields that are valid while creating a mapping group"""
+    groupId: str
+
+    class Config:
+        use_enum_values = True
+        extra = 'forbid'
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+class FbMappingTaskCreateOnlyInput(TypesyncModel):
+    """Represents mapping task fields that are valid while creating a task"""
+    projectId: str
+
+    class Config:
+        use_enum_values = True
+        extra = 'forbid'
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+class FbMappingTaskValidateCreateOnlyInput(TypesyncModel):
+    """Represents VALIDATE mapping task fields that are valid while creating a task"""
+    taskId: str
+    geojson: typing.Dict[str, typing.Any]
+
+    class Config:
+        use_enum_values = True
+        extra = 'forbid'
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+class FbMappingTaskValidateImageCreateOnlyInput(TypesyncModel):
+    """Represents VALIDATE_IMAGE mapping task fields that are valid while creating a task"""
+    taskId: str
+    question: typing.Union[TypesyncUndefined, str] = UNDEFINED
+
+    class Config:
+        use_enum_values = True
+        extra = 'forbid'
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        if name == "question" and value is None:
+            raise ValueError("'question' field cannot be set to None")
+        super().__setattr__(name, value)
+
+class FbMappingTaskCompareCreateOnlyInput(TypesyncModel):
+    """Represents COMPARE mapping task fields that are valid while creating a task"""
+    groupId: str
+    taskId: str
+    taskX: typing.Union[TypesyncUndefined, int] = UNDEFINED
+    taskY: typing.Union[TypesyncUndefined, int] = UNDEFINED
+    url: typing.Union[TypesyncUndefined, str] = UNDEFINED
+    urlB: typing.Union[TypesyncUndefined, str] = UNDEFINED
+
+    class Config:
+        use_enum_values = True
+        extra = 'forbid'
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        if name == "taskX" and value is None:
+            raise ValueError("'taskX' field cannot be set to None")
+        if name == "taskY" and value is None:
+            raise ValueError("'taskY' field cannot be set to None")
+        if name == "url" and value is None:
+            raise ValueError("'url' field cannot be set to None")
+        if name == "urlB" and value is None:
+            raise ValueError("'urlB' field cannot be set to None")
+        super().__setattr__(name, value)
+
+class FbMappingResult(TypesyncModel):
+    """Represents a mapswipe project"""
+    appVersion: str
+    clientType: typing.Union[TypesyncUndefined, str] = UNDEFINED
     endTime: datetime.datetime
     startTime: datetime.datetime
-    timestamp: datetime.datetime
+    results: typing.Dict[str, int]
+    usergroups: typing.Union[TypesyncUndefined, typing.Dict[str, bool]] = UNDEFINED
+
+    class Config:
+        use_enum_values = True
+        extra = 'forbid'
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        if name == "clientType" and value is None:
+            raise ValueError("'clientType' field cannot be set to None")
+        if name == "usergroups" and value is None:
+            raise ValueError("'usergroups' field cannot be set to None")
+        super().__setattr__(name, value)
+
+class FbUserGroup(TypesyncModel):
+    """Represents a usergroup"""
+    createdAt: int
+    createdBy: str
+    description: str
+    name: str
+    nameKey: str
+    users: typing.Dict[str, typing.Any]
 
     class Config:
         use_enum_values = True
@@ -425,21 +514,10 @@ class FbUserContribution(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-class FbAnnouncement(TypesyncModel):
-    url: str
-    text: str
-
-    class Config:
-        use_enum_values = True
-        extra = 'forbid'
-
-    def __setattr__(self, name: str, value: typing.Any) -> None:
-        super().__setattr__(name, value)
-
-class FbOrganisation(TypesyncModel):
+class FbUserGroupObsolete(TypesyncModel):
+    """Represents a usergroup"""
     name: str
     description: str
-    nameKey: str
 
     class Config:
         use_enum_values = True
@@ -448,10 +526,12 @@ class FbOrganisation(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-class FbTeam(TypesyncModel):
-    """Represents a team"""
-    teamName: str
-    teamToken: datetime.datetime
+class FbUserGroupMembership(TypesyncModel):
+    """Represents a user contribution"""
+    action: FbEnumUserGroupMembershipAction
+    timestamp: datetime.datetime
+    userGroupId: str
+    userId: str
 
     class Config:
         use_enum_values = True
@@ -481,28 +561,11 @@ class FbUser(TypesyncModel):
             raise ValueError("'userGroups' field cannot be set to None")
         super().__setattr__(name, value)
 
-class FbUserGroup(TypesyncModel):
-    """Represents a usergroup"""
-    createdAt: int
-    createdBy: str
-    description: str
-    name: str
-    nameKey: str
-    users: typing.Dict[str, typing.Any]
-
-    class Config:
-        use_enum_values = True
-        extra = 'forbid'
-
-    def __setattr__(self, name: str, value: typing.Any) -> None:
-        super().__setattr__(name, value)
-
-class FbUserGroupMembership(TypesyncModel):
+class FbUserContribution(TypesyncModel):
     """Represents a user contribution"""
-    action: FbEnumUserGroupMembershipAction
+    endTime: datetime.datetime
+    startTime: datetime.datetime
     timestamp: datetime.datetime
-    userGroupId: str
-    userId: str
 
     class Config:
         use_enum_values = True
@@ -511,10 +574,315 @@ class FbUserGroupMembership(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-class FbUserGroupObsolete(TypesyncModel):
-    """Represents a usergroup"""
+class FbOrganisation(TypesyncModel):
+    """Represents the requesting organisation."""
     name: str
     description: str
+    nameKey: str
+
+    class Config:
+        use_enum_values = True
+        extra = 'forbid'
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+class FbTeam(TypesyncModel):
+    """Represents a team to limit project visibility."""
+    teamName: str
+    teamToken: datetime.datetime
+
+    class Config:
+        use_enum_values = True
+        extra = 'forbid'
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+class FbEnumInformationPageBlockType(enum.Enum):
+    TEXT = "text"
+    IMAGE = "image"
+
+class FbInformationPageBlock(TypesyncModel):
+    blockNumber: int
+    blockType: FbEnumInformationPageBlockType
+    textDescription: typing.Union[TypesyncUndefined, str] = UNDEFINED
+    image: typing.Union[TypesyncUndefined, str] = UNDEFINED
+
+    class Config:
+        use_enum_values = True
+        extra = 'forbid'
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        if name == "textDescription" and value is None:
+            raise ValueError("'textDescription' field cannot be set to None")
+        if name == "image" and value is None:
+            raise ValueError("'image' field cannot be set to None")
+        super().__setattr__(name, value)
+
+class FbInformationPage(TypesyncModel):
+    pageNumber: int
+    title: str
+    blocks: typing.List[FbInformationPageBlock]
+
+    class Config:
+        use_enum_values = True
+        extra = 'forbid'
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+class FbScreenBlock(TypesyncModel):
+    title: str
+    description: str
+    icon: str
+
+    class Config:
+        use_enum_values = True
+        extra = 'forbid'
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+class FbScreen(TypesyncModel):
+    hint: FbScreenBlock
+    instructions: FbScreenBlock
+    success: FbScreenBlock
+
+    class Config:
+        use_enum_values = True
+        extra = 'forbid'
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+class FbBaseTutorial(TypesyncModel):
+    exampleImage1: typing.Union[TypesyncUndefined, str] = UNDEFINED
+    exampleImage2: typing.Union[TypesyncUndefined, str] = UNDEFINED
+    contributorCount: int
+    informationPages: typing.List[FbInformationPage]
+    lookFor: str
+    name: str
+    progress: int
+    projectDetails: str
+    projectId: str
+    projectTopicKey: str
+    status: typing.Literal["tutorial"]
+    tutorialDraftId: str
+
+    class Config:
+        use_enum_values = True
+        extra = 'forbid'
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        if name == "exampleImage1" and value is None:
+            raise ValueError("'exampleImage1' field cannot be set to None")
+        if name == "exampleImage2" and value is None:
+            raise ValueError("'exampleImage2' field cannot be set to None")
+        super().__setattr__(name, value)
+
+class FbBaseTutorialGroup(TypesyncModel):
+    finishedCount: int
+    groupId: int
+    numberOfTasks: int
+    progress: int
+    projectId: str
+    requiredCount: int
+
+    class Config:
+        use_enum_values = True
+        extra = 'forbid'
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+class FbCompareTutorial(TypesyncModel):
+    projectType: typing.Literal[3]
+    tileServer: FbObjRasterTileServer
+    tileServerB: FbObjRasterTileServer
+    zoomLevel: int
+    screens: typing.List[FbScreen]
+
+    class Config:
+        use_enum_values = True
+        extra = 'forbid'
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+class FbCompareTutorialGroup(TypesyncModel):
+    xMax: int
+    xMin: int
+    yMax: int
+    yMin: int
+
+    class Config:
+        use_enum_values = True
+        extra = 'forbid'
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+class FbCompareTutorialTask(TypesyncModel):
+    geometry: str
+    groupId: int
+    projectId: str
+    referenceAnswer: int
+    screen: int
+    taskId: str
+    taskId_real: str
+    taskX: int
+    taskY: int
+    url: str
+    urlB: str
+
+    class Config:
+        use_enum_values = True
+        extra = 'forbid'
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+class FbCompletenessTutorial(TypesyncModel):
+    projectType: typing.Literal[4]
+    tileServer: FbObjRasterTileServer
+    tileServerB: FbObjRasterTileServer
+    overlayTileServer: FbObjUnifiedOverlayTileServer
+    zoomLevel: int
+    screens: typing.List[FbScreen]
+
+    class Config:
+        use_enum_values = True
+        extra = 'forbid'
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+class FbCompletenessTutorialGroup(TypesyncModel):
+    xMax: int
+    xMin: int
+    yMax: int
+    yMin: int
+
+    class Config:
+        use_enum_values = True
+        extra = 'forbid'
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+class FbCompletenessTutorialTask(TypesyncModel):
+    geometry: str
+    groupId: int
+    projectId: str
+    referenceAnswer: int
+    screen: int
+    taskId: str
+    taskId_real: str
+    taskX: int
+    taskY: int
+    url: str
+    urlB: str
+
+    class Config:
+        use_enum_values = True
+        extra = 'forbid'
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+class FbFindTutorial(TypesyncModel):
+    projectType: typing.Literal[1]
+    tileServer: FbObjRasterTileServer
+    zoomLevel: int
+    screens: typing.List[FbScreen]
+
+    class Config:
+        use_enum_values = True
+        extra = 'forbid'
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+class FbFindTutorialGroup(TypesyncModel):
+    xMax: int
+    xMin: int
+    yMax: int
+    yMin: int
+
+    class Config:
+        use_enum_values = True
+        extra = 'forbid'
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+class FbFindTutorialTask(TypesyncModel):
+    geometry: str
+    groupId: int
+    projectId: str
+    referenceAnswer: int
+    screen: int
+    taskId: str
+    taskId_real: str
+    taskX: int
+    taskY: int
+    url: str
+
+    class Config:
+        use_enum_values = True
+        extra = 'forbid'
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+class FbValidateTutorial(TypesyncModel):
+    inputGeometries: str
+    projectType: typing.Literal[2]
+    tileServer: FbObjRasterTileServer
+    zoomLevel: int
+    screens: typing.List[FbScreen]
+    customOptions: typing.List[FbObjCustomOption]
+
+    class Config:
+        use_enum_values = True
+        extra = 'forbid'
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+class FbValidateTutorialTaskProperties(TypesyncModel):
+    building: str
+    description: str
+    reference: str
+    screen: str
+
+    class Config:
+        use_enum_values = True
+        extra = 'forbid'
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+class FbValidateTutorialTask(TypesyncModel):
+    taskId: str
+    geojson: typing.Any
+    properties: FbValidateTutorialTaskProperties
+    screen: int
+    reference: int
+    geometry: str
+
+    class Config:
+        use_enum_values = True
+        extra = 'forbid'
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+class FbBackendWait(TypesyncModel):
+    """Represents if to wait for firebase."""
+    ok: bool
+    timestamp: datetime.datetime
 
     class Config:
         use_enum_values = True
