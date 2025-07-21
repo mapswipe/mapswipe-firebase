@@ -1,0 +1,163 @@
+diff --git a/node_modules/typesync-cli/dist/esm/index.js b/node_modules/typesync-cli/dist/esm/index.js
+index 4aa9f0b..3553b28 100755
+--- a/node_modules/typesync-cli/dist/esm/index.js
++++ b/node_modules/typesync-cli/dist/esm/index.js
+@@ -5,6 +5,102 @@ var __export = (target, all) => {
+     __defProp(target, name, { get: all[name], enumerable: true });
+ };
+ 
++// sorting
++
++function createGraph(
++  items,
++  getKey,
++  getIncomingNodesKey,
++) {
++  const graph = {};
++  const outgoingNodesMap = {};
++
++  // Populate graph with incoming nodes
++  for (const item of items) {
++    const nodeKey = getKey(item);
++    const incomingNodesKey = getIncomingNodesKey(item);
++
++    graph[nodeKey] = {
++      key: nodeKey,
++      item,
++      incomingNodesKey,
++      outgoingNodesKey: new Set(),
++    };
++
++    // Create a outgoing nodes mapping
++    for (const incomingNodeKey of incomingNodesKey ) {
++      if (!outgoingNodesMap[incomingNodeKey]) {
++        outgoingNodesMap[incomingNodeKey] = new Set();
++      }
++      outgoingNodesMap[incomingNodeKey].add(nodeKey);
++    }
++  }
++
++  // Set outgoing nodes on graph
++  for (const nodeKey of Object.keys(graph)) {
++    graph[nodeKey] = {
++      ...graph[nodeKey],
++      outgoingNodesKey: outgoingNodesMap[nodeKey] ?? new Set(),
++    }
++  }
++
++  return graph;
++}
++
++function removeFromGraph(
++  graph,
++  removeKey,
++) {
++  const nodeToRemove = graph[removeKey];
++  if (!nodeToRemove) {
++    throw Error(`Error while removing node with key ${removeKey}`);
++  }
++
++  // Remove from graph
++  delete graph[removeKey];
++
++  // Update incomingNodesKey from outgoingNodes
++  const affectedOutgoingNodes = [];
++  for (const outgoingNodeKey of nodeToRemove.outgoingNodesKey) {
++    const outgoingNode = graph[outgoingNodeKey];
++    outgoingNode.incomingNodesKey.delete(removeKey);
++    affectedOutgoingNodes.push(outgoingNode);
++  }
++
++  return affectedOutgoingNodes;
++}
++
++function topoSortGraph(
++  graph,
++) {
++  const orderedNodeList = [];
++
++  const removableNodes = Object.values(graph).filter(
++    (item) => item.incomingNodesKey.size === 0
++  );
++  if (removableNodes.length <= 0) {
++    throw Error(`Expected removableNodes to greater than zero while sorting.`);
++  }
++
++  while (removableNodes.length > 0) {
++    const removedNode = removableNodes.shift();
++    orderedNodeList.push(removedNode);
++
++    const affectedOutgoingNodes = removeFromGraph(graph, removedNode.key);
++
++    removableNodes.push(
++      ...affectedOutgoingNodes.filter((node) => node.incomingNodesKey.size === 0),
++    )
++  }
++
++  const graphNodesCount = Object.keys(graph).length;
++  if (graphNodesCount != 0) {
++    throw Error(`Expected graph to have no nodes left while sorting. But got ${graphNodesCount} nodes`);
++  }
++
++  return orderedNodeList;
++}
++
+ // src/cli/index.tsx
+ import { render } from "ink";
+ import { resolve as resolve2 } from "path";
+@@ -562,10 +658,12 @@ var AbstractSchema = class {
+   aliasModelsById;
+   documentModelsById;
+   get aliasModels() {
+-    return Array.from(this.aliasModelsById.values()).sort((m1, m2) => m1.name.localeCompare(m2.name));
++    // return Array.from(this.aliasModelsById.values()).sort((m1, m2) => m1.name.localeCompare(m2.name));
++    return Array.from(this.aliasModelsById.values());
+   }
+   get documentModels() {
+-    return Array.from(this.documentModelsById.values()).sort((m1, m2) => m1.name.localeCompare(m2.name));
++    // return Array.from(this.documentModelsById.values()).sort((m1, m2) => m1.name.localeCompare(m2.name));
++    return Array.from(this.documentModelsById.values());
+   }
+   constructor() {
+     this.aliasModelsById = /* @__PURE__ */ new Map();
+@@ -1771,7 +1869,39 @@ var PythonGeneratorImpl = class {
+       const d = this.createDeclarationForDocumentModel(model2);
+       declarations.push(d);
+     });
+-    return { type: "python", declarations };
++
++    const graph = createGraph(
++      declarations,
++      (item) => item.modelName,
++      (item) => {
++        if (item.modelType.type !== 'object-class') {
++          // NOTE: we can skip enum-class
++          console.warn(`Skipping declaration "${item.modelName}" as modelType is ${item.modelType.type}`)
++          return new Set();
++        }
++        const deps = new Set();
++        for (const attribute of item.modelType.attributes) {
++          if (attribute.type.type === "alias") {
++            deps.add(attribute.type.name);
++          } else if (attribute.type.type === "dict") {
++            if (attribute.type.valueType.type === "alias") {
++              deps.add(attribute.type.valueType.name);
++            }
++          } else if (attribute.type.type === "list") {
++            if (attribute.type.elementType.type === "alias") {
++              deps.add(attribute.type.elementType.name);
++            }
++          }
++          // FIXME(tnagorra): Handle union, tuple
++        }
++        return deps;
++      },
++    );
++    const sortedDeclarations = topoSortGraph(graph)
++    return {
++      type: "python",
++      declarations: sortedDeclarations.map((node) => node.item),
++    };
+   }
+   createDeclarationForAliasModel(model2) {
+     switch (model2.type.type) {
