@@ -2,12 +2,21 @@
 
 # ENUM
 
+FbEnumOverlayTileServerType:
+  model: alias
+  type:
+    type: enum
+    members:
+      - label: 'RASTER'
+        value: 'raster'
+      - label: 'VECTOR'
+        value: 'vector'
+
 FbEnumValidateInputType:
   model: alias
   type:
     type: enum
     members:
-      # FIXME: Add other types here
       - label: 'AOI_FILE'
         value: 'aoi_file'
       - label: 'LINK'
@@ -46,6 +55,21 @@ FbEnumRasterTileServerName:
       - label: ESRI_BETA
         value: esriBeta
 
+FbEnumVectorTileServerName:
+  model: alias
+  docs: Represents supported vector tile server
+  type:
+    type: enum
+    members:
+      - label: CUSTOM
+        value: custom
+      - label: OPEN_STREET_MAP
+        value: openStreetMap
+      - label: OPEN_FREE_MAP
+        value: openFreeMap
+      - label: VERSATILES
+        value: versatiles
+
 FbEnumProjectStatus:
   model: alias
   docs: Represents project status
@@ -80,49 +104,6 @@ FbEnumProjectType:
         value: 3
       - label: 'COMPLETENESS'
         value: 4
-
-# ANNOUNCEMENT
-
-FbAnnouncement:
-  model: document
-  path: v2/announcement
-  type:
-    type: object
-    fields:
-      url:
-        type: string
-      text:
-        type: string
-
-# ORGANISATION
-
-FbOrganisation:
-  model: document
-  path: organisations/{organisation_id}
-  type:
-    type: object
-    fields:
-      name:
-        type: string
-      description:
-        type: string
-      # NOTE: We can remove this
-      nameKey:
-        type: string
-
-# TEAM
-
-FbTeam:
-  model: document
-  path: teams/{teamId}
-  docs: Represents a team
-  type:
-    type: object
-    fields:
-      teamName:
-        type: string
-      teamToken:
-        type: timestamp
 
 # PROJECT
 
@@ -166,7 +147,6 @@ FbObjRasterTileServer:
   type:
     type: object
     fields:
-      # NOTE: @deprecated
       apiKey:
         optional: true
         type: string
@@ -180,6 +160,78 @@ FbObjRasterTileServer:
         type: FbEnumRasterTileServerName
       url:
         type: string
+
+FbObjVectorTileServer:
+  model: alias
+  docs: Represents a vector tile server configuration
+  type:
+    type: object
+    fields:
+      credits:
+        type: string
+      name:
+        type: FbEnumVectorTileServerName
+      url:
+        type: string
+      minZoom:
+        type: int
+      maxZoom:
+        type: int
+
+FbObjRasterTileServerOverlay:
+  model: alias
+  docs: Represents an overlay layer for raster layer
+  type:
+    type: object
+    fields:
+      tileServer:
+        type: FbObjRasterTileServer
+      opacity:
+        type: double
+
+FbObjVectorTileServerOverlay:
+  model: alias
+  docs: Represents an overlay layer for vector layer
+  type:
+    type: object
+    fields:
+      tileServer:
+        type: FbObjVectorTileServer
+      fillColor:
+        type: string
+      fillOpacity:
+        type: double
+      lineColor:
+        type: string
+      lineOpacity:
+        type: double
+      lineWidth:
+        type: double
+      lineDasharray:
+        type:
+          type: list
+          elementType: int
+      circleColor:
+        type: string
+      circleOpacity:
+        type: double
+      circleRadius:
+        type: double
+
+FbObjUnifiedOverlayTileServer:
+  model: alias
+  docs: Represents an overlay layer
+  type:
+    type: object
+    fields:
+      type:
+        type: FbEnumOverlayTileServerType
+      raster:
+        optional: true
+        type: FbObjRasterTileServerOverlay
+      vector:
+        optional: true
+        type: FbObjVectorTileServerOverlay
 
 FbProjectReadonlyType:
   model: alias
@@ -288,7 +340,6 @@ FbProjectCompareCreateOnlyInput:
       tileServerB:
         type: FbObjRasterTileServer
 
-
 FbProjectCompletenessCreateOnlyInput:
   model: alias
   docs: Represents COMPLETNESS project fields that are valid while creating a project
@@ -301,7 +352,8 @@ FbProjectCompletenessCreateOnlyInput:
         type: FbObjRasterTileServer
       tileServerB:
         type: FbObjRasterTileServer
-
+      overlayTileServer:
+        type: FbObjUnifiedOverlayTileServer
 
 FbProjectValidateCreateOnlyInput:
   model: alias
@@ -310,7 +362,7 @@ FbProjectValidateCreateOnlyInput:
     type: object
     fields:
       customOptions:
-        optional: true
+        # optional: true
         type:
           type: list
           elementType: FbObjCustomOption
@@ -404,7 +456,6 @@ FbMappingGroupValidateImageCreateOnlyInput:
 
 FbMappingTaskCreateOnlyInput:
   model: alias
-  # model: document
   # path: tasks/{projectId}/{groupId}/{index}
   docs: Represents mapping task fields that are valid while creating a task
   type:
@@ -463,7 +514,6 @@ FbMappingTaskCompareCreateOnlyInput:
 
 FbMappingResult:
   model: alias
-  # model: document
   # path: results/{projectId}/{groupId}/{userId}
   docs: Represents a mapswipe project
   type:
@@ -494,8 +544,8 @@ FbMappingResult:
 # USER AND USER GROUP
 
 FbUserGroup:
-  model: document
-  path: userGroups/{userGroupId}
+  model: alias
+  # path: userGroups/{userGroupId}
   docs: Represents a usergroup
   type:
     type: object
@@ -518,8 +568,8 @@ FbUserGroup:
           valueType: unknown
 
 FbUserGroupObsolete:
-  model: document
-  path: user_groups/{userGroupId}
+  model: alias
+  # path: user_groups/{userGroupId}
   docs: Represents a usergroup
   type:
     type: object
@@ -530,8 +580,8 @@ FbUserGroupObsolete:
         type: string
 
 FbUserGroupMembership:
-  model: document
-  path: userGroupMembershipLogs/{userGroupId}
+  model: alias
+  # path: userGroupMembershipLogs/{userGroupId}
   docs: Represents a user contribution
   type:
     type: object
@@ -546,8 +596,8 @@ FbUserGroupMembership:
         type: string
 
 FbUser:
-  model: document
-  path: users/{userId}
+  model: alias
+  # path: users/{userId}
   docs: Represents a user
   type:
     type: object
@@ -575,7 +625,6 @@ FbUser:
 
 FbUserContribution:
   model: alias
-  # model: document
   # path: userContributions/{userId}/{projectId}/{groupId}
   docs: Represents a user contribution
   type:

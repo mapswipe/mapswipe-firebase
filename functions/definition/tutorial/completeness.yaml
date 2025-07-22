@@ -1,0 +1,63 @@
+FbCompletenessTutorial:
+  model: alias
+  type:
+    type: object
+    fields:
+      projectType:
+        type:
+          type: literal
+          value: 4
+      tileServer:
+        type: FbObjRasterTileServer
+      tileServerB:
+        type: FbObjRasterTileServer
+      overlayTileServer:
+        type: FbObjUnifiedOverlayTileServer
+      zoomLevel:
+        type: int
+      screens:
+        type:
+          type: list
+          elementType: FbScreen
+
+FbCompletenessTutorialGroup:
+  model: alias
+  type:
+    type: object
+    fields:
+      xMax:
+        type: int
+      xMin:
+        type: int
+      yMax:
+        type: int
+      yMin:
+        type: int
+
+FbCompletenessTutorialTask:
+  model: alias
+  type:
+    type: object
+    fields:
+      geometry: # NOTE: initially empty string
+        type: string
+      groupId:
+        type: int
+      projectId:
+        type: string
+      referenceAnswer:
+        type: int
+      screen:
+        type: int
+      taskId:
+        type: string
+      taskId_real:
+        type: string
+      taskX:
+        type: int
+      taskY:
+        type: int
+      url:
+        type: string
+      urlB:
+        type: string

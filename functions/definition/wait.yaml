@@ -1,0 +1,12 @@
+# NOTE: We need at least one model with type document
+FbBackendWait:
+  model: document
+  path: v2/backendWait
+  docs: Represents if to wait for firebase.
+  type:
+    type: object
+    fields:
+      ok:
+        type: boolean
+      timestamp:
+        type: timestamp
