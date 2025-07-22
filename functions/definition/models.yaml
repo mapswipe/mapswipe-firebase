@@ -362,7 +362,7 @@ FbProjectValidateCreateOnlyInput:
     type: object
     fields:
       customOptions:
-        # optional: true
+        optional: true
         type:
           type: list
           elementType: FbObjCustomOption

@@ -325,7 +325,7 @@ class FbProjectCompletenessCreateOnlyInput(TypesyncModel):
 
 class FbProjectValidateCreateOnlyInput(TypesyncModel):
     """Represents VALIDATE project fields that are valid while creating a project"""
-    customOptions: typing.List[FbObjCustomOption]
+    customOptions: typing.Union[TypesyncUndefined, typing.List[FbObjCustomOption]] = UNDEFINED
     tileServer: FbObjRasterTileServer
     inputType: FbEnumValidateInputType
     filter: typing.Union[TypesyncUndefined, str] = UNDEFINED
@@ -336,6 +336,8 @@ class FbProjectValidateCreateOnlyInput(TypesyncModel):
         extra = 'forbid'
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
+        if name == "customOptions" and value is None:
+            raise ValueError("'customOptions' field cannot be set to None")
         if name == "filter" and value is None:
             raise ValueError("'filter' field cannot be set to None")
         if name == "TMId" and value is None:
@@ -842,13 +844,15 @@ class FbValidateTutorial(TypesyncModel):
     tileServer: FbObjRasterTileServer
     zoomLevel: int
     screens: typing.List[FbScreen]
-    customOptions: typing.List[FbObjCustomOption]
+    customOptions: typing.Union[TypesyncUndefined, typing.List[FbObjCustomOption]] = UNDEFINED
 
     class Config:
         use_enum_values = True
         extra = 'forbid'
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
+        if name == "customOptions" and value is None:
+            raise ValueError("'customOptions' field cannot be set to None")
         super().__setattr__(name, value)
 
 class FbValidateTutorialTaskProperties(TypesyncModel):
