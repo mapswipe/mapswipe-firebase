@@ -18,7 +18,7 @@ FbValidateTutorial:
           type: list
           elementType: FbScreen
       customOptions:
-        # optional: true
+        optional: true
         type:
           type: list
           elementType: FbObjCustomOption
