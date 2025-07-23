@@ -9,40 +9,48 @@ def serialize(
     obj: list,
 ) -> list: ...
 
+
 @typing.overload
 def serialize(
     obj: dict,
 ) -> dict: ...
+
 
 @typing.overload
 def serialize(
     obj: set,
 ) -> set: ...
 
+
 @typing.overload
 def serialize(
     obj: tuple,
 ) -> tuple: ...
+
 
 @typing.overload
 def serialize(
     obj: datetime,
 ) -> str: ...
 
+
 @typing.overload
 def serialize(
     obj: int,
 ) -> int: ...
+
 
 @typing.overload
 def serialize(
     obj: float,
 ) -> float: ...
 
+
 @typing.overload
 def serialize(
     obj: None,
 ) -> None: ...
+
 
 @typing.overload
 def serialize(
@@ -50,7 +58,9 @@ def serialize(
 ) -> dict: ...
 
 
-def serialize(obj: BaseModel | datetime | set | dict | list | tuple | int | float | bool | None):
+def serialize(
+    obj: BaseModel | datetime | set | dict | list | tuple | int | float | bool | None,
+):
     if isinstance(obj, datetime):
         return obj.isoformat()
     if isinstance(obj, dict):
