@@ -8,6 +8,12 @@ FbOrganisation:
       name:
         type: string
       description:
+        optional: true
         type: string
       nameKey: # NOTE: this is deprecated
         type: string
+      abbreviation:
+        optional: true
+        type: string
+      isArchived:  # This was added on revamp
+        type: boolean
