@@ -692,6 +692,7 @@ class FbTeam(TypesyncModel):
 
     teamName: str
     teamToken: datetime.datetime
+    isArchived: bool
 
     class Config:
         use_enum_values = True

@@ -9,4 +9,6 @@ FbTeam:
         type: string
       teamToken:
         type: timestamp
+      isArchived:  # NOTE: This was added on revamp
+        type: boolean
 
