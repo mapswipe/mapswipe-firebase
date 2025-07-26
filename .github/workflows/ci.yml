@@ -10,20 +10,74 @@ jobs:
 
     steps:
       - uses: actions/checkout@main
+
       - uses: astral-sh/setup-uv@v5
         with:
           enable-cache: true
 
-      - name: Setup uv python environment
+      - name: Setup python environment
         working-directory: ./functions/generated/pyfirebase
         run: uv venv
 
-      - name: uv lock check
+      - name: Check if uv lockfile is up-to-date
         working-directory: ./functions/generated/pyfirebase
         run: uv lock --locked --offline
 
-      - name: uv sync
+      - name: Install python dependencies
         working-directory: ./functions/generated/pyfirebase
         run: uv sync --all-extras
 
-      - uses: pre-commit/action@v3.0.1
+      - name: Install pre-commit and run
+        uses: pre-commit/action@v3.0.1
+        with:
+          extra_args: --all-files --hook-stage manual --show-diff-on-failure
+
+      - name: Setup node environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'yarn'
+          cache-dependency-path: ./functions/yarn.lock
+
+      - name: Install JS dependencies
+        working-directory: ./functions
+        run: yarn install --frozen-lockfile
+
+      - name: Generate python definition files
+        working-directory: ./functions
+        run: yarn generate:py
+
+      - name: Run pre-commit for generated python definition files
+        run: |
+          # NOTE: We do not want to terminate when pre-commit fails
+          set +e
+          # NOTE: Run pre-commit multiple times because some hooks auto-fix
+          # files and require re-runs to fully clean the codebase.
+          max_attempts=5
+          attempt=1
+          while [ $attempt -le $max_attempts ]; do
+            echo "ℹ️ Pre-commit attempt $attempt..."
+            pre-commit run --all-files
+            STATUS=$?
+
+            if [[ $STATUS -eq 0 ]]; then
+              echo "✅ Pre-commit passed after $attempt attempts."
+              exit 0
+            fi
+
+            attempt=$((attempt + 1))
+          done
+
+          echo "❌ Pre-commit did not converge after $max_attempts attempts."
+          git status
+          git --no-pager diff
+          exit 1
+
+      - name: Check if generated definition files are up to date.
+        run: |
+            if ! git diff --quiet ./functions/generated/; then
+              echo "❌ Generated definition files are not up-to-date. Run 'yarn generate:py' to update the generated definitionfiles."
+              git status
+              git --no-pager diff
+              exit 1
+            fi
