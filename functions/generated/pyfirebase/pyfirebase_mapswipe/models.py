@@ -691,7 +691,7 @@ class FbTeam(TypesyncModel):
     """Represents a team to limit project visibility."""
 
     teamName: str
-    teamToken: datetime.datetime
+    teamToken: TypesyncUndefined | str = UNDEFINED
     isArchived: bool
 
     class Config:
@@ -699,6 +699,8 @@ class FbTeam(TypesyncModel):
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
+        if name == "teamToken" and value is None:
+            raise ValueError("'teamToken' field cannot be set to None")
         super().__setattr__(name, value)
 
 
