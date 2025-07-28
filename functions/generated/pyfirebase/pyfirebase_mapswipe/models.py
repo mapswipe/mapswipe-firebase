@@ -16,7 +16,7 @@ class TypesyncUndefined:
     def __init__(self):
         if TypesyncUndefined._instance is not None:
             raise RuntimeError(
-                "TypesyncUndefined instances cannot be created directly. Import and use the UNDEFINED sentinel instead.",
+                "TypesyncUndefined instances cannot be created directly. Import and use the UNDEFINED sentinel instead."
             )
         TypesyncUndefined._instance = self
 
@@ -693,6 +693,7 @@ class FbTeam(TypesyncModel):
     teamName: str
     teamToken: TypesyncUndefined | str = UNDEFINED
     isArchived: bool
+    oldId: TypesyncUndefined | int = UNDEFINED
 
     class Config:
         use_enum_values = True
@@ -701,6 +702,8 @@ class FbTeam(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         if name == "teamToken" and value is None:
             raise ValueError("'teamToken' field cannot be set to None")
+        if name == "oldId" and value is None:
+            raise ValueError("'oldId' field cannot be set to None")
         super().__setattr__(name, value)
 
 
