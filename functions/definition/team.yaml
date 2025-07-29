@@ -8,11 +8,6 @@ FbTeam:
       teamName:
         type: string
       teamToken:
-        optional: true
         type: string
       isArchived:  # NOTE: This was added on revamp
         type: boolean
-      oldId:
-        optional: true
-        type: int
-
