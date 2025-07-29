@@ -691,7 +691,7 @@ class FbTeam(TypesyncModel):
     """Represents a team to limit project visibility."""
 
     teamName: str
-    teamToken: datetime.datetime
+    teamToken: str
     isArchived: bool
 
     class Config:
