@@ -16,7 +16,7 @@ class TypesyncUndefined:
     def __init__(self):
         if TypesyncUndefined._instance is not None:
             raise RuntimeError(
-                "TypesyncUndefined instances cannot be created directly. Import and use the UNDEFINED sentinel instead.",
+                "TypesyncUndefined instances cannot be created directly. Import and use the UNDEFINED sentinel instead."
             )
         TypesyncUndefined._instance = self
 
@@ -639,6 +639,7 @@ class FbUser(TypesyncModel):
     usernameKey: str
     accessibility: TypesyncUndefined | bool = UNDEFINED
     userGroups: TypesyncUndefined | dict[str, typing.Any] = UNDEFINED
+    teamId: TypesyncUndefined | str = UNDEFINED
 
     class Config:
         use_enum_values = True
@@ -649,6 +650,8 @@ class FbUser(TypesyncModel):
             raise ValueError("'accessibility' field cannot be set to None")
         if name == "userGroups" and value is None:
             raise ValueError("'userGroups' field cannot be set to None")
+        if name == "teamId" and value is None:
+            raise ValueError("'teamId' field cannot be set to None")
         super().__setattr__(name, value)
 
 

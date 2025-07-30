@@ -624,6 +624,9 @@ FbUser:
         type:
           type: map
           valueType: unknown
+      teamId:
+        optional: true
+        type: string
 
 FbUserContribution:
   model: alias
