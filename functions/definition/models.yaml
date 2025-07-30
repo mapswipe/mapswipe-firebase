@@ -171,6 +171,8 @@ FbObjVectorTileServer:
         type: string
       name:
         type: FbEnumVectorTileServerName
+      sourceLayer:
+        type: string
       url:
         type: string
       minZoom:

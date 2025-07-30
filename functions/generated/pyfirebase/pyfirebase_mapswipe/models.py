@@ -196,6 +196,7 @@ class FbObjVectorTileServer(TypesyncModel):
 
     credits: str
     name: FbEnumVectorTileServerName
+    sourceLayer: str
     url: str
     minZoom: int
     maxZoom: int
