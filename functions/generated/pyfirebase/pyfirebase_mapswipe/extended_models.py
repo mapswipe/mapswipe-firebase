@@ -25,3 +25,13 @@ class FbMappingGroup(
         use_enum_values = True
         frozen = True
         extra = "forbid"
+
+
+class FbUser(
+    models.FbUserUpdateInput,
+    models.FbUserReadonlyType,
+):
+    class Config:  # type: ignore[reportIncompatibleVariableOverride]
+        use_enum_values = True
+        frozen = True
+        extra = "forbid"

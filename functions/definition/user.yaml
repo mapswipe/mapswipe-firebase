@@ -1,0 +1,37 @@
+FbUserReadonlyType:
+  model: alias
+  docs: Represents user fields that cannot be updated from backend
+  type:
+    type: object
+    fields:
+      created:
+        type: timestamp
+      userName:
+        type: string
+      # NOTE: We can remove this @deprecated
+      userNameKey:
+        type: string
+      username:
+        type: string
+      # NOTE: We can remove this @deprecated
+      usernameKey:
+        type: string
+      accessibility:
+        optional: true
+        type: boolean
+      userGroups:
+        optional: true
+        type:
+          type: map
+          valueType: unknown
+
+FbUserUpdateInput:
+  model: alias
+  # path: users/{userId}
+  docs: Represents a user
+  type:
+    type: object
+    fields:
+      teamId:
+        type: string
+        optional: true
