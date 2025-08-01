@@ -158,7 +158,7 @@ class FbObjCustomOption(TypesyncModel):
     description: str
     icon: str
     iconColor: str
-    subOptions: TypesyncUndefined | list[FbBaseObjCustomSubOption] = UNDEFINED
+    subOptions: list[FbBaseObjCustomSubOption] | TypesyncUndefined | None = UNDEFINED
 
     class Config:
         use_enum_values = True
@@ -173,8 +173,8 @@ class FbObjCustomOption(TypesyncModel):
 class FbObjRasterTileServer(TypesyncModel):
     """Represents a raster tile server configuration"""
 
-    apiKey: TypesyncUndefined | str = UNDEFINED
-    wmtsLayerName: TypesyncUndefined | str = UNDEFINED
+    apiKey: str | TypesyncUndefined | None = UNDEFINED
+    wmtsLayerName: str | TypesyncUndefined | None = UNDEFINED
     credits: str
     name: FbEnumRasterTileServerName
     url: str
@@ -249,8 +249,8 @@ class FbObjUnifiedOverlayTileServer(TypesyncModel):
     """Represents an overlay layer"""
 
     type: FbEnumOverlayTileServerType
-    raster: TypesyncUndefined | FbObjRasterTileServerOverlay = UNDEFINED
-    vector: TypesyncUndefined | FbObjVectorTileServerOverlay = UNDEFINED
+    raster: FbObjRasterTileServerOverlay | TypesyncUndefined | None = UNDEFINED
+    vector: FbObjVectorTileServerOverlay | TypesyncUndefined | None = UNDEFINED
 
     class Config:
         use_enum_values = True
@@ -282,7 +282,7 @@ class FbProjectReadonlyType(TypesyncModel):
 class FbProjectUpdateInput(TypesyncModel):
     """Represents project fields that are valid while updating a project"""
 
-    image: TypesyncUndefined | str = UNDEFINED
+    image: str | TypesyncUndefined | None = UNDEFINED
     isFeatured: bool
     lookFor: str
     name: str
@@ -294,8 +294,8 @@ class FbProjectUpdateInput(TypesyncModel):
     requestingOrganisation: str
     tutorialId: str
     language: str
-    manualUrl: TypesyncUndefined | str = UNDEFINED
-    teamId: TypesyncUndefined | str = UNDEFINED
+    manualUrl: str | TypesyncUndefined | None = UNDEFINED
+    teamId: str | TypesyncUndefined | None = UNDEFINED
     status: FbEnumProjectStatus
 
     class Config:
@@ -319,7 +319,7 @@ class FbProjectCreateOnlyInput(TypesyncModel):
     createdBy: str
     groupMaxSize: int
     groupSize: int
-    maxTasksPerUser: TypesyncUndefined | int = UNDEFINED
+    maxTasksPerUser: int | TypesyncUndefined | None = UNDEFINED
     projectId: str
     projectType: FbEnumProjectType
     requiredResults: int
@@ -383,11 +383,11 @@ class FbProjectCompletenessCreateOnlyInput(TypesyncModel):
 class FbProjectValidateCreateOnlyInput(TypesyncModel):
     """Represents VALIDATE project fields that are valid while creating a project"""
 
-    customOptions: TypesyncUndefined | list[FbObjCustomOption] = UNDEFINED
+    customOptions: list[FbObjCustomOption] | TypesyncUndefined | None = UNDEFINED
     tileServer: FbObjRasterTileServer
     inputType: FbEnumValidateInputType
-    filter: TypesyncUndefined | str = UNDEFINED
-    TMId: TypesyncUndefined | str = UNDEFINED
+    filter: str | TypesyncUndefined | None = UNDEFINED
+    TMId: str | TypesyncUndefined | None = UNDEFINED
 
     class Config:
         use_enum_values = True
@@ -406,7 +406,7 @@ class FbProjectValidateCreateOnlyInput(TypesyncModel):
 class FbProjectValidateImageCreateOnlyInput(TypesyncModel):
     """Represents VALIDATE_IMAGE project fields that are valid while creating a project"""
 
-    customOptions: TypesyncUndefined | list[FbObjCustomOption] = UNDEFINED
+    customOptions: list[FbObjCustomOption] | TypesyncUndefined | None = UNDEFINED
 
     class Config:
         use_enum_values = True
@@ -521,7 +521,7 @@ class FbMappingTaskValidateImageCreateOnlyInput(TypesyncModel):
     """Represents VALIDATE_IMAGE mapping task fields that are valid while creating a task"""
 
     taskId: str
-    question: TypesyncUndefined | str = UNDEFINED
+    question: str | TypesyncUndefined | None = UNDEFINED
 
     class Config:
         use_enum_values = True
@@ -538,10 +538,10 @@ class FbMappingTaskCompareCreateOnlyInput(TypesyncModel):
 
     groupId: str
     taskId: str
-    taskX: TypesyncUndefined | int = UNDEFINED
-    taskY: TypesyncUndefined | int = UNDEFINED
-    url: TypesyncUndefined | str = UNDEFINED
-    urlB: TypesyncUndefined | str = UNDEFINED
+    taskX: int | TypesyncUndefined | None = UNDEFINED
+    taskY: int | TypesyncUndefined | None = UNDEFINED
+    url: str | TypesyncUndefined | None = UNDEFINED
+    urlB: str | TypesyncUndefined | None = UNDEFINED
 
     class Config:
         use_enum_values = True
@@ -563,11 +563,11 @@ class FbMappingResult(TypesyncModel):
     """Represents a mapswipe project"""
 
     appVersion: str
-    clientType: TypesyncUndefined | str = UNDEFINED
+    clientType: str | TypesyncUndefined | None = UNDEFINED
     endTime: datetime.datetime
     startTime: datetime.datetime
     results: dict[str, int]
-    usergroups: TypesyncUndefined | dict[str, bool] = UNDEFINED
+    usergroups: dict[str, bool] | TypesyncUndefined | None = UNDEFINED
 
     class Config:
         use_enum_values = True
@@ -585,9 +585,9 @@ class FbOrganisation(TypesyncModel):
     """Represents the requesting organisation."""
 
     name: str
-    description: TypesyncUndefined | str = UNDEFINED
+    description: str | TypesyncUndefined | None = UNDEFINED
     nameKey: str
-    abbreviation: TypesyncUndefined | str = UNDEFINED
+    abbreviation: str | TypesyncUndefined | None = UNDEFINED
     isArchived: bool
 
     class Config:
@@ -625,8 +625,8 @@ class FbEnumInformationPageBlockType(enum.Enum):
 class FbInformationPageBlock(TypesyncModel):
     blockNumber: int
     blockType: FbEnumInformationPageBlockType
-    textDescription: TypesyncUndefined | str = UNDEFINED
-    image: TypesyncUndefined | str = UNDEFINED
+    textDescription: str | TypesyncUndefined | None = UNDEFINED
+    image: str | TypesyncUndefined | None = UNDEFINED
 
     class Config:
         use_enum_values = True
@@ -680,8 +680,8 @@ class FbScreen(TypesyncModel):
 
 
 class FbBaseTutorial(TypesyncModel):
-    exampleImage1: TypesyncUndefined | str = UNDEFINED
-    exampleImage2: TypesyncUndefined | str = UNDEFINED
+    exampleImage1: str | TypesyncUndefined | None = UNDEFINED
+    exampleImage2: str | TypesyncUndefined | None = UNDEFINED
     contributorCount: int
     informationPages: list[FbInformationPage]
     lookFor: str
@@ -876,7 +876,7 @@ class FbValidateTutorial(TypesyncModel):
     tileServer: FbObjRasterTileServer
     zoomLevel: int
     screens: list[FbScreen]
-    customOptions: TypesyncUndefined | list[FbObjCustomOption] = UNDEFINED
+    customOptions: list[FbObjCustomOption] | TypesyncUndefined | None = UNDEFINED
 
     class Config:
         use_enum_values = True
@@ -926,8 +926,8 @@ class FbUserReadonlyType(TypesyncModel):
     userNameKey: str
     username: str
     usernameKey: str
-    accessibility: TypesyncUndefined | bool = UNDEFINED
-    userGroups: TypesyncUndefined | dict[str, typing.Any] = UNDEFINED
+    accessibility: bool | TypesyncUndefined | None = UNDEFINED
+    userGroups: dict[str, typing.Any] | TypesyncUndefined | None = UNDEFINED
 
     class Config:
         use_enum_values = True
@@ -944,7 +944,7 @@ class FbUserReadonlyType(TypesyncModel):
 class FbUserUpdateInput(TypesyncModel):
     """Represents a user"""
 
-    teamId: TypesyncUndefined | str = UNDEFINED
+    teamId: str | TypesyncUndefined | None = UNDEFINED
 
     class Config:
         use_enum_values = True
