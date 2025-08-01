@@ -1,0 +1,51 @@
+FbUserGroup:
+  model: alias
+  # path: userGroups/{userGroupId}
+  docs: Represents a usergroup
+  type:
+    type: object
+    fields:
+      # TODO: this is an enum
+      createdAt:
+        type: int
+      createdBy:
+        type: string
+      description:
+        type: string
+      name:
+        type: string
+      # NOTE: We can remove this @deprecated
+      nameKey:
+        type: string
+      users:
+        type:
+          type: map
+          valueType: unknown
+
+FbUserGroupObsolete:
+  model: alias
+  # path: user_groups/{userGroupId}
+  docs: Represents a usergroup
+  type:
+    type: object
+    fields:
+      name:
+        type: string
+      description:
+        type: string
+
+FbUserGroupMembership:
+  model: alias
+  # path: userGroupMembershipLogs/{userGroupId}
+  docs: Represents a user contribution
+  type:
+    type: object
+    fields:
+      action:
+        type: FbEnumUserGroupMembershipAction
+      timestamp:
+        type: timestamp
+      userGroupId:
+        type: string
+      userId:
+        type: string

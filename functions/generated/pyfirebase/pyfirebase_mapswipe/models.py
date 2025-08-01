@@ -581,92 +581,6 @@ class FbMappingResult(TypesyncModel):
         super().__setattr__(name, value)
 
 
-class FbUserGroup(TypesyncModel):
-    """Represents a usergroup"""
-
-    createdAt: int
-    createdBy: str
-    description: str
-    name: str
-    nameKey: str
-    users: dict[str, typing.Any]
-
-    class Config:
-        use_enum_values = True
-        extra = "forbid"
-
-    def __setattr__(self, name: str, value: typing.Any) -> None:
-        super().__setattr__(name, value)
-
-
-class FbUserGroupObsolete(TypesyncModel):
-    """Represents a usergroup"""
-
-    name: str
-    description: str
-
-    class Config:
-        use_enum_values = True
-        extra = "forbid"
-
-    def __setattr__(self, name: str, value: typing.Any) -> None:
-        super().__setattr__(name, value)
-
-
-class FbUserGroupMembership(TypesyncModel):
-    """Represents a user contribution"""
-
-    action: FbEnumUserGroupMembershipAction
-    timestamp: datetime.datetime
-    userGroupId: str
-    userId: str
-
-    class Config:
-        use_enum_values = True
-        extra = "forbid"
-
-    def __setattr__(self, name: str, value: typing.Any) -> None:
-        super().__setattr__(name, value)
-
-
-class FbUser(TypesyncModel):
-    """Represents a user"""
-
-    created: datetime.datetime
-    userName: str
-    userNameKey: str
-    username: str
-    usernameKey: str
-    accessibility: TypesyncUndefined | bool = UNDEFINED
-    userGroups: TypesyncUndefined | dict[str, typing.Any] = UNDEFINED
-
-    class Config:
-        use_enum_values = True
-        extra = "forbid"
-
-    def __setattr__(self, name: str, value: typing.Any) -> None:
-        if name == "accessibility" and value is None:
-            raise ValueError("'accessibility' field cannot be set to None")
-        if name == "userGroups" and value is None:
-            raise ValueError("'userGroups' field cannot be set to None")
-        super().__setattr__(name, value)
-
-
-class FbUserContribution(TypesyncModel):
-    """Represents a user contribution"""
-
-    endTime: datetime.datetime
-    startTime: datetime.datetime
-    timestamp: datetime.datetime
-
-    class Config:
-        use_enum_values = True
-        extra = "forbid"
-
-    def __setattr__(self, name: str, value: typing.Any) -> None:
-        super().__setattr__(name, value)
-
-
 class FbOrganisation(TypesyncModel):
     """Represents the requesting organisation."""
 
@@ -995,6 +909,107 @@ class FbValidateTutorialTask(TypesyncModel):
     screen: int
     reference: int
     geometry: str
+
+    class Config:
+        use_enum_values = True
+        extra = "forbid"
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+
+class FbUserReadonlyType(TypesyncModel):
+    """Represents user fields that cannot be updated from backend"""
+
+    created: datetime.datetime
+    userName: str
+    userNameKey: str
+    username: str
+    usernameKey: str
+    accessibility: TypesyncUndefined | bool = UNDEFINED
+    userGroups: TypesyncUndefined | dict[str, typing.Any] = UNDEFINED
+
+    class Config:
+        use_enum_values = True
+        extra = "forbid"
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        if name == "accessibility" and value is None:
+            raise ValueError("'accessibility' field cannot be set to None")
+        if name == "userGroups" and value is None:
+            raise ValueError("'userGroups' field cannot be set to None")
+        super().__setattr__(name, value)
+
+
+class FbUserUpdateInput(TypesyncModel):
+    """Represents a user"""
+
+    teamId: TypesyncUndefined | str = UNDEFINED
+
+    class Config:
+        use_enum_values = True
+        extra = "forbid"
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        if name == "teamId" and value is None:
+            raise ValueError("'teamId' field cannot be set to None")
+        super().__setattr__(name, value)
+
+
+class FbUserContribution(TypesyncModel):
+    """Represents a user contribution"""
+
+    endTime: datetime.datetime
+    startTime: datetime.datetime
+    timestamp: datetime.datetime
+
+    class Config:
+        use_enum_values = True
+        extra = "forbid"
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+
+class FbUserGroup(TypesyncModel):
+    """Represents a usergroup"""
+
+    createdAt: int
+    createdBy: str
+    description: str
+    name: str
+    nameKey: str
+    users: dict[str, typing.Any]
+
+    class Config:
+        use_enum_values = True
+        extra = "forbid"
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+
+class FbUserGroupObsolete(TypesyncModel):
+    """Represents a usergroup"""
+
+    name: str
+    description: str
+
+    class Config:
+        use_enum_values = True
+        extra = "forbid"
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+
+class FbUserGroupMembership(TypesyncModel):
+    """Represents a user contribution"""
+
+    action: FbEnumUserGroupMembershipAction
+    timestamp: datetime.datetime
+    userGroupId: str
+    userId: str
 
     class Config:
         use_enum_values = True

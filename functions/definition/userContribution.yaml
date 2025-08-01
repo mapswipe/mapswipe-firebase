@@ -1,0 +1,13 @@
+FbUserContribution:
+  model: alias
+  # path: userContributions/{userId}/{projectId}/{groupId}
+  docs: Represents a user contribution
+  type:
+    type: object
+    fields:
+      endTime:
+        type: timestamp
+      startTime:
+        type: timestamp
+      timestamp:
+        type: timestamp
