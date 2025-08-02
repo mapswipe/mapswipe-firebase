@@ -37,7 +37,7 @@
     "eslint-plugin-promise": "^4.0.1",
     "firebase-functions-test": "^0.2.0",
     "typescript": "^5.9.2",
-    "typesync-cli": "https://github.com/toggle-corp/typesync#91dea2f"
+    "typesync-cli": "https://github.com/toggle-corp/typesync#v1.0.0"
   },
   "engines": {
     "node": "22",
