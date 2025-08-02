@@ -8,14 +8,14 @@ FbUserReadonlyType:
         type: timestamp
       userName:
         type: string
-      # NOTE: We can remove this @deprecated
       userNameKey:
         type: string
+        deprecated: true
       username:
         type: string
-      # NOTE: We can remove this @deprecated
       usernameKey:
         type: string
+        deprecated: true
       accessibility:
         optional: true
         type: boolean

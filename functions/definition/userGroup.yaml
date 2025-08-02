@@ -5,7 +5,6 @@ FbUserGroup:
   type:
     type: object
     fields:
-      # TODO: this is an enum
       createdAt:
         type: int
       createdBy:
@@ -14,9 +13,9 @@ FbUserGroup:
         type: string
       name:
         type: string
-      # NOTE: We can remove this @deprecated
       nameKey:
         type: string
+        deprecated: true
       users:
         type:
           type: map

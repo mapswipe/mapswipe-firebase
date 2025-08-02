@@ -174,7 +174,10 @@ class FbObjRasterTileServer(TypesyncModel):
     """Represents a raster tile server configuration"""
 
     apiKey: str | TypesyncUndefined | None = UNDEFINED
-    wmtsLayerName: str | TypesyncUndefined | None = UNDEFINED
+    wmtsLayerName: typing.Annotated[
+        str | TypesyncUndefined | None,
+        pydantic.Field(deprecated=True),
+    ] = UNDEFINED
     credits: str
     name: FbEnumRasterTileServerName
     url: str
@@ -290,7 +293,7 @@ class FbProjectUpdateInput(TypesyncModel):
     projectNumber: int
     projectRegion: str
     projectTopic: str
-    projectTopicKey: str
+    projectTopicKey: typing.Annotated[str, pydantic.Field(deprecated=True)]
     requestingOrganisation: str
     tutorialId: str
     language: str
@@ -586,7 +589,7 @@ class FbOrganisation(TypesyncModel):
 
     name: str
     description: str | TypesyncUndefined | None = UNDEFINED
-    nameKey: str
+    nameKey: typing.Annotated[str, pydantic.Field(deprecated=True)]
     abbreviation: str | TypesyncUndefined | None = UNDEFINED
     isArchived: bool
 
@@ -680,8 +683,14 @@ class FbScreen(TypesyncModel):
 
 
 class FbBaseTutorial(TypesyncModel):
-    exampleImage1: str | TypesyncUndefined | None = UNDEFINED
-    exampleImage2: str | TypesyncUndefined | None = UNDEFINED
+    exampleImage1: typing.Annotated[
+        str | TypesyncUndefined | None,
+        pydantic.Field(deprecated=True),
+    ] = UNDEFINED
+    exampleImage2: typing.Annotated[
+        str | TypesyncUndefined | None,
+        pydantic.Field(deprecated=True),
+    ] = UNDEFINED
     contributorCount: int
     informationPages: list[FbInformationPage]
     lookFor: str
@@ -689,9 +698,9 @@ class FbBaseTutorial(TypesyncModel):
     progress: int
     projectDetails: str
     projectId: str
-    projectTopicKey: str
+    projectTopicKey: typing.Annotated[str, pydantic.Field(deprecated=True)]
     status: typing.Literal["tutorial"]
-    tutorialDraftId: str
+    tutorialDraftId: typing.Annotated[str, pydantic.Field(deprecated=True)]
 
     class Config:
         use_enum_values = True
@@ -923,9 +932,9 @@ class FbUserReadonlyType(TypesyncModel):
 
     created: datetime.datetime
     userName: str
-    userNameKey: str
+    userNameKey: typing.Annotated[str, pydantic.Field(deprecated=True)]
     username: str
-    usernameKey: str
+    usernameKey: typing.Annotated[str, pydantic.Field(deprecated=True)]
     accessibility: bool | TypesyncUndefined | None = UNDEFINED
     userGroups: dict[str, typing.Any] | TypesyncUndefined | None = UNDEFINED
 
@@ -978,7 +987,7 @@ class FbUserGroup(TypesyncModel):
     createdBy: str
     description: str
     name: str
-    nameKey: str
+    nameKey: typing.Annotated[str, pydantic.Field(deprecated=True)]
     users: dict[str, typing.Any]
 
     class Config:

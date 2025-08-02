@@ -3754,9 +3754,9 @@ typescript@^5.9.2:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.9.2.tgz#d93450cddec5154a2d5cabe3b8102b83316fb2a6"
   integrity sha512-CWBzXQrc/qOkhidw1OzBTQuYRbfyxDXJMVJ1XNwUHGROVmuaeiEm3OslpZ1RV96d7SKKjZKrSJu3+t/xlw3R9A==
 
-"typesync-cli@https://github.com/toggle-corp/typesync#55fec1f":
+"typesync-cli@https://github.com/toggle-corp/typesync#91dea2f":
   version "0.13.0"
-  resolved "https://github.com/toggle-corp/typesync#55fec1f7fa5a5b934dc143ed15a96d431965686a"
+  resolved "https://github.com/toggle-corp/typesync#91dea2f6e179c23d0d42222c21a088760c8e7a4f"
   dependencies:
     "@proficient/ds" "0.3.2"
     glob "^10.3.12"

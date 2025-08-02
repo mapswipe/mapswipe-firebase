@@ -10,8 +10,9 @@ FbOrganisation:
       description:
         optional: true
         type: string
-      nameKey: # NOTE: this is deprecated
+      nameKey:
         type: string
+        deprecated: true
       abbreviation:
         optional: true
         type: string
