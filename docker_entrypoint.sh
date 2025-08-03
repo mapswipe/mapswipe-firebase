@@ -2,11 +2,21 @@
 
 set -e
 
-# TODO: This may need another look
-cd functions
-yarn install --frozen-lockfile
+BASE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+FIREBASE_FUNCTIONS_DIR="$BASE_DIR/functions/"
+
+cd "$BASE_DIR"
+
+# NOTE: when we are using mapswipe-firebase as a submodule inside docker,
+# the .git directory is not accessible. The parent .git directory is in host
+# system not accesssible by the container
+# Inside the container, yarn install fails when we are installing packages from git repository.
+# So, we need to switch to /tmp directory as a workaround
+cd /tmp/
+yarn --cwd "$FIREBASE_FUNCTIONS_DIR" install --frozen-lockfile
+
+cd "$FIREBASE_FUNCTIONS_DIR"
 yarn build
-cd ../
 
 # PIDs
 pid=0
@@ -31,6 +41,7 @@ graceful_shutdown() {
 }
 
 # Trap SIGINT and SIGTERM for Docker shutdown
+
 trap graceful_shutdown SIGINT SIGTERM
 
 # Start Firebase emulator in background
