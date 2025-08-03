@@ -17,10 +17,6 @@ FbCompletenessTutorial:
         type: FbObjUnifiedOverlayTileServer
       zoomLevel:
         type: int
-      screens:
-        type:
-          type: list
-          elementType: FbScreen
 
 FbCompletenessTutorialGroup:
   model: alias

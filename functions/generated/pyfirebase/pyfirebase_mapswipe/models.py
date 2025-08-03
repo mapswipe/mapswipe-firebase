@@ -733,6 +733,7 @@ class FbBaseTutorial(TypesyncModel):
     projectTopicKey: typing.Annotated[str, pydantic.Field(deprecated=True)]
     status: typing.Literal["tutorial"]
     tutorialDraftId: typing.Annotated[str, pydantic.Field(deprecated=True)]
+    screens: list[FbScreen]
 
     class Config:
         use_enum_values = False
@@ -769,7 +770,6 @@ class FbCompareTutorial(TypesyncModel):
     tileServer: FbObjRasterTileServer
     tileServerB: FbObjRasterTileServer
     zoomLevel: int
-    screens: list[FbScreen]
 
     class Config:
         use_enum_values = False
@@ -823,7 +823,6 @@ class FbCompletenessTutorial(TypesyncModel):
     tileServerB: FbObjRasterTileServer
     overlayTileServer: FbObjUnifiedOverlayTileServer
     zoomLevel: int
-    screens: list[FbScreen]
 
     class Config:
         use_enum_values = False
@@ -875,7 +874,6 @@ class FbFindTutorial(TypesyncModel):
     projectType: typing.Literal[1]
     tileServer: FbObjRasterTileServer
     zoomLevel: int
-    screens: list[FbScreen]
 
     class Config:
         use_enum_values = False
@@ -923,11 +921,10 @@ class FbFindTutorialTask(TypesyncModel):
 
 
 class FbValidateTutorial(TypesyncModel):
-    inputGeometries: str
+    inputGeometries: typing.Annotated[str, pydantic.Field(deprecated=True)]
     projectType: typing.Literal[2]
     tileServer: FbObjRasterTileServer
-    zoomLevel: int
-    screens: list[FbScreen]
+    zoomLevel: typing.Annotated[int, pydantic.Field(deprecated=True)]
     customOptions: list[FbObjCustomOption] | TypesyncUndefined | None = UNDEFINED
 
     class Config:
@@ -942,10 +939,9 @@ class FbValidateTutorial(TypesyncModel):
 
 
 class FbValidateTutorialTaskProperties(TypesyncModel):
-    building: str
-    description: str
-    reference: str
-    screen: str
+    id: int
+    screen: int
+    reference: int
 
     class Config:
         use_enum_values = False
@@ -960,8 +956,6 @@ class FbValidateTutorialTask(TypesyncModel):
     taskId: str
     geojson: typing.Any
     properties: FbValidateTutorialTaskProperties
-    screen: int
-    reference: int
     geometry: str
 
     class Config:

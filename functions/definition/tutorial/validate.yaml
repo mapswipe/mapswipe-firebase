@@ -5,8 +5,10 @@ FbValidateTutorial:
   type:
     type: object
     fields:
-      inputGeometries: # NOTE: local path to geometry file
+      # NOTE: local path to geometry file
+      inputGeometries:
         type: string
+        deprecated: true
       projectType:
         type:
           type: literal
@@ -15,10 +17,7 @@ FbValidateTutorial:
         type: FbObjRasterTileServer
       zoomLevel:
         type: int
-      screens:
-        type:
-          type: list
-          elementType: FbScreen
+        deprecated: true
       customOptions:
         optional: true
         type:
@@ -30,14 +29,12 @@ FbValidateTutorialTaskProperties:
   type:
     type: object
     fields:
-      building:
-        type: string
-      description:
-        type: string
-      reference:
-        type: string # NOTE: not sure if this is int or string
+      id:
+        type: int
       screen:
-        type: string # NOTE: not sure if this is int or string
+        type: int
+      reference:
+        type: int
 
 FbValidateTutorialTask:
   model: alias
@@ -50,9 +47,5 @@ FbValidateTutorialTask:
         type: unknown
       properties:
         type: FbValidateTutorialTaskProperties
-      screen:
-        type: int
-      reference:
-        type: int
       geometry: # NOTE: geometry as WKT
         type: string

@@ -13,10 +13,6 @@ FbFindTutorial:
         type: FbObjRasterTileServer
       zoomLevel:
         type: int
-      screens:
-        type:
-          type: list
-          elementType: FbScreen
 
 FbFindTutorialGroup:
   model: alias
