@@ -1029,15 +1029,43 @@ class FbUserContribution(TypesyncModel):
         super().__setattr__(name, value)
 
 
-class FbUserGroup(TypesyncModel):
+class FbUserGroupReadOnlyType(TypesyncModel):
+    """Represents a usergroup"""
+
+    users: dict[str, typing.Any] | TypesyncUndefined | None = UNDEFINED
+
+    class Config:
+        use_enum_values = False
+        extra = "forbid"
+
+    @typing.override
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        if name == "users" and value is None:
+            raise ValueError("'users' field cannot be set to None")
+        super().__setattr__(name, value)
+
+
+class FbUserGroupCreateOnlyInput(TypesyncModel):
     """Represents a usergroup"""
 
     createdAt: int
     createdBy: str
+
+    class Config:
+        use_enum_values = False
+        extra = "forbid"
+
+    @typing.override
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+
+class FbUserGroupUpdateInput(TypesyncModel):
+    """Represents a usergroup"""
+
     description: str
     name: str
     nameKey: typing.Annotated[str, pydantic.Field(deprecated=True)]
-    users: dict[str, typing.Any]
 
     class Config:
         use_enum_values = False
