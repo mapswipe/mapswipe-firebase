@@ -12,9 +12,11 @@ cd "$BASE_DIR"
 # system not accesssible by the container
 # Inside the container, yarn install fails when we are installing packages from git repository.
 # So, we need to switch to /tmp directory as a workaround
+echo "[INFO] Installing dependencies for transpiling functions for Firebase..."
 cd /tmp/
 yarn --cwd "$FIREBASE_FUNCTIONS_DIR" install --frozen-lockfile
 
+echo "[INFO] Transpiling functions for Firebase..."
 cd "$FIREBASE_FUNCTIONS_DIR"
 yarn build
 
