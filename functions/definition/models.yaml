@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=https://schema.typesync.org/v0.13.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/toggle-corp/typesync/refs/tags/v1.0.0/schema.local.json
 
 # ENUM
 
@@ -150,8 +150,8 @@ FbObjRasterTileServer:
       apiKey:
         optional: true
         type: string
-      # NOTE: @deprecated
       wmtsLayerName:
+        deprecated: true
         optional: true
         type: string
       credits:
@@ -271,9 +271,9 @@ FbProjectUpdateInput:
         type: string
       projectTopic:
         type: string
-      # TODO: We can remove this @deprecated
       projectTopicKey:
         type: string
+        deprecated: true
       # NOTE: Name of the organisation
       requestingOrganisation:
         type: string

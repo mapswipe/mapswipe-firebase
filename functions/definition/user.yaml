@@ -1,3 +1,5 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/toggle-corp/typesync/refs/tags/v1.0.0/schema.local.json
+
 FbUserReadonlyType:
   model: alias
   docs: Represents user fields that cannot be updated from backend
@@ -8,14 +10,14 @@ FbUserReadonlyType:
         type: timestamp
       userName:
         type: string
-      # NOTE: We can remove this @deprecated
       userNameKey:
         type: string
+        deprecated: true
       username:
         type: string
-      # NOTE: We can remove this @deprecated
       usernameKey:
         type: string
+        deprecated: true
       accessibility:
         optional: true
         type: boolean

@@ -1,3 +1,5 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/toggle-corp/typesync/refs/tags/v1.0.0/schema.local.json
+
 FbEnumInformationPageBlockType:
   model: alias
   type:
@@ -68,13 +70,14 @@ FbBaseTutorial:
   type:
     type: object
     fields:
-      # deprecated
       exampleImage1:
         type: string
         optional: true
+        deprecated: true
       exampleImage2:
         type: string
         optional: true
+        deprecated: true
       contributorCount: # NOTE: intially zero
         type: int
       informationPages:
@@ -91,14 +94,16 @@ FbBaseTutorial:
         type: string
       projectId:
         type: string
-      projectTopicKey: # NOTE: deprecated
+      projectTopicKey:
         type: string
+        deprecated: true
       status:
         type:
           type: literal
           value: tutorial
-      tutorialDraftId: # NOTE: deprecated
+      tutorialDraftId:
         type: string
+        deprecated: true
 
 FbBaseTutorialGroup:
   model: alias

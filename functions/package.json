@@ -3,7 +3,6 @@
   "description": "Cloud Functions for Firebase",
   "packageManager": "yarn@1.22.22",
   "scripts": {
-    "postinstall": "patch-package",
     "lint": "eslint --ext .js,.ts .",
     "build": "tsc",
     "build:watch": "tsc --watch",
@@ -37,9 +36,8 @@
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-promise": "^4.0.1",
     "firebase-functions-test": "^0.2.0",
-    "patch-package": "^8.0.0",
-    "typescript": "^4.5.4",
-    "typesync-cli": "^0.13.0"
+    "typescript": "^5.9.2",
+    "typesync-cli": "https://github.com/toggle-corp/typesync#v1.0.0"
   },
   "engines": {
     "node": "22",

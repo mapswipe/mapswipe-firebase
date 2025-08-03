@@ -1,3 +1,5 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/toggle-corp/typesync/refs/tags/v1.0.0/schema.local.json
+
 FbUserGroup:
   model: alias
   # path: userGroups/{userGroupId}
@@ -5,7 +7,6 @@ FbUserGroup:
   type:
     type: object
     fields:
-      # TODO: this is an enum
       createdAt:
         type: int
       createdBy:
@@ -14,9 +15,9 @@ FbUserGroup:
         type: string
       name:
         type: string
-      # NOTE: We can remove this @deprecated
       nameKey:
         type: string
+        deprecated: true
       users:
         type:
           type: map

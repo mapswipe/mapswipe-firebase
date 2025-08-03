@@ -1,3 +1,5 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/toggle-corp/typesync/refs/tags/v1.0.0/schema.local.json
+
 FbOrganisation:
   model: alias
   # path: organisations/{organisation_id}
@@ -10,8 +12,9 @@ FbOrganisation:
       description:
         optional: true
         type: string
-      nameKey: # NOTE: this is deprecated
+      nameKey:
         type: string
+        deprecated: true
       abbreviation:
         optional: true
         type: string

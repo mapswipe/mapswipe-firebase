@@ -26,6 +26,7 @@
     "noUnusedParameters": true,
 
     "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
     "resolveJsonModule": true
   },
   "compileOnSave": true,
