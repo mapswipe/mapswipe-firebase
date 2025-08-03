@@ -4,7 +4,8 @@
 FROM node:22-bullseye-slim
 
 RUN apt-get update -y \
-    && apt-get install -y --no-install-recommends openjdk-11-jdk bash procps
+    && apt-get install -y --no-install-recommends \
+        openjdk-11-jdk bash procps git
 
 WORKDIR /firebase
 
