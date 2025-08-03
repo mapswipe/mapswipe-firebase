@@ -14,9 +14,7 @@ class FbProject(
     class Config:  # type: ignore[reportIncompatibleVariableOverride]
         use_enum_values = False
         frozen = True
-        # NOTE: We need to allow extra fields as FbProject
-        # is not a complete project representation
-        extra = "allow"
+        extra = "forbid"
 
 
 class FbMappingGroup(
