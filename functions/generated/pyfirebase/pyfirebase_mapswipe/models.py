@@ -780,31 +780,7 @@ class FbCompareTutorial(TypesyncModel):
         super().__setattr__(name, value)
 
 
-class FbCompareTutorialGroup(TypesyncModel):
-    xMax: int
-    xMin: int
-    yMax: int
-    yMin: int
-
-    class Config:
-        use_enum_values = False
-        extra = "forbid"
-
-    @typing.override
-    def __setattr__(self, name: str, value: typing.Any) -> None:
-        super().__setattr__(name, value)
-
-
 class FbCompareTutorialTask(TypesyncModel):
-    geometry: str
-    groupId: int
-    projectId: str
-    referenceAnswer: int
-    screen: int
-    taskId: str
-    taskId_real: str
-    taskX: int
-    taskY: int
     url: str
     urlB: str
 
@@ -833,31 +809,7 @@ class FbCompletenessTutorial(TypesyncModel):
         super().__setattr__(name, value)
 
 
-class FbCompletenessTutorialGroup(TypesyncModel):
-    xMax: int
-    xMin: int
-    yMax: int
-    yMin: int
-
-    class Config:
-        use_enum_values = False
-        extra = "forbid"
-
-    @typing.override
-    def __setattr__(self, name: str, value: typing.Any) -> None:
-        super().__setattr__(name, value)
-
-
 class FbCompletenessTutorialTask(TypesyncModel):
-    geometry: str
-    groupId: int
-    projectId: str
-    referenceAnswer: int
-    screen: int
-    taskId: str
-    taskId_real: str
-    taskX: int
-    taskY: int
     url: str
     urlB: str
 
@@ -884,7 +836,19 @@ class FbFindTutorial(TypesyncModel):
         super().__setattr__(name, value)
 
 
-class FbFindTutorialGroup(TypesyncModel):
+class FbFindTutorialTask(TypesyncModel):
+    url: str
+
+    class Config:
+        use_enum_values = False
+        extra = "forbid"
+
+    @typing.override
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+
+class FbTileMapServiceTutorialGroup(TypesyncModel):
     xMax: int
     xMin: int
     yMax: int
@@ -899,7 +863,7 @@ class FbFindTutorialGroup(TypesyncModel):
         super().__setattr__(name, value)
 
 
-class FbFindTutorialTask(TypesyncModel):
+class FbTileMapServiceTutorialTask(TypesyncModel):
     geometry: str
     groupId: int
     projectId: str
@@ -909,7 +873,6 @@ class FbFindTutorialTask(TypesyncModel):
     taskId_real: str
     taskX: int
     taskY: int
-    url: str
 
     class Config:
         use_enum_values = False

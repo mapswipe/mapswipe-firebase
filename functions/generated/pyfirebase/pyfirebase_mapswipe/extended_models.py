@@ -46,3 +46,33 @@ class FbUserGroup(
         use_enum_values = False
         frozen = True
         extra = "forbid"
+
+
+class FbFindTutorialTaskComplete(
+    models.FbTileMapServiceTutorialTask,
+    models.FbFindTutorialTask,
+):
+    class Config:  # type: ignore[reportIncompatibleVariableOverride]
+        use_enum_values = True
+        frozen = True
+        extra = "forbid"
+
+
+class FbCompareTutorialTaskComplete(
+    models.FbTileMapServiceTutorialTask,
+    models.FbCompareTutorialTask,
+):
+    class Config:  # type: ignore[reportIncompatibleVariableOverride]
+        use_enum_values = True
+        frozen = True
+        extra = "forbid"
+
+
+class FbCompletenessTutorialTaskComplete(
+    models.FbTileMapServiceTutorialTask,
+    models.FbCompletenessTutorialTask,
+):
+    class Config:  # type: ignore[reportIncompatibleVariableOverride]
+        use_enum_values = True
+        frozen = True
+        extra = "forbid"

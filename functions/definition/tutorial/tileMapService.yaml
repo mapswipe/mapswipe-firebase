@@ -1,0 +1,37 @@
+FbTileMapServiceTutorialGroup:
+  model: alias
+  type:
+    type: object
+    fields:
+      xMax:
+        type: int
+      xMin:
+        type: int
+      yMax:
+        type: int
+      yMin:
+        type: int
+
+FbTileMapServiceTutorialTask:
+  model: alias
+  type:
+    type: object
+    fields:
+      geometry: # NOTE: initially empty string
+        type: string
+      groupId:
+        type: int
+      projectId:
+        type: string
+      referenceAnswer:
+        type: int
+      screen:
+        type: int
+      taskId:
+        type: string
+      taskId_real:
+        type: string
+      taskX:
+        type: int
+      taskY:
+        type: int
