@@ -1,3 +1,4 @@
+import enum
 import typing
 from datetime import datetime
 
@@ -58,9 +59,27 @@ def serialize(
 ) -> dict: ...
 
 
+@typing.overload
 def serialize(
-    obj: BaseModel | datetime | set | dict | list | tuple | int | float | bool | None,
+    obj: enum.Enum,
+) -> str | int: ...
+
+
+def serialize(
+    obj: BaseModel
+    | datetime
+    | set
+    | dict
+    | list
+    | tuple
+    | int
+    | float
+    | bool
+    | enum.Enum
+    | None,
 ):
+    if isinstance(obj, enum.Enum):
+        return obj.value
     if isinstance(obj, datetime):
         return obj.isoformat()
     if isinstance(obj, dict):

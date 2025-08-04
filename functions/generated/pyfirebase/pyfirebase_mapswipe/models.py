@@ -72,7 +72,7 @@ class FbAnnouncement(TypesyncModel):
     text: str
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -143,7 +143,7 @@ class FbBaseObjCustomSubOption(TypesyncModel):
     description: str
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -161,7 +161,7 @@ class FbObjCustomOption(TypesyncModel):
     subOptions: list[FbBaseObjCustomSubOption] | TypesyncUndefined | None = UNDEFINED
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -183,7 +183,7 @@ class FbObjRasterTileServer(TypesyncModel):
     url: str
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -205,7 +205,7 @@ class FbObjVectorTileServer(TypesyncModel):
     maxZoom: int
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -219,7 +219,7 @@ class FbObjRasterTileServerOverlay(TypesyncModel):
     opacity: float
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -241,7 +241,7 @@ class FbObjVectorTileServerOverlay(TypesyncModel):
     circleRadius: float
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -256,7 +256,7 @@ class FbObjUnifiedOverlayTileServer(TypesyncModel):
     vector: FbObjVectorTileServerOverlay | TypesyncUndefined | None = UNDEFINED
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -275,7 +275,7 @@ class FbProjectReadonlyType(TypesyncModel):
     resultCount: int
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -302,7 +302,7 @@ class FbProjectUpdateInput(TypesyncModel):
     status: FbEnumProjectStatus
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -329,7 +329,7 @@ class FbProjectCreateOnlyInput(TypesyncModel):
     verificationNumber: int
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -345,7 +345,7 @@ class FbProjectFindCreateOnlyInput(TypesyncModel):
     tileServer: FbObjRasterTileServer
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -360,7 +360,7 @@ class FbProjectCompareCreateOnlyInput(TypesyncModel):
     tileServerB: FbObjRasterTileServer
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -376,7 +376,7 @@ class FbProjectCompletenessCreateOnlyInput(TypesyncModel):
     overlayTileServer: FbObjUnifiedOverlayTileServer
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -393,7 +393,7 @@ class FbProjectValidateCreateOnlyInput(TypesyncModel):
     TMId: str | TypesyncUndefined | None = UNDEFINED
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -412,7 +412,7 @@ class FbProjectValidateImageCreateOnlyInput(TypesyncModel):
     customOptions: list[FbObjCustomOption] | TypesyncUndefined | None = UNDEFINED
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -428,7 +428,7 @@ class FbMappingGroupReadonlyType(TypesyncModel):
     progress: int
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -443,7 +443,7 @@ class FbMappingGroupCreateOnlyInput(TypesyncModel):
     requiredCount: int
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -460,7 +460,7 @@ class FbMappingGroupTileMapServiceCreateOnlyInput(TypesyncModel):
     yMin: int
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -473,7 +473,7 @@ class FbMappingGroupValidateCreateOnlyInput(TypesyncModel):
     groupId: str
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -486,7 +486,7 @@ class FbMappingGroupValidateImageCreateOnlyInput(TypesyncModel):
     groupId: str
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -499,7 +499,7 @@ class FbMappingTaskCreateOnlyInput(TypesyncModel):
     projectId: str
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -513,7 +513,7 @@ class FbMappingTaskValidateCreateOnlyInput(TypesyncModel):
     geojson: dict[str, typing.Any]
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -527,7 +527,7 @@ class FbMappingTaskValidateImageCreateOnlyInput(TypesyncModel):
     question: str | TypesyncUndefined | None = UNDEFINED
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -547,7 +547,7 @@ class FbMappingTaskCompareCreateOnlyInput(TypesyncModel):
     urlB: str | TypesyncUndefined | None = UNDEFINED
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -573,7 +573,7 @@ class FbMappingResult(TypesyncModel):
     usergroups: dict[str, bool] | TypesyncUndefined | None = UNDEFINED
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -594,7 +594,7 @@ class FbOrganisation(TypesyncModel):
     isArchived: bool
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -613,7 +613,7 @@ class FbTeam(TypesyncModel):
     isArchived: bool
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -632,7 +632,7 @@ class FbInformationPageBlock(TypesyncModel):
     image: str | TypesyncUndefined | None = UNDEFINED
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -649,7 +649,7 @@ class FbInformationPage(TypesyncModel):
     blocks: list[FbInformationPageBlock]
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -662,7 +662,7 @@ class FbScreenBlock(TypesyncModel):
     icon: str
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -675,7 +675,7 @@ class FbScreen(TypesyncModel):
     success: FbScreenBlock
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -703,7 +703,7 @@ class FbBaseTutorial(TypesyncModel):
     tutorialDraftId: typing.Annotated[str, pydantic.Field(deprecated=True)]
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -723,7 +723,7 @@ class FbBaseTutorialGroup(TypesyncModel):
     requiredCount: int
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -738,7 +738,7 @@ class FbCompareTutorial(TypesyncModel):
     screens: list[FbScreen]
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -752,7 +752,7 @@ class FbCompareTutorialGroup(TypesyncModel):
     yMin: int
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -773,7 +773,7 @@ class FbCompareTutorialTask(TypesyncModel):
     urlB: str
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -789,7 +789,7 @@ class FbCompletenessTutorial(TypesyncModel):
     screens: list[FbScreen]
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -803,7 +803,7 @@ class FbCompletenessTutorialGroup(TypesyncModel):
     yMin: int
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -824,7 +824,7 @@ class FbCompletenessTutorialTask(TypesyncModel):
     urlB: str
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -838,7 +838,7 @@ class FbFindTutorial(TypesyncModel):
     screens: list[FbScreen]
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -852,7 +852,7 @@ class FbFindTutorialGroup(TypesyncModel):
     yMin: int
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -872,7 +872,7 @@ class FbFindTutorialTask(TypesyncModel):
     url: str
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -888,7 +888,7 @@ class FbValidateTutorial(TypesyncModel):
     customOptions: list[FbObjCustomOption] | TypesyncUndefined | None = UNDEFINED
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -904,7 +904,7 @@ class FbValidateTutorialTaskProperties(TypesyncModel):
     screen: str
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -920,7 +920,7 @@ class FbValidateTutorialTask(TypesyncModel):
     geometry: str
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -939,7 +939,7 @@ class FbUserReadonlyType(TypesyncModel):
     userGroups: dict[str, typing.Any] | TypesyncUndefined | None = UNDEFINED
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -956,7 +956,7 @@ class FbUserUpdateInput(TypesyncModel):
     teamId: str | TypesyncUndefined | None = UNDEFINED
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -973,7 +973,7 @@ class FbUserContribution(TypesyncModel):
     timestamp: datetime.datetime
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -991,7 +991,7 @@ class FbUserGroup(TypesyncModel):
     users: dict[str, typing.Any]
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -1005,7 +1005,7 @@ class FbUserGroupObsolete(TypesyncModel):
     description: str
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -1021,7 +1021,7 @@ class FbUserGroupMembership(TypesyncModel):
     userId: str
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -1035,7 +1035,7 @@ class FbBackendWait(TypesyncModel):
     timestamp: datetime.datetime
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
     def __setattr__(self, name: str, value: typing.Any) -> None:

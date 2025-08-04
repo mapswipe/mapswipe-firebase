@@ -12,7 +12,7 @@ class FbProject(
     models.FbProjectReadonlyType,
 ):
     class Config:  # type: ignore[reportIncompatibleVariableOverride]
-        use_enum_values = True
+        use_enum_values = False
         frozen = True
         # NOTE: We need to allow extra fields as FbProject
         # is not a complete project representation
@@ -24,7 +24,7 @@ class FbMappingGroup(
     models.FbMappingGroupReadonlyType,
 ):
     class Config:  # type: ignore[reportIncompatibleVariableOverride]
-        use_enum_values = True
+        use_enum_values = False
         frozen = True
         extra = "forbid"
 
@@ -34,6 +34,6 @@ class FbUser(
     models.FbUserReadonlyType,
 ):
     class Config:  # type: ignore[reportIncompatibleVariableOverride]
-        use_enum_values = True
+        use_enum_values = False
         frozen = True
         extra = "forbid"
