@@ -1,6 +1,19 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/toggle-corp/typesync/refs/tags/v1.0.0/schema.local.json
 
-FbUserGroup:
+FbUserGroupReadOnlyType:
+  model: alias
+  # path: userGroups/{userGroupId}
+  docs: Represents a usergroup
+  type:
+    type: object
+    fields:
+      users:
+        optional: true
+        type:
+          type: map
+          valueType: unknown
+
+FbUserGroupCreateOnlyInput:
   model: alias
   # path: userGroups/{userGroupId}
   docs: Represents a usergroup
@@ -11,6 +24,14 @@ FbUserGroup:
         type: int
       createdBy:
         type: string
+
+FbUserGroupUpdateInput:
+  model: alias
+  # path: userGroups/{userGroupId}
+  docs: Represents a usergroup
+  type:
+    type: object
+    fields:
       description:
         type: string
       name:
@@ -18,10 +39,6 @@ FbUserGroup:
       nameKey:
         type: string
         deprecated: true
-      users:
-        type:
-          type: map
-          valueType: unknown
 
 FbUserGroupObsolete:
   model: alias

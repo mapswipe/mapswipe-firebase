@@ -37,3 +37,14 @@ class FbUser(
         use_enum_values = False
         frozen = True
         extra = "forbid"
+
+
+class FbUserGroup(
+    models.FbUserGroupCreateOnlyInput,
+    models.FbUserGroupUpdateInput,
+    models.FbUserGroupReadOnlyType,
+):
+    class Config:  # type: ignore[reportIncompatibleVariableOverride]
+        use_enum_values = False
+        frozen = True
+        extra = "forbid"
