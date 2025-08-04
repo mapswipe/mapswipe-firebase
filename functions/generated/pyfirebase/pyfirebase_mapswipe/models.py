@@ -733,6 +733,7 @@ class FbBaseTutorial(TypesyncModel):
     projectTopicKey: typing.Annotated[str, pydantic.Field(deprecated=True)]
     status: typing.Literal["tutorial"]
     tutorialDraftId: typing.Annotated[str, pydantic.Field(deprecated=True)]
+    screens: list[FbScreen]
 
     class Config:
         use_enum_values = False
@@ -769,22 +770,6 @@ class FbCompareTutorial(TypesyncModel):
     tileServer: FbObjRasterTileServer
     tileServerB: FbObjRasterTileServer
     zoomLevel: int
-    screens: list[FbScreen]
-
-    class Config:
-        use_enum_values = False
-        extra = "forbid"
-
-    @typing.override
-    def __setattr__(self, name: str, value: typing.Any) -> None:
-        super().__setattr__(name, value)
-
-
-class FbCompareTutorialGroup(TypesyncModel):
-    xMax: int
-    xMin: int
-    yMax: int
-    yMin: int
 
     class Config:
         use_enum_values = False
@@ -796,15 +781,6 @@ class FbCompareTutorialGroup(TypesyncModel):
 
 
 class FbCompareTutorialTask(TypesyncModel):
-    geometry: str
-    groupId: int
-    projectId: str
-    referenceAnswer: int
-    screen: int
-    taskId: str
-    taskId_real: str
-    taskX: int
-    taskY: int
     url: str
     urlB: str
 
@@ -823,22 +799,6 @@ class FbCompletenessTutorial(TypesyncModel):
     tileServerB: FbObjRasterTileServer
     overlayTileServer: FbObjUnifiedOverlayTileServer
     zoomLevel: int
-    screens: list[FbScreen]
-
-    class Config:
-        use_enum_values = False
-        extra = "forbid"
-
-    @typing.override
-    def __setattr__(self, name: str, value: typing.Any) -> None:
-        super().__setattr__(name, value)
-
-
-class FbCompletenessTutorialGroup(TypesyncModel):
-    xMax: int
-    xMin: int
-    yMax: int
-    yMin: int
 
     class Config:
         use_enum_values = False
@@ -850,15 +810,6 @@ class FbCompletenessTutorialGroup(TypesyncModel):
 
 
 class FbCompletenessTutorialTask(TypesyncModel):
-    geometry: str
-    groupId: int
-    projectId: str
-    referenceAnswer: int
-    screen: int
-    taskId: str
-    taskId_real: str
-    taskX: int
-    taskY: int
     url: str
     urlB: str
 
@@ -875,7 +826,6 @@ class FbFindTutorial(TypesyncModel):
     projectType: typing.Literal[1]
     tileServer: FbObjRasterTileServer
     zoomLevel: int
-    screens: list[FbScreen]
 
     class Config:
         use_enum_values = False
@@ -886,7 +836,19 @@ class FbFindTutorial(TypesyncModel):
         super().__setattr__(name, value)
 
 
-class FbFindTutorialGroup(TypesyncModel):
+class FbFindTutorialTask(TypesyncModel):
+    url: str
+
+    class Config:
+        use_enum_values = False
+        extra = "forbid"
+
+    @typing.override
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+
+class FbTileMapServiceTutorialGroup(TypesyncModel):
     xMax: int
     xMin: int
     yMax: int
@@ -901,7 +863,7 @@ class FbFindTutorialGroup(TypesyncModel):
         super().__setattr__(name, value)
 
 
-class FbFindTutorialTask(TypesyncModel):
+class FbTileMapServiceTutorialTask(TypesyncModel):
     geometry: str
     groupId: int
     projectId: str
@@ -911,7 +873,6 @@ class FbFindTutorialTask(TypesyncModel):
     taskId_real: str
     taskX: int
     taskY: int
-    url: str
 
     class Config:
         use_enum_values = False
@@ -923,11 +884,10 @@ class FbFindTutorialTask(TypesyncModel):
 
 
 class FbValidateTutorial(TypesyncModel):
-    inputGeometries: str
+    inputGeometries: typing.Annotated[str, pydantic.Field(deprecated=True)]
     projectType: typing.Literal[2]
     tileServer: FbObjRasterTileServer
-    zoomLevel: int
-    screens: list[FbScreen]
+    zoomLevel: typing.Annotated[int, pydantic.Field(deprecated=True)]
     customOptions: list[FbObjCustomOption] | TypesyncUndefined | None = UNDEFINED
 
     class Config:
@@ -942,10 +902,9 @@ class FbValidateTutorial(TypesyncModel):
 
 
 class FbValidateTutorialTaskProperties(TypesyncModel):
-    building: str
-    description: str
-    reference: str
-    screen: str
+    id: int
+    screen: int
+    reference: int
 
     class Config:
         use_enum_values = False
@@ -960,8 +919,6 @@ class FbValidateTutorialTask(TypesyncModel):
     taskId: str
     geojson: typing.Any
     properties: FbValidateTutorialTaskProperties
-    screen: int
-    reference: int
     geometry: str
 
     class Config:

@@ -104,6 +104,10 @@ FbBaseTutorial:
       tutorialDraftId:
         type: string
         deprecated: true
+      screens:
+        type:
+          type: list
+          elementType: FbScreen
 
 FbBaseTutorialGroup:
   model: alias
