@@ -72,9 +72,10 @@ class FbAnnouncement(TypesyncModel):
     text: str
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
@@ -143,9 +144,10 @@ class FbBaseObjCustomSubOption(TypesyncModel):
     description: str
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
@@ -161,9 +163,10 @@ class FbObjCustomOption(TypesyncModel):
     subOptions: list[FbBaseObjCustomSubOption] | TypesyncUndefined | None = UNDEFINED
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         if name == "subOptions" and value is None:
             raise ValueError("'subOptions' field cannot be set to None")
@@ -183,9 +186,10 @@ class FbObjRasterTileServer(TypesyncModel):
     url: str
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         if name == "apiKey" and value is None:
             raise ValueError("'apiKey' field cannot be set to None")
@@ -205,9 +209,10 @@ class FbObjVectorTileServer(TypesyncModel):
     maxZoom: int
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
@@ -219,9 +224,10 @@ class FbObjRasterTileServerOverlay(TypesyncModel):
     opacity: float
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
@@ -241,9 +247,10 @@ class FbObjVectorTileServerOverlay(TypesyncModel):
     circleRadius: float
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
@@ -256,9 +263,10 @@ class FbObjUnifiedOverlayTileServer(TypesyncModel):
     vector: FbObjVectorTileServerOverlay | TypesyncUndefined | None = UNDEFINED
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         if name == "raster" and value is None:
             raise ValueError("'raster' field cannot be set to None")
@@ -275,9 +283,10 @@ class FbProjectReadonlyType(TypesyncModel):
     resultCount: int
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
@@ -302,9 +311,10 @@ class FbProjectUpdateInput(TypesyncModel):
     status: FbEnumProjectStatus
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         if name == "image" and value is None:
             raise ValueError("'image' field cannot be set to None")
@@ -329,9 +339,10 @@ class FbProjectCreateOnlyInput(TypesyncModel):
     verificationNumber: int
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         if name == "maxTasksPerUser" and value is None:
             raise ValueError("'maxTasksPerUser' field cannot be set to None")
@@ -345,9 +356,10 @@ class FbProjectFindCreateOnlyInput(TypesyncModel):
     tileServer: FbObjRasterTileServer
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
@@ -360,9 +372,10 @@ class FbProjectCompareCreateOnlyInput(TypesyncModel):
     tileServerB: FbObjRasterTileServer
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
@@ -376,9 +389,10 @@ class FbProjectCompletenessCreateOnlyInput(TypesyncModel):
     overlayTileServer: FbObjUnifiedOverlayTileServer
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
@@ -393,9 +407,10 @@ class FbProjectValidateCreateOnlyInput(TypesyncModel):
     TMId: str | TypesyncUndefined | None = UNDEFINED
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         if name == "customOptions" and value is None:
             raise ValueError("'customOptions' field cannot be set to None")
@@ -412,9 +427,10 @@ class FbProjectValidateImageCreateOnlyInput(TypesyncModel):
     customOptions: list[FbObjCustomOption] | TypesyncUndefined | None = UNDEFINED
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         if name == "customOptions" and value is None:
             raise ValueError("'customOptions' field cannot be set to None")
@@ -428,9 +444,10 @@ class FbMappingGroupReadonlyType(TypesyncModel):
     progress: int
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
@@ -443,9 +460,10 @@ class FbMappingGroupCreateOnlyInput(TypesyncModel):
     requiredCount: int
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
@@ -460,9 +478,10 @@ class FbMappingGroupTileMapServiceCreateOnlyInput(TypesyncModel):
     yMin: int
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
@@ -473,9 +492,10 @@ class FbMappingGroupValidateCreateOnlyInput(TypesyncModel):
     groupId: str
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
@@ -486,9 +506,10 @@ class FbMappingGroupValidateImageCreateOnlyInput(TypesyncModel):
     groupId: str
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
@@ -499,9 +520,10 @@ class FbMappingTaskCreateOnlyInput(TypesyncModel):
     projectId: str
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
@@ -513,9 +535,10 @@ class FbMappingTaskValidateCreateOnlyInput(TypesyncModel):
     geojson: dict[str, typing.Any]
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
@@ -527,9 +550,10 @@ class FbMappingTaskValidateImageCreateOnlyInput(TypesyncModel):
     question: str | TypesyncUndefined | None = UNDEFINED
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         if name == "question" and value is None:
             raise ValueError("'question' field cannot be set to None")
@@ -547,9 +571,10 @@ class FbMappingTaskCompareCreateOnlyInput(TypesyncModel):
     urlB: str | TypesyncUndefined | None = UNDEFINED
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         if name == "taskX" and value is None:
             raise ValueError("'taskX' field cannot be set to None")
@@ -573,9 +598,10 @@ class FbMappingResult(TypesyncModel):
     usergroups: dict[str, bool] | TypesyncUndefined | None = UNDEFINED
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         if name == "clientType" and value is None:
             raise ValueError("'clientType' field cannot be set to None")
@@ -594,9 +620,10 @@ class FbOrganisation(TypesyncModel):
     isArchived: bool
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         if name == "description" and value is None:
             raise ValueError("'description' field cannot be set to None")
@@ -613,9 +640,10 @@ class FbTeam(TypesyncModel):
     isArchived: bool
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
@@ -632,9 +660,10 @@ class FbInformationPageBlock(TypesyncModel):
     image: str | TypesyncUndefined | None = UNDEFINED
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         if name == "textDescription" and value is None:
             raise ValueError("'textDescription' field cannot be set to None")
@@ -649,9 +678,10 @@ class FbInformationPage(TypesyncModel):
     blocks: list[FbInformationPageBlock]
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
@@ -662,9 +692,10 @@ class FbScreenBlock(TypesyncModel):
     icon: str
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
@@ -675,9 +706,10 @@ class FbScreen(TypesyncModel):
     success: FbScreenBlock
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
@@ -703,9 +735,10 @@ class FbBaseTutorial(TypesyncModel):
     tutorialDraftId: typing.Annotated[str, pydantic.Field(deprecated=True)]
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         if name == "exampleImage1" and value is None:
             raise ValueError("'exampleImage1' field cannot be set to None")
@@ -723,9 +756,10 @@ class FbBaseTutorialGroup(TypesyncModel):
     requiredCount: int
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
@@ -738,9 +772,10 @@ class FbCompareTutorial(TypesyncModel):
     screens: list[FbScreen]
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
@@ -752,9 +787,10 @@ class FbCompareTutorialGroup(TypesyncModel):
     yMin: int
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
@@ -773,9 +809,10 @@ class FbCompareTutorialTask(TypesyncModel):
     urlB: str
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
@@ -789,9 +826,10 @@ class FbCompletenessTutorial(TypesyncModel):
     screens: list[FbScreen]
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
@@ -803,9 +841,10 @@ class FbCompletenessTutorialGroup(TypesyncModel):
     yMin: int
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
@@ -824,9 +863,10 @@ class FbCompletenessTutorialTask(TypesyncModel):
     urlB: str
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
@@ -838,9 +878,10 @@ class FbFindTutorial(TypesyncModel):
     screens: list[FbScreen]
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
@@ -852,9 +893,10 @@ class FbFindTutorialGroup(TypesyncModel):
     yMin: int
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
@@ -872,9 +914,10 @@ class FbFindTutorialTask(TypesyncModel):
     url: str
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
@@ -888,9 +931,10 @@ class FbValidateTutorial(TypesyncModel):
     customOptions: list[FbObjCustomOption] | TypesyncUndefined | None = UNDEFINED
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         if name == "customOptions" and value is None:
             raise ValueError("'customOptions' field cannot be set to None")
@@ -904,9 +948,10 @@ class FbValidateTutorialTaskProperties(TypesyncModel):
     screen: str
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
@@ -920,9 +965,10 @@ class FbValidateTutorialTask(TypesyncModel):
     geometry: str
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
@@ -939,9 +985,10 @@ class FbUserReadonlyType(TypesyncModel):
     userGroups: dict[str, typing.Any] | TypesyncUndefined | None = UNDEFINED
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         if name == "accessibility" and value is None:
             raise ValueError("'accessibility' field cannot be set to None")
@@ -956,9 +1003,10 @@ class FbUserUpdateInput(TypesyncModel):
     teamId: str | TypesyncUndefined | None = UNDEFINED
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         if name == "teamId" and value is None:
             raise ValueError("'teamId' field cannot be set to None")
@@ -973,9 +1021,10 @@ class FbUserContribution(TypesyncModel):
     timestamp: datetime.datetime
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
@@ -991,9 +1040,10 @@ class FbUserGroup(TypesyncModel):
     users: dict[str, typing.Any]
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
@@ -1005,9 +1055,10 @@ class FbUserGroupObsolete(TypesyncModel):
     description: str
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
@@ -1021,9 +1072,10 @@ class FbUserGroupMembership(TypesyncModel):
     userId: str
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
@@ -1035,8 +1087,9 @@ class FbBackendWait(TypesyncModel):
     timestamp: datetime.datetime
 
     class Config:
-        use_enum_values = True
+        use_enum_values = False
         extra = "forbid"
 
+    @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
