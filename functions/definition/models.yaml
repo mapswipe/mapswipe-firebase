@@ -475,6 +475,7 @@ FbMappingTaskValidateCreateOnlyInput:
       taskId:
         type: string
       geojson:
+        # NOTE: This is not optional
         type:
           type: map
           valueType: any
@@ -532,6 +533,7 @@ FbMappingResult:
       startTime:
         type: timestamp
       results:
+        optional: true
         type:
           # NOTE: The key is taskId
           type: map

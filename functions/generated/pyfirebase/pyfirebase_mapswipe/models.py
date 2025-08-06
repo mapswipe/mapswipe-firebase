@@ -594,7 +594,7 @@ class FbMappingResult(TypesyncModel):
     clientType: str | TypesyncUndefined | None = UNDEFINED
     endTime: datetime.datetime
     startTime: datetime.datetime
-    results: dict[str, int]
+    results: dict[str, int] | TypesyncUndefined | None = UNDEFINED
     usergroups: dict[str, bool] | TypesyncUndefined | None = UNDEFINED
 
     class Config:
@@ -605,6 +605,8 @@ class FbMappingResult(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         if name == "clientType" and value is None:
             raise ValueError("'clientType' field cannot be set to None")
+        if name == "results" and value is None:
+            raise ValueError("'results' field cannot be set to None")
         if name == "usergroups" and value is None:
             raise ValueError("'usergroups' field cannot be set to None")
         super().__setattr__(name, value)
@@ -675,7 +677,7 @@ class FbInformationPageBlock(TypesyncModel):
 class FbInformationPage(TypesyncModel):
     pageNumber: int
     title: str
-    blocks: list[FbInformationPageBlock]
+    blocks: list[FbInformationPageBlock] | TypesyncUndefined | None = UNDEFINED
 
     class Config:
         use_enum_values = False
@@ -683,6 +685,8 @@ class FbInformationPage(TypesyncModel):
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
+        if name == "blocks" and value is None:
+            raise ValueError("'blocks' field cannot be set to None")
         super().__setattr__(name, value)
 
 
@@ -724,7 +728,7 @@ class FbBaseTutorial(TypesyncModel):
         pydantic.Field(deprecated=True),
     ] = UNDEFINED
     contributorCount: int
-    informationPages: list[FbInformationPage]
+    informationPages: list[FbInformationPage] | TypesyncUndefined | None = UNDEFINED
     lookFor: str
     name: str
     progress: int
@@ -733,7 +737,7 @@ class FbBaseTutorial(TypesyncModel):
     projectTopicKey: typing.Annotated[str, pydantic.Field(deprecated=True)]
     status: typing.Literal["tutorial"]
     tutorialDraftId: typing.Annotated[str, pydantic.Field(deprecated=True)]
-    screens: list[FbScreen]
+    screens: list[FbScreen] | TypesyncUndefined | None = UNDEFINED
 
     class Config:
         use_enum_values = False
@@ -745,6 +749,10 @@ class FbBaseTutorial(TypesyncModel):
             raise ValueError("'exampleImage1' field cannot be set to None")
         if name == "exampleImage2" and value is None:
             raise ValueError("'exampleImage2' field cannot be set to None")
+        if name == "informationPages" and value is None:
+            raise ValueError("'informationPages' field cannot be set to None")
+        if name == "screens" and value is None:
+            raise ValueError("'screens' field cannot be set to None")
         super().__setattr__(name, value)
 
 
