@@ -40,7 +40,7 @@
     "typesync-cli": "https://github.com/toggle-corp/typesync#v1.1.0"
   },
   "engines": {
-    "node": "22",
+    "node": "20",
     "yarn": "1.22"
   },
   "private": true
