@@ -70,3 +70,5 @@ firebase-export-*
 *.egg-info
 
 __pycache__
+
+serviceAccount.json
