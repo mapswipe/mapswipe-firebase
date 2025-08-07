@@ -15,6 +15,18 @@ jobs:
         with:
           enable-cache: true
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          package_json_file: ./functions/package.json
+
+      - name: Setup node environment
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ./functions/package.json
+          cache: 'pnpm'
+          cache-dependency-path: ./functions/pnpm-lock.yaml
+
       - name: Setup python environment
         working-directory: ./functions/generated/pyfirebase
         run: uv venv
@@ -32,20 +44,13 @@ jobs:
         with:
           extra_args: --all-files --hook-stage manual --show-diff-on-failure
 
-      - name: Setup node environment
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'yarn'
-          cache-dependency-path: ./functions/yarn.lock
-
       - name: Install JS dependencies
         working-directory: ./functions
-        run: yarn install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Generate python definition files
         working-directory: ./functions
-        run: yarn generate:py
+        run: pnpm generate:py
 
       - name: Run pre-commit for generated python definition files
         run: |
@@ -76,7 +81,7 @@ jobs:
       - name: Check if generated definition files are up to date.
         run: |
             if ! git diff --quiet ./functions/generated/; then
-              echo "❌ Generated definition files are not up-to-date. Run 'yarn generate:py' to update the generated definitionfiles."
+              echo "❌ Generated definition files are not up-to-date. Run 'pnpm generate:py' to update the generated definitionfiles."
               git status
               git --no-pager diff
               exit 1

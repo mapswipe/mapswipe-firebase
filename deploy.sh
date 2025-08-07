@@ -10,7 +10,7 @@ cd "$BASE_DIR"
 echo "[INFO] Installing dependencies for transpiling functions for Firebase..."
 cd /tmp/
 
-yarn --cwd "$FIREBASE_FUNCTIONS_DIR" install --frozen-lockfile
+pnpm --filter "$FIREBASE_FUNCTIONS_DIR" install --frozen-lockfile
 
 echo "[INFO] Transpiling functions for Firebase..."
 cd "$FIREBASE_FUNCTIONS_DIR"
