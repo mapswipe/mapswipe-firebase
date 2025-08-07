@@ -1,7 +1,6 @@
 {
   "name": "functions",
   "description": "Cloud Functions for Firebase",
-  "packageManager": "yarn@1.22.22",
   "scripts": {
     "lint": "eslint --ext .js,.ts .",
     "build": "tsc",
@@ -9,15 +8,16 @@
     "generate:ts": "typesync generate-ts --target firebase-admin@10 --definition 'definition/**/*.yaml' --indentation 4 --outFile generated/models.ts",
     "generate:py": "typesync generate-py --target firebase-admin@6 --definition 'definition/**/*.yaml' --indentation 4 --outFile generated/pyfirebase/pyfirebase_mapswipe/models.py",
     "generate:rules": "typesync generate-rules --definition 'definition/**/*.yaml' --outFile ../database.rules.json",
-    "serve": "yarn build && firebase emulators:start --only functions",
-    "shell": "yarn build && firebase functions:shell",
-    "start": "yarn shell",
+    "serve": "pnpm build && firebase emulators:start --only functions",
+    "shell": "pnpm build && firebase functions:shell",
+    "start": "pnpm shell",
     "deploy": "firebase deploy --only functions",
     "deploy-rules": "firebase deploy --only database:rules",
     "logs": "firebase functions:log"
   },
   "main": "lib/index.js",
   "dependencies": {
+    "@google-cloud/functions-framework": "^4.0.0",
     "axios": "^0.25.0",
     "cookie-parser": "^1.4.4",
     "firebase-admin": "^10.0.2",
@@ -27,6 +27,7 @@
     "simple-oauth2": "3.3.0"
   },
   "devDependencies": {
+    "@togglecorp/typesync-cli": "^1.1.0",
     "@types/cookie-parser": "^1.4.3",
     "@types/simple-oauth2": "2.5.5",
     "@typescript-eslint/eslint-plugin": "^5.12.0",
@@ -36,12 +37,17 @@
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-promise": "^4.0.1",
     "firebase-functions-test": "^0.2.0",
-    "typescript": "^5.9.2",
-    "typesync-cli": "https://github.com/toggle-corp/typesync#v1.1.0"
+    "typescript": "^5.9.2"
   },
+  "packageManager": "pnpm@10.6.1",
   "engines": {
-    "node": "22",
-    "yarn": "1.22"
+    "node": "20",
+    "pnpm": "10.6.1"
   },
-  "private": true
+  "private": true,
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "protobufjs"
+    ]
+  }
 }

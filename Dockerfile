@@ -1,11 +1,16 @@
 # NOTE: If you make any BREAKING CHANGE:
 # - Update the Docker image tag in `./.github/workflows/docker-push-dev.yml`
 # - Update the `mapswipe-backend` workflow to use the new image tag
-FROM node:22-bullseye-slim
+FROM node:20-bullseye-slim
+
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
 
 RUN apt-get update -y \
     && apt-get install -y --no-install-recommends \
-        openjdk-11-jdk bash procps git
+        openjdk-11-jdk bash procps git \
+    && corepack enable \
+    && corepack prepare pnpm@10.6.1 --activate
 
 WORKDIR /firebase
 

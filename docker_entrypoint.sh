@@ -10,15 +10,15 @@ cd "$BASE_DIR"
 # NOTE: when we are using mapswipe-firebase as a submodule inside docker,
 # the .git directory is not accessible. The parent .git directory is in host
 # system not accesssible by the container
-# Inside the container, yarn install fails when we are installing packages from git repository.
+# Inside the container, pnpm install fails when we are installing packages from git repository.
 # So, we need to switch to /tmp directory as a workaround
 echo "[INFO] Installing dependencies for transpiling functions for Firebase..."
 cd /tmp/
-yarn --cwd "$FIREBASE_FUNCTIONS_DIR" install --frozen-lockfile
+pnpm --filter "$FIREBASE_FUNCTIONS_DIR" install --frozen-lockfile
 
 echo "[INFO] Transpiling functions for Firebase..."
 cd "$FIREBASE_FUNCTIONS_DIR"
-yarn build
+pnpm build
 
 # PIDs
 pid=0

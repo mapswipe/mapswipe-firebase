@@ -32,7 +32,7 @@ exports.osmAuth.token = functions.https.onRequest((req, res) => {
  * This function also writes to the `contributions` section in the user profile.
  */
 exports.groupUsersCounter = functions.database.ref('/v2/results/{projectId}/{groupId}/{userId}/').onCreate(async (snapshot, context) => {
-    const db = admin.database()
+    const db = admin.database();
     const { projectId, groupId, userId } = context.params;
 
     // these references/values will be updated by this function
@@ -212,7 +212,7 @@ exports.groupFinishedCountUpdater = functions.database.ref('/v2/groupsUsers/{pro
     // this will surpass the project verification number.
     // This will allow us to either map specific groups more often
     // or less often than other groups in this project.
-    const db = admin.database()
+    const db = admin.database();
     const { projectId, groupId } = context.params;
 
     const groupVerificationNumberRef = db.ref(`/v2/groups/${projectId}/${groupId}/verificationNumber`);
@@ -227,13 +227,13 @@ exports.groupFinishedCountUpdater = functions.database.ref('/v2/groupsUsers/{pro
 
     // use project verification number if it is not set for the group
     const projectVerificationNumberRef = db.ref(`/v2/projects/${projectId}/verificationNumber`);
-    const projectVerificationNumberSnapshot = await projectVerificationNumberRef.once('value')
+    const projectVerificationNumberSnapshot = await projectVerificationNumberRef.once('value');
     const projectVerificationNumber = projectVerificationNumberSnapshot.val() as number;
 
     // FIXME: We should be able to use snapshot.val() instead
     const groupUsersRef = db.ref(`/v2/groupsUsers/${projectId}/${groupId}`);
-    const groupUsersSnapshot = await groupUsersRef.once('value')
-    const groupUsersCount = groupUsersSnapshot.numChildren()
+    const groupUsersSnapshot = await groupUsersRef.once('value');
+    const groupUsersCount = groupUsersSnapshot.numChildren();
 
     // FIXME: Not sure if we only set these if we are using verification number from project
     const groupFinishedCountRef = db.ref(`/v2/groups/${projectId}/${groupId}/finishedCount`);
@@ -250,7 +250,7 @@ exports.groupFinishedCountUpdater = functions.database.ref('/v2/groupsUsers/{pro
  * This is based on the number of projectIds set in the `contribution` part of the user profile.
  */
 exports.projectContributionCounter = functions.database.ref('/v2/users/{userId}/contributions/').onWrite(async (snapshot, context) => {
-    const db = admin.database()
+    const db = admin.database();
     const { userId } = context.params;
 
     // using after here to check the data after the write operation
@@ -260,7 +260,7 @@ exports.projectContributionCounter = functions.database.ref('/v2/users/{userId}/
     const projectContributionCountRef = db.ref(`/v2/users/${userId}/projectContributionCount`);
 
     // set number of projects a user contributed to
-    const contributionsCount = Object.keys(contributions).length
+    const contributionsCount = Object.keys(contributions).length;
     return projectContributionCountRef.set(contributionsCount);
 });
 
@@ -269,10 +269,10 @@ exports.projectContributionCounter = functions.database.ref('/v2/users/{userId}/
  * Gets triggered when username is changed
  */
 exports.usernameUpdate = functions.database.ref('/v2/users/{userId}/username/').onWrite(async (_, context) => {
-    const db = admin.database()
+    const db = admin.database();
     const { userId } = context.params;
 
-    const updatesUserRef = db.ref('/v2/updates/users/')
+    const updatesUserRef = db.ref('/v2/updates/users/');
     return updatesUserRef.child(userId).set(true);
 });
 
@@ -282,7 +282,7 @@ exports.usernameUpdate = functions.database.ref('/v2/users/{userId}/username/').
  * Gets triggered when new user group is created, update or deleted
  */
 exports.userGroupWrite = functions.database.ref('/v2/userGroups/{userGroupId}/').onWrite(async (_, context) => {
-    const db = admin.database()
+    const db = admin.database();
     const { userGroupId } = context.params;
 
     // FIXME: Do we need to check for undefined userGroupId here?
@@ -290,7 +290,7 @@ exports.userGroupWrite = functions.database.ref('/v2/userGroups/{userGroupId}/')
         return null;
     }
 
-    const updatesUserGroupRef = db.ref('/v2/updates/userGroups/')
+    const updatesUserGroupRef = db.ref('/v2/updates/userGroups/');
     return updatesUserGroupRef.child(userGroupId).set(true);
 });
 
@@ -300,7 +300,7 @@ exports.userGroupWrite = functions.database.ref('/v2/userGroups/{userGroupId}/')
  */
 exports.userGroupMembershipWrite = functions.database.ref('/v2/userGroupMembershipLogs/{membershipId}').onWrite(async (_, context) => {
     // FIXME: We should use a function to leave/join a group instead
-    const db = admin.database()
+    const db = admin.database();
     const { membershipId } = context.params;
 
     // FIXME: Do we need to check for undefined userGroupId here?
@@ -308,7 +308,7 @@ exports.userGroupMembershipWrite = functions.database.ref('/v2/userGroupMembersh
         return null;
     }
 
-    const updatesUserGroupMembershipRef = db.ref('/v2/updates/userGroupMembershipLogs')
+    const updatesUserGroupMembershipRef = db.ref('/v2/updates/userGroupMembershipLogs');
     return updatesUserGroupMembershipRef.child(membershipId).set(true);
 });
 
@@ -320,10 +320,10 @@ MIGRATION CODE
 */
 
 exports.addProjectTopicKey = functions.https.onRequest(async (_, res) => {
-    const db = admin.database()
+    const db = admin.database();
 
     try {
-        const projectsRef = db.ref('v2/projects')
+        const projectsRef = db.ref('v2/projects');
         const projectsSnapshot = await projectsRef.once('value');
         const projects = projectsSnapshot.val() as { [key: string]: { name?: string } | undefined };
 
@@ -354,10 +354,10 @@ exports.addProjectTopicKey = functions.https.onRequest(async (_, res) => {
 });
 
 exports.addUserNameLowercase = functions.https.onRequest(async (_, res) => {
-    const db = admin.database()
+    const db = admin.database();
 
     try {
-        const usersRef = db.ref('v2/users')
+        const usersRef = db.ref('v2/users');
         const usersSnapshot = await usersRef.once('value');
         const users = usersSnapshot.val() as { [key: string]: { username?: string } | undefined };
 
