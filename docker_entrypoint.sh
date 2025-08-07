@@ -14,7 +14,7 @@ cd "$BASE_DIR"
 # So, we need to switch to /tmp directory as a workaround
 echo "[INFO] Installing dependencies for transpiling functions for Firebase..."
 cd /tmp/
-pnpm --filter "$FIREBASE_FUNCTIONS_DIR" install --frozen-lockfile
+pnpm --dir "$FIREBASE_FUNCTIONS_DIR" install --frozen-lockfile
 
 echo "[INFO] Transpiling functions for Firebase..."
 cd "$FIREBASE_FUNCTIONS_DIR"
