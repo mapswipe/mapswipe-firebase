@@ -30,6 +30,9 @@ importers:
         specifier: 3.3.0
         version: 3.3.0
     devDependencies:
+      '@togglecorp/typesync-cli':
+        specifier: ^1.1.0
+        version: 1.1.0
       '@types/cookie-parser':
         specifier: ^1.4.3
         version: 1.4.7
@@ -60,9 +63,6 @@ importers:
       typescript:
         specifier: ^5.9.2
         version: 5.9.2
-      typesync-cli:
-        specifier: https://github.com/toggle-corp/typesync#v1.1.0
-        version: https://codeload.github.com/toggle-corp/typesync/tar.gz/675a2d31264de86309d8d0eb85e8d1c6b08d9bd0
 
 packages:
 
@@ -262,6 +262,10 @@ packages:
 
   '@protobufjs/utf8@1.1.0':
     resolution: {integrity: sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==}
+
+  '@togglecorp/typesync-cli@1.1.0':
+    resolution: {integrity: sha512-3Q54n25pJduDSr4R6kLSvI7IEAYm85jWWmgIDQs82ziZCffAHXysMfCtx+Ywc7GffV4D1foPs7Ia+CdMBHH+8w==}
+    hasBin: true
 
   '@tootallnate/once@2.0.0':
     resolution: {integrity: sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==}
@@ -2039,11 +2043,6 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  typesync-cli@https://codeload.github.com/toggle-corp/typesync/tar.gz/675a2d31264de86309d8d0eb85e8d1c6b08d9bd0:
-    resolution: {tarball: https://codeload.github.com/toggle-corp/typesync/tar.gz/675a2d31264de86309d8d0eb85e8d1c6b08d9bd0}
-    version: 0.13.0
-    hasBin: true
-
   unbox-primitive@1.0.2:
     resolution: {integrity: sha512-61pPlCD9h51VoreyJ0BReideM3MDKMKnh6+V9L08331ipq6Q8OFXZYiqP6n/tbHx4s5I9uRhcye6BrbkizkBDw==}
 
@@ -2452,6 +2451,24 @@ snapshots:
 
   '@protobufjs/utf8@1.1.0':
     optional: true
+
+  '@togglecorp/typesync-cli@1.1.0':
+    dependencies:
+      '@proficient/ds': 0.3.2
+      glob: 10.4.5
+      ink: 4.4.1(react@18.3.1)
+      lodash: 4.17.21
+      pluralize: 8.0.0
+      prettier: 3.6.2
+      react: 18.3.1
+      yaml: 2.8.0
+      yargs: 17.7.2
+      zod: 3.25.76
+    transitivePeerDependencies:
+      - '@types/react'
+      - bufferutil
+      - react-devtools-core
+      - utf-8-validate
 
   '@tootallnate/once@2.0.0':
     optional: true
@@ -4588,24 +4605,6 @@ snapshots:
     optional: true
 
   typescript@5.9.2: {}
-
-  typesync-cli@https://codeload.github.com/toggle-corp/typesync/tar.gz/675a2d31264de86309d8d0eb85e8d1c6b08d9bd0:
-    dependencies:
-      '@proficient/ds': 0.3.2
-      glob: 10.4.5
-      ink: 4.4.1(react@18.3.1)
-      lodash: 4.17.21
-      pluralize: 8.0.0
-      prettier: 3.6.2
-      react: 18.3.1
-      yaml: 2.8.0
-      yargs: 17.7.2
-      zod: 3.25.76
-    transitivePeerDependencies:
-      - '@types/react'
-      - bufferutil
-      - react-devtools-core
-      - utf-8-validate
 
   unbox-primitive@1.0.2:
     dependencies:
