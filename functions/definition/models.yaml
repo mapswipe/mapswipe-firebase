@@ -12,6 +12,16 @@ FbEnumOverlayTileServerType:
       - label: 'VECTOR'
         value: 'vector'
 
+FbEnumValidateImageInputType:
+  model: alias
+  type:
+    type: enum
+    members:
+      - label: 'DIRECT_IMAGES'
+        value: 'direct_images'
+      - label: 'DATASET_FILE'
+        value: 'dataset_file'
+
 FbEnumValidateInputType:
   model: alias
   type:
