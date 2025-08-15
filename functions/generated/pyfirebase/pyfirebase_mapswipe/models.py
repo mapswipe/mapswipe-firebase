@@ -16,7 +16,7 @@ class TypesyncUndefined:
     def __init__(self):
         if TypesyncUndefined._instance is not None:
             raise RuntimeError(
-                "TypesyncUndefined instances cannot be created directly. Import and use the UNDEFINED sentinel instead.",
+                "TypesyncUndefined instances cannot be created directly. Import and use the UNDEFINED sentinel instead."
             )
         TypesyncUndefined._instance = self
 
@@ -522,8 +522,7 @@ class FbObjRasterTileServer(TypesyncModel):
 
     apiKey: str | TypesyncUndefined | None = UNDEFINED
     wmtsLayerName: typing.Annotated[
-        str | TypesyncUndefined | None,
-        pydantic.Field(deprecated=True),
+        str | TypesyncUndefined | None, pydantic.Field(deprecated=True)
     ] = UNDEFINED
     credits: str
     name: FbEnumRasterTileServerName
@@ -786,12 +785,10 @@ class FbScreen(TypesyncModel):
 
 class FbBaseTutorial(TypesyncModel):
     exampleImage1: typing.Annotated[
-        str | TypesyncUndefined | None,
-        pydantic.Field(deprecated=True),
+        str | TypesyncUndefined | None, pydantic.Field(deprecated=True)
     ] = UNDEFINED
     exampleImage2: typing.Annotated[
-        str | TypesyncUndefined | None,
-        pydantic.Field(deprecated=True),
+        str | TypesyncUndefined | None, pydantic.Field(deprecated=True)
     ] = UNDEFINED
     contributorCount: int
     informationPages: list[FbInformationPage] | TypesyncUndefined | None = UNDEFINED
@@ -1052,6 +1049,37 @@ class FbValidateImageTutorialTask(TypesyncModel):
             raise ValueError("'bbox' field cannot be set to None")
         if name == "segmentation" and value is None:
             raise ValueError("'segmentation' field cannot be set to None")
+        super().__setattr__(name, value)
+
+
+class FbStreetTutorial(TypesyncModel):
+    projectType: typing.Literal[7]
+    zoomLevel: typing.Annotated[int, pydantic.Field(deprecated=True)]
+    customOptions: list[FbObjCustomOption] | TypesyncUndefined | None = UNDEFINED
+
+    class Config:
+        use_enum_values = False
+        extra = "forbid"
+
+    @typing.override
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        if name == "customOptions" and value is None:
+            raise ValueError("'customOptions' field cannot be set to None")
+        super().__setattr__(name, value)
+
+
+class FbStreetTutorialTask(TypesyncModel):
+    taskId: str
+    geometry: str
+    referenceAnswer: int
+    screen: int
+
+    class Config:
+        use_enum_values = False
+        extra = "forbid"
+
+    @typing.override
+    def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
 

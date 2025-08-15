@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/toggle-corp/typesync/refs/tags/v1.0.0/schema.local.json
+
+FbStreetTutorial:
+  model: alias
+  type:
+    type: object
+    fields:
+      projectType:
+        type:
+          type: literal
+          value: 7
+      zoomLevel:
+        type: int
+        deprecated: true
+      customOptions:
+        optional: true
+        type:
+          type: list
+          elementType: FbObjCustomOption
+
+FbStreetTutorialTask:
+  model: alias
+  type:
+    type: object
+    fields:
+      taskId:
+        type: string
+      geometry: # NOTE: geometry as WKT
+        type: string
+      referenceAnswer:
+        type: int
+      screen:
+        type: int
