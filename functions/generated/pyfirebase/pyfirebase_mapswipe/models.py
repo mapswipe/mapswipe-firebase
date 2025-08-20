@@ -85,6 +85,11 @@ class FbEnumOverlayTileServerType(enum.Enum):
     VECTOR = "vector"
 
 
+class FbEnumValidateImageInputType(enum.Enum):
+    DIRECT_IMAGES = "direct_images"
+    DATASET_FILE = "dataset_file"
+
+
 class FbEnumValidateInputType(enum.Enum):
     AOI_FILE = "aoi_file"
     LINK = "link"
@@ -547,7 +552,13 @@ class FbMappingTaskValidateImageCreateOnlyInput(TypesyncModel):
     """Represents VALIDATE_IMAGE mapping task fields that are valid while creating a task"""
 
     taskId: str
-    question: str | TypesyncUndefined | None = UNDEFINED
+    url: str
+    fileName: str
+    width: int | TypesyncUndefined | None = UNDEFINED
+    height: int | TypesyncUndefined | None = UNDEFINED
+    annotationId: str | TypesyncUndefined | None = UNDEFINED
+    bbox: list[float] | TypesyncUndefined | None = UNDEFINED
+    segmentation: list[list[float]] | TypesyncUndefined | None = UNDEFINED
 
     class Config:
         use_enum_values = False
@@ -555,8 +566,16 @@ class FbMappingTaskValidateImageCreateOnlyInput(TypesyncModel):
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
-        if name == "question" and value is None:
-            raise ValueError("'question' field cannot be set to None")
+        if name == "width" and value is None:
+            raise ValueError("'width' field cannot be set to None")
+        if name == "height" and value is None:
+            raise ValueError("'height' field cannot be set to None")
+        if name == "annotationId" and value is None:
+            raise ValueError("'annotationId' field cannot be set to None")
+        if name == "bbox" and value is None:
+            raise ValueError("'bbox' field cannot be set to None")
+        if name == "segmentation" and value is None:
+            raise ValueError("'segmentation' field cannot be set to None")
         super().__setattr__(name, value)
 
 

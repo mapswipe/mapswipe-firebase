@@ -12,6 +12,16 @@ FbEnumOverlayTileServerType:
       - label: 'VECTOR'
         value: 'vector'
 
+FbEnumValidateImageInputType:
+  model: alias
+  type:
+    type: enum
+    members:
+      - label: 'DIRECT_IMAGES'
+        value: 'direct_images'
+      - label: 'DATASET_FILE'
+        value: 'dataset_file'
+
 FbEnumValidateInputType:
   model: alias
   type:
@@ -488,8 +498,31 @@ FbMappingTaskValidateImageCreateOnlyInput:
     fields:
       taskId:
         type: string
-      question:
+      url:
         type: string
+      fileName:
+        type: string
+      width:
+        type: int
+        optional: true
+      height:
+        type: int
+        optional: true
+      annotationId:
+        # NOTE: using string to handle large integers
+        type: string
+        optional: true
+      bbox:
+        type:
+          type: list
+          elementType: double
+        optional: true
+      segmentation:
+        type:
+          type: list
+          elementType:
+            type: list
+            elementType: double
         optional: true
 
 FbMappingTaskCompareCreateOnlyInput:
