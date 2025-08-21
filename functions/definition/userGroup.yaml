@@ -1,5 +1,15 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/toggle-corp/typesync/refs/tags/v1.0.0/schema.local.json
 
+FbEnumUserGroupMembershipAction:
+  model: alias
+  type:
+    type: enum
+    members:
+      - label: 'JOIN'
+        value: 'join'
+      - label: 'LEAVE'
+        value: 'leave'
+
 FbUserGroupReadOnlyType:
   model: alias
   # path: userGroups/{userGroupId}

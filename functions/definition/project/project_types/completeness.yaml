@@ -1,0 +1,41 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/toggle-corp/typesync/refs/tags/v1.0.0/schema.local.json
+
+FbEnumOverlayTileServerType:
+  model: alias
+  type:
+    type: enum
+    members:
+      - label: 'RASTER'
+        value: 'raster'
+      - label: 'VECTOR'
+        value: 'vector'
+
+FbObjUnifiedOverlayTileServer:
+  model: alias
+  docs: Represents an overlay layer
+  type:
+    type: object
+    fields:
+      type:
+        type: FbEnumOverlayTileServerType
+      raster:
+        optional: true
+        type: FbObjRasterTileServerOverlay
+      vector:
+        optional: true
+        type: FbObjVectorTileServerOverlay
+
+FbProjectCompletenessCreateOnlyInput:
+  model: alias
+  docs: Represents COMPLETNESS project fields that are valid while creating a project
+  type:
+    type: object
+    fields:
+      zoomLevel:
+        type: int
+      tileServer:
+        type: FbObjRasterTileServer
+      tileServerB:
+        type: FbObjRasterTileServer
+      overlayTileServer:
+        type: FbObjUnifiedOverlayTileServer

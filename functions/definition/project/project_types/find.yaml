@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/toggle-corp/typesync/refs/tags/v1.0.0/schema.local.json
+
+FbProjectFindCreateOnlyInput:
+  model: alias
+  docs: Represents FIND project fields that are valid while creating a project
+  type:
+    type: object
+    fields:
+      zoomLevel:
+        type: int
+      tileServer:
+        type: FbObjRasterTileServer

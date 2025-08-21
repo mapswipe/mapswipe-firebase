@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/toggle-corp/typesync/refs/tags/v1.0.0/schema.local.json
+
+FbMappingGroupTileMapServiceCreateOnlyInput:
+  model: alias
+  docs: Represents TILE_MAP_SERVICE mapping group fields that are valid while creating a mapping group
+  type:
+    type: object
+    fields:
+      groupId:
+        type: string
+      xMax:
+        type: int
+      xMin:
+        type: int
+      yMax:
+        type: int
+      yMin:
+        type: int

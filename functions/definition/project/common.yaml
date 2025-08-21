@@ -1,0 +1,189 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/toggle-corp/typesync/refs/tags/v1.0.0/schema.local.json
+
+# ENUM
+
+FbEnumProjectStatus:
+  model: alias
+  docs: Represents project status
+  type:
+    type: enum
+    members:
+      # FIXME: tutorial always has status "tutorial"
+      - label: "ACTIVE"
+        value: active
+      - label: "INACTIVE"
+        value: inactive
+      - label: "PRIVATE_INACTIVE"
+        value: private_inactive
+      - label: "PRIVATE_ACTIVE"
+        value: private_active
+      - label: "FINISHED"
+        value: finished
+
+FbEnumProjectType:
+  model: alias
+  docs: Represents project type
+  type:
+    type: enum
+    members:
+      - label: 'FIND'
+        value: 1
+      - label: 'VALIDATE'
+        value: 2
+      - label: 'VALIDATE_IMAGE'
+        value: 10
+      - label: 'COMPARE'
+        value: 3
+      - label: 'COMPLETENESS'
+        value: 4
+
+FbProjectReadonlyType:
+  model: alias
+  docs: Represents project fields that cannot be updated from backend
+  type:
+    type: object
+    fields:
+      contributorCount:
+        type: int
+      progress:
+        type: int
+      resultCount:
+        type: int
+
+FbProjectUpdateInput:
+  model: alias
+  docs: Represents project fields that are valid while updating a project
+  type:
+    type: object
+    fields:
+      image:
+        type: string
+        optional: true
+      isFeatured:
+        type: boolean
+      lookFor:
+        optional: true
+        type: string
+      projectInstruction:
+        optional: true
+        type: string
+      name:
+        type: string
+      projectDetails:
+        type: string
+      projectNumber:
+        type: int
+      projectRegion:
+        type: string
+      projectTopic:
+        type: string
+      projectTopicKey:
+        type: string
+        deprecated: true
+      # NOTE: Name of the organisation
+      requestingOrganisation:
+        type: string
+      tutorialId:
+        type: string
+      language:
+        type: string
+      manualUrl:
+        optional: true
+        type: string
+      teamId:
+        optional: true
+        type: string
+      status:
+        type: FbEnumProjectStatus
+
+FbProjectCreateOnlyInput:
+  model: alias
+  docs: Represents project fields that are valid while creating a project
+  type:
+    type: object
+    fields:
+      created:
+        type: timestamp
+      createdBy:
+        type: string
+      groupMaxSize:
+        type: int
+      groupSize:
+        type: int
+      maxTasksPerUser:
+        optional: true
+        type: int
+      projectId:
+        type: string
+      projectType:
+        type: FbEnumProjectType
+      # project_type:
+      #   type: FbEnumProjectType
+      requiredResults:
+        type: int
+      verificationNumber:
+        type: int
+
+FbMappingGroupReadonlyType:
+  model: alias
+  docs: Represents mapping group fields that cannot be updated from backend
+  type:
+    type: object
+    fields:
+      finishedCount:
+        type: int
+      progress:
+        type: int
+
+FbMappingGroupCreateOnlyInput:
+  model: alias
+  docs: Represents mapping group fields that are valid while creating a mapping group
+  type:
+    type: object
+    fields:
+      projectId:
+        type: string
+      numberOfTasks:
+        type: int
+      requiredCount:
+        type: int
+
+FbMappingTaskCreateOnlyInput:
+  model: alias
+  # path: tasks/{projectId}/{groupId}/{index}
+  docs: Represents mapping task fields that are valid while creating a task
+  type:
+    type: object
+    fields:
+      projectId:
+        type: string
+
+FbMappingResult:
+  model: alias
+  # path: results/{projectId}/{groupId}/{userId}
+  docs: Represents a mapswipe project
+  type:
+    type: object
+    fields:
+      appVersion:
+        type: string
+      clientType:
+        # FIXME: this is an enum
+        type: string
+        optional: true
+      endTime:
+        type: timestamp
+      startTime:
+        type: timestamp
+      results:
+        optional: true
+        type:
+          # NOTE: The key is taskId
+          type: map
+          valueType: int
+      usergroups:
+        optional: true
+        type:
+          # NOTE: The key is usergroupId
+          type: map
+          valueType: boolean

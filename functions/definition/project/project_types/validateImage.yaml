@@ -1,0 +1,67 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/toggle-corp/typesync/refs/tags/v1.0.0/schema.local.json
+
+FbEnumValidateImageInputType:
+  model: alias
+  type:
+    type: enum
+    members:
+      - label: 'DIRECT_IMAGES'
+        value: 'direct_images'
+      - label: 'DATASET_FILE'
+        value: 'dataset_file'
+
+FbProjectValidateImageCreateOnlyInput:
+  model: alias
+  docs: Represents VALIDATE_IMAGE project fields that are valid while creating a project
+  type:
+    type: object
+    fields:
+      customOptions:
+        optional: true
+        type:
+          type: list
+          elementType: FbObjCustomOption
+
+FbMappingGroupValidateImageCreateOnlyInput:
+  model: alias
+  docs: Represents VALIDATE_IMAGE mapping group fields that are valid while creating a mapping group
+  type:
+    type: object
+    fields:
+      groupId:
+        type: string
+
+FbMappingTaskValidateImageCreateOnlyInput:
+  model: alias
+  docs: Represents VALIDATE_IMAGE mapping task fields that are valid while creating a task
+  type:
+    type: object
+    fields:
+      taskId:
+        type: string
+      url:
+        type: string
+      fileName:
+        type: string
+      width:
+        type: int
+        optional: true
+      height:
+        type: int
+        optional: true
+      annotationId:
+        # NOTE: using string to handle large integers
+        type: string
+        optional: true
+      bbox:
+        type:
+          type: list
+          elementType: double
+        optional: true
+      segmentation:
+        type:
+          type: list
+          elementType:
+            type: list
+            elementType: double
+        optional: true

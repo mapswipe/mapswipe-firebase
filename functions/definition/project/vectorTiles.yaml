@@ -1,0 +1,64 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/toggle-corp/typesync/refs/tags/v1.0.0/schema.local.json
+
+FbEnumVectorTileServerName:
+  model: alias
+  docs: Represents supported vector tile server
+  type:
+    type: enum
+    members:
+      - label: CUSTOM
+        value: custom
+      - label: OPEN_STREET_MAP
+        value: openStreetMap
+      - label: OPEN_FREE_MAP
+        value: openFreeMap
+      - label: VERSATILES
+        value: versatiles
+
+FbObjVectorTileServer:
+  model: alias
+  docs: Represents a vector tile server configuration
+  type:
+    type: object
+    fields:
+      credits:
+        type: string
+      name:
+        type: FbEnumVectorTileServerName
+      sourceLayer:
+        type: string
+      url:
+        type: string
+      minZoom:
+        type: int
+      maxZoom:
+        type: int
+
+FbObjVectorTileServerOverlay:
+  model: alias
+  docs: Represents an overlay layer for vector layer
+  type:
+    type: object
+    fields:
+      tileServer:
+        type: FbObjVectorTileServer
+      fillColor:
+        type: string
+      fillOpacity:
+        type: double
+      lineColor:
+        type: string
+      lineOpacity:
+        type: double
+      lineWidth:
+        type: double
+      lineDasharray:
+        type:
+          type: list
+          elementType: int
+      circleColor:
+        type: string
+      circleOpacity:
+        type: double
+      circleRadius:
+        type: double
