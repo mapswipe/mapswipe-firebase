@@ -1,0 +1,61 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/toggle-corp/typesync/refs/tags/v1.0.0/schema.local.json
+
+FbValidateImageTutorial:
+  model: alias
+  type:
+    type: object
+    fields:
+      projectType:
+        type:
+          type: literal
+          value: 10
+      customOptions:
+        optional: true
+        type:
+          type: list
+          elementType: FbObjCustomOption
+
+FbValidateImageTutorialTask:
+  model: alias
+  type:
+    type: object
+    fields:
+      groupId:
+        type: int
+      projectId:
+        type: string
+      referenceAnswer:
+        type: int
+      screen:
+        type: int
+      geometry: # NOTE: initially empty string
+        type: string
+      taskId:
+        type: string
+      fileName:
+        type: string
+      url:
+        type: string
+
+      width:
+        type: int
+        optional: true
+      height:
+        type: int
+        optional: true
+      annotationId:
+        # NOTE: using string to handle large integers
+        type: string
+        optional: true
+      bbox:
+        type:
+          type: list
+          elementType: double
+        optional: true
+      segmentation:
+        type:
+          type: list
+          elementType:
+            type: list
+            elementType: double
+        optional: true

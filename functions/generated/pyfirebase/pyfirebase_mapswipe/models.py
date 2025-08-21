@@ -957,6 +957,55 @@ class FbValidateTutorialTask(TypesyncModel):
         super().__setattr__(name, value)
 
 
+class FbValidateImageTutorial(TypesyncModel):
+    projectType: typing.Literal[10]
+    customOptions: list[FbObjCustomOption] | TypesyncUndefined | None = UNDEFINED
+
+    class Config:
+        use_enum_values = False
+        extra = "forbid"
+
+    @typing.override
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        if name == "customOptions" and value is None:
+            raise ValueError("'customOptions' field cannot be set to None")
+        super().__setattr__(name, value)
+
+
+class FbValidateImageTutorialTask(TypesyncModel):
+    groupId: int
+    projectId: str
+    referenceAnswer: int
+    screen: int
+    geometry: str
+    taskId: str
+    fileName: str
+    url: str
+    width: int | TypesyncUndefined | None = UNDEFINED
+    height: int | TypesyncUndefined | None = UNDEFINED
+    annotationId: str | TypesyncUndefined | None = UNDEFINED
+    bbox: list[float] | TypesyncUndefined | None = UNDEFINED
+    segmentation: list[list[float]] | TypesyncUndefined | None = UNDEFINED
+
+    class Config:
+        use_enum_values = False
+        extra = "forbid"
+
+    @typing.override
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        if name == "width" and value is None:
+            raise ValueError("'width' field cannot be set to None")
+        if name == "height" and value is None:
+            raise ValueError("'height' field cannot be set to None")
+        if name == "annotationId" and value is None:
+            raise ValueError("'annotationId' field cannot be set to None")
+        if name == "bbox" and value is None:
+            raise ValueError("'bbox' field cannot be set to None")
+        if name == "segmentation" and value is None:
+            raise ValueError("'segmentation' field cannot be set to None")
+        super().__setattr__(name, value)
+
+
 class FbUserReadonlyType(TypesyncModel):
     """Represents user fields that cannot be updated from backend"""
 
