@@ -270,6 +270,10 @@ FbProjectUpdateInput:
       isFeatured:
         type: boolean
       lookFor:
+        optional: true
+        type: string
+      projectInstruction:
+        optional: true
         type: string
       name:
         type: string
