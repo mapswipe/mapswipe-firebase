@@ -753,7 +753,7 @@ class FbBaseTutorial(TypesyncModel):
     ] = UNDEFINED
     contributorCount: int
     informationPages: list[FbInformationPage] | TypesyncUndefined | None = UNDEFINED
-    lookFor: str
+    lookFor: str | TypesyncUndefined | None = UNDEFINED
     name: str
     progress: int
     projectDetails: str
@@ -775,6 +775,8 @@ class FbBaseTutorial(TypesyncModel):
             raise ValueError("'exampleImage2' field cannot be set to None")
         if name == "informationPages" and value is None:
             raise ValueError("'informationPages' field cannot be set to None")
+        if name == "lookFor" and value is None:
+            raise ValueError("'lookFor' field cannot be set to None")
         if name == "screens" and value is None:
             raise ValueError("'screens' field cannot be set to None")
         super().__setattr__(name, value)
