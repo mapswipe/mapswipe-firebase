@@ -21,7 +21,7 @@ jobs:
           REPO_NAME: ghcr.io/${{ github.repository }}
         run: |
           REPO_NAME=$(echo $REPO_NAME | tr '[:upper:]' '[:lower:]')
-          TAG="0.3.1-dev"
+          TAG="0.3.2-dev"
 
           # Docker
           echo "docker_image_name=${REPO_NAME}" >> $GITHUB_OUTPUT
