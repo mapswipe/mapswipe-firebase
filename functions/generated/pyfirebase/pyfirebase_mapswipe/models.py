@@ -301,7 +301,8 @@ class FbProjectUpdateInput(TypesyncModel):
 
     image: str | TypesyncUndefined | None = UNDEFINED
     isFeatured: bool
-    lookFor: str
+    lookFor: str | TypesyncUndefined | None = UNDEFINED
+    projectInstruction: str | TypesyncUndefined | None = UNDEFINED
     name: str
     projectDetails: str
     projectNumber: int
@@ -323,6 +324,10 @@ class FbProjectUpdateInput(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         if name == "image" and value is None:
             raise ValueError("'image' field cannot be set to None")
+        if name == "lookFor" and value is None:
+            raise ValueError("'lookFor' field cannot be set to None")
+        if name == "projectInstruction" and value is None:
+            raise ValueError("'projectInstruction' field cannot be set to None")
         if name == "manualUrl" and value is None:
             raise ValueError("'manualUrl' field cannot be set to None")
         if name == "teamId" and value is None:
@@ -748,7 +753,7 @@ class FbBaseTutorial(TypesyncModel):
     ] = UNDEFINED
     contributorCount: int
     informationPages: list[FbInformationPage] | TypesyncUndefined | None = UNDEFINED
-    lookFor: str
+    lookFor: str | TypesyncUndefined | None = UNDEFINED
     name: str
     progress: int
     projectDetails: str
@@ -770,6 +775,8 @@ class FbBaseTutorial(TypesyncModel):
             raise ValueError("'exampleImage2' field cannot be set to None")
         if name == "informationPages" and value is None:
             raise ValueError("'informationPages' field cannot be set to None")
+        if name == "lookFor" and value is None:
+            raise ValueError("'lookFor' field cannot be set to None")
         if name == "screens" and value is None:
             raise ValueError("'screens' field cannot be set to None")
         super().__setattr__(name, value)
