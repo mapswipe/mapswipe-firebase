@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/toggle-corp/typesync/refs/tags/v1.0.0/schema.local.json
+
+FbBaseObjCustomSubOption:
+  model: alias
+  docs: Represents a custom sub-option
+  type:
+    type: object
+    fields:
+      value:
+        type: int
+      description:
+        type: string
+
+FbObjCustomOption:
+  model: alias
+  docs: Represents a custom option
+  type:
+    type: object
+    fields:
+      value:
+        type: int
+      title:
+        type: string
+      description:
+        type: string
+      # FIXME: Do we add enum here?
+      icon:
+        type: string
+      iconColor:
+        type: string
+      subOptions:
+        optional: true
+        type:
+          type: list
+          elementType: FbBaseObjCustomSubOption

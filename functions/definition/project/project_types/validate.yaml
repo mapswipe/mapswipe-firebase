@@ -1,0 +1,61 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/toggle-corp/typesync/refs/tags/v1.0.0/schema.local.json
+
+FbEnumValidateInputType:
+  model: alias
+  type:
+    type: enum
+    members:
+      - label: 'AOI_FILE'
+        value: 'aoi_file'
+      - label: 'LINK'
+        value: 'link'
+      - label: 'TMID'
+        value: 'TMId'
+
+FbProjectValidateCreateOnlyInput:
+  model: alias
+  docs: Represents VALIDATE project fields that are valid while creating a project
+  type:
+    type: object
+    fields:
+      customOptions:
+        optional: true
+        type:
+          type: list
+          elementType: FbObjCustomOption
+      tileServer:
+        type: FbObjRasterTileServer
+      inputType:
+        type: FbEnumValidateInputType
+
+      # NOTE: available for aoi_file and TMId
+      filter:
+        type: string
+        optional: true
+      # NOTE: available for TMId
+      TMId:
+        type: string
+        optional: true
+
+FbMappingGroupValidateCreateOnlyInput:
+  model: alias
+  docs: Represents VALIDATE mapping group fields that are valid while creating a mapping group
+  type:
+    type: object
+    fields:
+      groupId:
+        type: string
+
+FbMappingTaskValidateCreateOnlyInput:
+  model: alias
+  docs: Represents VALIDATE mapping task fields that are valid while creating a task
+  type:
+    type: object
+    fields:
+      taskId:
+        type: string
+      geojson:
+        # NOTE: This is not optional
+        type:
+          type: map
+          valueType: any

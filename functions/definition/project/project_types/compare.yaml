@@ -1,0 +1,37 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/toggle-corp/typesync/refs/tags/v1.0.0/schema.local.json
+
+FbProjectCompareCreateOnlyInput:
+  model: alias
+  docs: Represents COMPARE project fields that are valid while creating a project
+  type:
+    type: object
+    fields:
+      zoomLevel:
+        type: int
+      tileServer:
+        type: FbObjRasterTileServer
+      tileServerB:
+        type: FbObjRasterTileServer
+
+FbMappingTaskCompareCreateOnlyInput:
+  model: alias
+  docs: Represents COMPARE mapping task fields that are valid while creating a task
+  type:
+    type: object
+    fields:
+      groupId:
+        type: string
+      taskId:
+        type: string
+      taskX:
+        type: int
+        optional: true
+      taskY:
+        type: int
+        optional: true
+      url:
+        type: string
+        optional: true
+      urlB:
+        type: string
+        optional: true

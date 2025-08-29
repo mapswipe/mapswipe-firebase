@@ -1,0 +1,54 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/toggle-corp/typesync/refs/tags/v1.0.0/schema.local.json
+
+FbEnumRasterTileServerName:
+  model: alias
+  docs: Represents supported raster tile server
+  type:
+    type: enum
+    members:
+      - label: CUSTOM
+        value: custom
+      - label: BING
+        value: bing
+      - label: MAPBOX
+        value: mapbox
+      - label: MAXAR_STANDARD
+        value: maxarStandard
+      - label: MAXAR_PREMIUM
+        value: maxarPremium
+      - label: ESRI
+        value: esri
+      - label: ESRI_BETA
+        value: esriBeta
+
+FbObjRasterTileServer:
+  model: alias
+  docs: Represents a raster tile server configuration
+  type:
+    type: object
+    fields:
+      apiKey:
+        optional: true
+        type: string
+      wmtsLayerName:
+        deprecated: true
+        optional: true
+        type: string
+      credits:
+        type: string
+      name:
+        type: FbEnumRasterTileServerName
+      url:
+        type: string
+
+FbObjRasterTileServerOverlay:
+  model: alias
+  docs: Represents an overlay layer for raster layer
+  type:
+    type: object
+    fields:
+      tileServer:
+        type: FbObjRasterTileServer
+      opacity:
+        type: double
+
