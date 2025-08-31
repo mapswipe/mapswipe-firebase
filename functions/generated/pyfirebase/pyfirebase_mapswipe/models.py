@@ -1106,6 +1106,8 @@ class FbUserGroupUpdateInput(TypesyncModel):
     description: str
     name: str
     nameKey: typing.Annotated[str, pydantic.Field(deprecated=True)]
+    archivedAt: int | TypesyncUndefined | None = UNDEFINED
+    archivedBy: str | TypesyncUndefined | None = UNDEFINED
 
     class Config:
         use_enum_values = False
@@ -1113,6 +1115,10 @@ class FbUserGroupUpdateInput(TypesyncModel):
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
+        if name == "archivedAt" and value is None:
+            raise ValueError("'archivedAt' field cannot be set to None")
+        if name == "archivedBy" and value is None:
+            raise ValueError("'archivedBy' field cannot be set to None")
         super().__setattr__(name, value)
 
 
