@@ -72,7 +72,7 @@ FbUserGroupMembership:
       action:
         type: FbEnumUserGroupMembershipAction
       timestamp:
-        type: timestamp
+        type: int
       userGroupId:
         type: string
       userId:

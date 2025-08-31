@@ -1135,7 +1135,7 @@ class FbUserGroupMembership(TypesyncModel):
     """Represents a user contribution"""
 
     action: FbEnumUserGroupMembershipAction
-    timestamp: datetime.datetime
+    timestamp: int
     userGroupId: str
     userId: str
 
