@@ -49,6 +49,12 @@ FbUserGroupUpdateInput:
       nameKey:
         type: string
         deprecated: true
+      archivedAt:
+        type: int
+        optional: true
+      archivedBy:
+        type: string
+        optional: true
 
 FbUserGroupObsolete:
   model: alias
@@ -72,7 +78,7 @@ FbUserGroupMembership:
       action:
         type: FbEnumUserGroupMembershipAction
       timestamp:
-        type: timestamp
+        type: int
       userGroupId:
         type: string
       userId:
