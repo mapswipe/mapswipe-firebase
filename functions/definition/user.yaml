@@ -8,16 +8,23 @@ FbUserReadonlyType:
     fields:
       created:
         type: timestamp
+      lastAppUse:
+        type: timestamp
+        optional: true
       userName:
         type: string
+        deprecated: true
+        optional: true
       userNameKey:
         type: string
         deprecated: true
+        optional: true
       username:
         type: string
       usernameKey:
+        # NOTE: web does not set usernameKey
         type: string
-        deprecated: true
+        optional: true
       accessibility:
         optional: true
         type: boolean
@@ -26,6 +33,20 @@ FbUserReadonlyType:
         type:
           type: map
           valueType: unknown
+      contributions:
+        optional: true
+        type:
+          type: map
+          valueType: unknown
+      taskContributionCount:
+        optional: true
+        type: int
+      groupContributionCount:
+        optional: true
+        type: int
+      projectContributionCount:
+        optional: true
+        type: int
 
 FbUserUpdateInput:
   model: alias
