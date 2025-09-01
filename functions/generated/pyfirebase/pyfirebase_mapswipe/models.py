@@ -1012,12 +1012,23 @@ class FbUserReadonlyType(TypesyncModel):
     """Represents user fields that cannot be updated from backend"""
 
     created: datetime.datetime
-    userName: str
-    userNameKey: typing.Annotated[str, pydantic.Field(deprecated=True)]
+    lastAppUse: datetime.datetime | TypesyncUndefined | None = UNDEFINED
+    userName: typing.Annotated[
+        str | TypesyncUndefined | None,
+        pydantic.Field(deprecated=True),
+    ] = UNDEFINED
+    userNameKey: typing.Annotated[
+        str | TypesyncUndefined | None,
+        pydantic.Field(deprecated=True),
+    ] = UNDEFINED
     username: str
-    usernameKey: typing.Annotated[str, pydantic.Field(deprecated=True)]
+    usernameKey: str | TypesyncUndefined | None = UNDEFINED
     accessibility: bool | TypesyncUndefined | None = UNDEFINED
     userGroups: dict[str, typing.Any] | TypesyncUndefined | None = UNDEFINED
+    contributions: dict[str, typing.Any] | TypesyncUndefined | None = UNDEFINED
+    taskContributionCount: int | TypesyncUndefined | None = UNDEFINED
+    groupContributionCount: int | TypesyncUndefined | None = UNDEFINED
+    projectContributionCount: int | TypesyncUndefined | None = UNDEFINED
 
     class Config:
         use_enum_values = False
@@ -1025,10 +1036,26 @@ class FbUserReadonlyType(TypesyncModel):
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
+        if name == "lastAppUse" and value is None:
+            raise ValueError("'lastAppUse' field cannot be set to None")
+        if name == "userName" and value is None:
+            raise ValueError("'userName' field cannot be set to None")
+        if name == "userNameKey" and value is None:
+            raise ValueError("'userNameKey' field cannot be set to None")
+        if name == "usernameKey" and value is None:
+            raise ValueError("'usernameKey' field cannot be set to None")
         if name == "accessibility" and value is None:
             raise ValueError("'accessibility' field cannot be set to None")
         if name == "userGroups" and value is None:
             raise ValueError("'userGroups' field cannot be set to None")
+        if name == "contributions" and value is None:
+            raise ValueError("'contributions' field cannot be set to None")
+        if name == "taskContributionCount" and value is None:
+            raise ValueError("'taskContributionCount' field cannot be set to None")
+        if name == "groupContributionCount" and value is None:
+            raise ValueError("'groupContributionCount' field cannot be set to None")
+        if name == "projectContributionCount" and value is None:
+            raise ValueError("'projectContributionCount' field cannot be set to None")
         super().__setattr__(name, value)
 
 
