@@ -120,6 +120,7 @@ class FbEnumProjectType(enum.Enum):
     VALIDATE_IMAGE = 10
     COMPARE = 3
     COMPLETENESS = 4
+    STREET = 7
 
 
 class FbProjectReadonlyType(TypesyncModel):
@@ -337,6 +338,52 @@ class FbMappingTaskCompareCreateOnlyInput(TypesyncModel):
 class FbEnumOverlayTileServerType(enum.Enum):
     RASTER = "raster"
     VECTOR = "vector"
+
+
+class FbProjectStreetCreateOnlyInput(TypesyncModel):
+    """Represents STREET project fields that are valid while creating a project"""
+
+    customOptions: list[FbObjCustomOption] | TypesyncUndefined | None = UNDEFINED
+    numberOfGroups: int
+
+    class Config:
+        use_enum_values = False
+        extra = "forbid"
+
+    @typing.override
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        if name == "customOptions" and value is None:
+            raise ValueError("'customOptions' field cannot be set to None")
+        super().__setattr__(name, value)
+
+
+class FbMappingGroupStreetCreateOnlyInput(TypesyncModel):
+    """Represents STREET mapping group fields that are valid while creating a mapping group"""
+
+    groupId: str
+
+    class Config:
+        use_enum_values = False
+        extra = "forbid"
+
+    @typing.override
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+
+class FbMappingTaskStreetCreateOnlyInput(TypesyncModel):
+    """Represents STREET mapping task fields that are valid while creating a task"""
+
+    taskId: str
+    groupId: str
+
+    class Config:
+        use_enum_values = False
+        extra = "forbid"
+
+    @typing.override
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
 
 
 class FbMappingGroupTileMapServiceCreateOnlyInput(TypesyncModel):
@@ -1005,6 +1052,37 @@ class FbValidateImageTutorialTask(TypesyncModel):
             raise ValueError("'bbox' field cannot be set to None")
         if name == "segmentation" and value is None:
             raise ValueError("'segmentation' field cannot be set to None")
+        super().__setattr__(name, value)
+
+
+class FbStreetTutorial(TypesyncModel):
+    projectType: typing.Literal[7]
+    zoomLevel: typing.Annotated[int, pydantic.Field(deprecated=True)]
+    customOptions: list[FbObjCustomOption] | TypesyncUndefined | None = UNDEFINED
+
+    class Config:
+        use_enum_values = False
+        extra = "forbid"
+
+    @typing.override
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        if name == "customOptions" and value is None:
+            raise ValueError("'customOptions' field cannot be set to None")
+        super().__setattr__(name, value)
+
+
+class FbStreetTutorialTask(TypesyncModel):
+    taskId: str
+    geometry: str
+    referenceAnswer: int
+    screen: int
+
+    class Config:
+        use_enum_values = False
+        extra = "forbid"
+
+    @typing.override
+    def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
 

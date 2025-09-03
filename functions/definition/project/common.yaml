@@ -36,6 +36,8 @@ FbEnumProjectType:
         value: 3
       - label: 'COMPLETENESS'
         value: 4
+      - label: 'STREET'
+        value: 7
 
 FbProjectReadonlyType:
   model: alias

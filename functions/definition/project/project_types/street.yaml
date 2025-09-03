@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/toggle-corp/typesync/refs/tags/v1.0.0/schema.local.json
+
+FbProjectStreetCreateOnlyInput:
+  model: alias
+  docs: Represents STREET project fields that are valid while creating a project
+  type:
+    type: object
+    fields:
+      customOptions:
+        optional: true
+        type:
+          type: list
+          elementType: FbObjCustomOption
+      numberOfGroups:
+        type: int
+
+FbMappingGroupStreetCreateOnlyInput:
+  model: alias
+  docs: Represents STREET mapping group fields that are valid while creating a mapping group
+  type:
+    type: object
+    fields:
+      groupId:
+        type: string
+
+FbMappingTaskStreetCreateOnlyInput:
+  model: alias
+  docs: Represents STREET mapping task fields that are valid while creating a task
+  type:
+    type: object
+    fields:
+      taskId:
+        type: string
+      groupId:
+        type: string
