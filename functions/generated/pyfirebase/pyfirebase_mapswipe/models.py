@@ -110,6 +110,7 @@ class FbEnumProjectStatus(enum.Enum):
     PRIVATE_INACTIVE = "private_inactive"
     PRIVATE_ACTIVE = "private_active"
     FINISHED = "finished"
+    PRIVATE_FINISHED = "private_finished"
 
 
 class FbEnumProjectType(enum.Enum):
