@@ -19,6 +19,8 @@ FbEnumProjectStatus:
         value: private_active
       - label: "FINISHED"
         value: finished
+      - label: "PRIVATE_FINISHED"
+        value: private_finished
 
 FbEnumProjectType:
   model: alias
