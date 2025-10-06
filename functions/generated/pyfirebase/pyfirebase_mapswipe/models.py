@@ -127,8 +127,6 @@ class FbEnumProjectType(enum.Enum):
 class FbProjectReadonlyType(TypesyncModel):
     """Represents project fields that cannot be updated from backend"""
 
-    contributorCount: int
-    progress: int
     resultCount: int
 
     class Config:
@@ -159,6 +157,8 @@ class FbProjectUpdateInput(TypesyncModel):
     manualUrl: str | TypesyncUndefined | None = UNDEFINED
     teamId: str | TypesyncUndefined | None = UNDEFINED
     status: FbEnumProjectStatus
+    contributorCount: int
+    progress: int
 
     class Config:
         use_enum_values = False
