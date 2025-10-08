@@ -47,10 +47,6 @@ FbProjectReadonlyType:
   type:
     type: object
     fields:
-      contributorCount:
-        type: int
-      progress:
-        type: int
       resultCount:
         type: int
 
@@ -99,6 +95,13 @@ FbProjectUpdateInput:
         type: string
       status:
         type: FbEnumProjectStatus
+      maxTasksPerUser:
+        optional: true
+        type: int
+      contributorCount:
+        type: int
+      progress:
+        type: int
 
 FbProjectCreateOnlyInput:
   model: alias
@@ -113,9 +116,6 @@ FbProjectCreateOnlyInput:
       groupMaxSize:
         type: int
       groupSize:
-        type: int
-      maxTasksPerUser:
-        optional: true
         type: int
       projectId:
         type: string
