@@ -157,6 +157,7 @@ class FbProjectUpdateInput(TypesyncModel):
     manualUrl: str | TypesyncUndefined | None = UNDEFINED
     teamId: str | TypesyncUndefined | None = UNDEFINED
     status: FbEnumProjectStatus
+    maxTasksPerUser: int | TypesyncUndefined | None = UNDEFINED
     contributorCount: int
     progress: int
 
@@ -176,6 +177,8 @@ class FbProjectUpdateInput(TypesyncModel):
             raise ValueError("'manualUrl' field cannot be set to None")
         if name == "teamId" and value is None:
             raise ValueError("'teamId' field cannot be set to None")
+        if name == "maxTasksPerUser" and value is None:
+            raise ValueError("'maxTasksPerUser' field cannot be set to None")
         super().__setattr__(name, value)
 
 
@@ -186,7 +189,6 @@ class FbProjectCreateOnlyInput(TypesyncModel):
     createdBy: str
     groupMaxSize: int
     groupSize: int
-    maxTasksPerUser: int | TypesyncUndefined | None = UNDEFINED
     projectId: str
     projectType: FbEnumProjectType
     requiredResults: int
@@ -198,8 +200,6 @@ class FbProjectCreateOnlyInput(TypesyncModel):
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
-        if name == "maxTasksPerUser" and value is None:
-            raise ValueError("'maxTasksPerUser' field cannot be set to None")
         super().__setattr__(name, value)
 
 

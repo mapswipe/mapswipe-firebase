@@ -95,6 +95,9 @@ FbProjectUpdateInput:
         type: string
       status:
         type: FbEnumProjectStatus
+      maxTasksPerUser:
+        optional: true
+        type: int
       contributorCount:
         type: int
       progress:
@@ -113,9 +116,6 @@ FbProjectCreateOnlyInput:
       groupMaxSize:
         type: int
       groupSize:
-        type: int
-      maxTasksPerUser:
-        optional: true
         type: int
       projectId:
         type: string
