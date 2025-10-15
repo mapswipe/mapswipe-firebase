@@ -50,6 +50,17 @@ FbProjectReadonlyType:
       resultCount:
         type: int
 
+FbProjectUpdateStatsInput:
+  model: alias
+  docs: Represents project fields that are valid while updating a project stats
+  type:
+    type: object
+    fields:
+      contributorCount:
+        type: int
+      progress:
+        type: int
+
 FbProjectUpdateInput:
   model: alias
   docs: Represents project fields that are valid while updating a project
