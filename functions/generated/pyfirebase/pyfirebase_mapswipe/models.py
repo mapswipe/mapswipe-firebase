@@ -138,6 +138,21 @@ class FbProjectReadonlyType(TypesyncModel):
         super().__setattr__(name, value)
 
 
+class FbProjectUpdateStatsInput(TypesyncModel):
+    """Represents project fields that are valid while updating a project stats"""
+
+    contributorCount: int
+    progress: int
+
+    class Config:
+        use_enum_values = False
+        extra = "forbid"
+
+    @typing.override
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+
 class FbProjectUpdateInput(TypesyncModel):
     """Represents project fields that are valid while updating a project"""
 
