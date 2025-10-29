@@ -21,6 +21,7 @@ FbUserReadonlyType:
         optional: true
       username:
         type: string
+        optional: true  # XXX: For OSM users this is not provided
       usernameKey:
         # NOTE: web does not set usernameKey
         type: string

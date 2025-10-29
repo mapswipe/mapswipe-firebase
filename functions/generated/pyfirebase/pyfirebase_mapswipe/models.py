@@ -1116,7 +1116,7 @@ class FbUserReadonlyType(TypesyncModel):
         str | TypesyncUndefined | None,
         pydantic.Field(deprecated=True),
     ] = UNDEFINED
-    username: str
+    username: str | TypesyncUndefined | None = UNDEFINED
     usernameKey: str | TypesyncUndefined | None = UNDEFINED
     accessibility: bool | TypesyncUndefined | None = UNDEFINED
     userGroups: dict[str, typing.Any] | TypesyncUndefined | None = UNDEFINED
@@ -1137,6 +1137,8 @@ class FbUserReadonlyType(TypesyncModel):
             raise ValueError("'userName' field cannot be set to None")
         if name == "userNameKey" and value is None:
             raise ValueError("'userNameKey' field cannot be set to None")
+        if name == "username" and value is None:
+            raise ValueError("'username' field cannot be set to None")
         if name == "usernameKey" and value is None:
             raise ValueError("'usernameKey' field cannot be set to None")
         if name == "accessibility" and value is None:
