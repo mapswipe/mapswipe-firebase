@@ -30,6 +30,6 @@ FbMappingTaskStreetCreateOnlyInput:
     type: object
     fields:
       taskId:
-        type: int
+        type: string
       groupId:
         type: string
