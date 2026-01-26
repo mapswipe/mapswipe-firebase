@@ -40,6 +40,8 @@ FbEnumProjectType:
         value: 4
       - label: 'STREET'
         value: 7
+      - label: 'CONFLATION'
+        value: 8
 
 FbProjectReadonlyType:
   model: alias
@@ -176,7 +178,7 @@ FbMappingTaskCreateOnlyInput:
 FbMappingResult:
   model: alias
   # path: results/{projectId}/{groupId}/{userId}
-  docs: Represents a mapswipe project
+  docs: Represents a mapswipe result
   type:
     type: object
     fields:
@@ -190,6 +192,11 @@ FbMappingResult:
         type: timestamp
       startTime:
         type: timestamp
+      reference:
+        optional: true
+        type:
+          type: map
+          valueType: FbConflationReferenceEntry
       results:
         optional: true
         type:

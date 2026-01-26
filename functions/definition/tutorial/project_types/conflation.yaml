@@ -1,0 +1,46 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/toggle-corp/typesync/refs/tags/v1.0.0/schema.local.json
+
+FbConflationTutorial:
+  model: alias
+  type:
+    type: object
+    fields:
+      # NOTE: local path to geometry file
+      inputGeometries:
+        type: string
+        deprecated: true
+      projectType:
+        type:
+          type: literal
+          value: 8
+      tileServer:
+        type: FbObjRasterTileServer
+      zoomLevel:
+        type: int
+        deprecated: true
+
+FbConflationTutorialTaskProperties:
+  model: alias
+  type:
+    type: object
+    fields:
+      id:
+        type: int
+      screen:
+        type: int
+      reference:
+        type: int
+
+FbConflationTutorialTask:
+  model: alias
+  type:
+    type: object
+    fields:
+      taskId:
+        type: string
+      geojson: # NOTE: polygon geometry object
+        type: unknown
+      properties:
+        type: FbConflationTutorialTaskProperties
+      geometry: # NOTE: geometry as WKT
+        type: string

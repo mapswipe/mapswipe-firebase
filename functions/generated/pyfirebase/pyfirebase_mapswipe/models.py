@@ -122,6 +122,7 @@ class FbEnumProjectType(enum.Enum):
     COMPARE = 3
     COMPLETENESS = 4
     STREET = 7
+    CONFLATION = 8
 
 
 class FbProjectReadonlyType(TypesyncModel):
@@ -263,31 +264,6 @@ class FbMappingTaskCreateOnlyInput(TypesyncModel):
         super().__setattr__(name, value)
 
 
-class FbMappingResult(TypesyncModel):
-    """Represents a mapswipe project"""
-
-    appVersion: str
-    clientType: str | TypesyncUndefined | None = UNDEFINED
-    endTime: datetime.datetime
-    startTime: datetime.datetime
-    results: dict[str, int] | TypesyncUndefined | None = UNDEFINED
-    usergroups: dict[str, bool] | TypesyncUndefined | None = UNDEFINED
-
-    class Config:
-        use_enum_values = False
-        extra = "forbid"
-
-    @typing.override
-    def __setattr__(self, name: str, value: typing.Any) -> None:
-        if name == "clientType" and value is None:
-            raise ValueError("'clientType' field cannot be set to None")
-        if name == "results" and value is None:
-            raise ValueError("'results' field cannot be set to None")
-        if name == "usergroups" and value is None:
-            raise ValueError("'usergroups' field cannot be set to None")
-        super().__setattr__(name, value)
-
-
 class FbBaseObjCustomSubOption(TypesyncModel):
     """Represents a custom sub-option"""
 
@@ -354,6 +330,88 @@ class FbMappingTaskCompareCreateOnlyInput(TypesyncModel):
 class FbEnumOverlayTileServerType(enum.Enum):
     RASTER = "raster"
     VECTOR = "vector"
+
+
+class FbMappingGroupConflationCreateOnlyInput(TypesyncModel):
+    """Represents CONFLATION mapping group fields that are valid while creating a mapping group"""
+
+    groupId: str
+
+    class Config:
+        use_enum_values = False
+        extra = "forbid"
+
+    @typing.override
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+
+class FbMappingTaskConflationCreateOnlyInput(TypesyncModel):
+    """Represents CONFLATION mapping task fields that are valid while creating a task"""
+
+    taskId: str
+    geojson: dict[str, typing.Any]
+
+    class Config:
+        use_enum_values = False
+        extra = "forbid"
+
+    @typing.override
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+
+class FbConflationReferenceEntry(TypesyncModel):
+    """Represents the OSM reference features in CONFLATION mapping results"""
+
+    numberIntersecting: int
+    osmId: int | TypesyncUndefined | None = UNDEFINED
+    osmType: str | TypesyncUndefined | None = UNDEFINED
+    version: int | TypesyncUndefined | None = UNDEFINED
+
+    class Config:
+        use_enum_values = False
+        extra = "forbid"
+
+    @typing.override
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        if name == "osmId" and value is None:
+            raise ValueError("'osmId' field cannot be set to None")
+        if name == "osmType" and value is None:
+            raise ValueError("'osmType' field cannot be set to None")
+        if name == "version" and value is None:
+            raise ValueError("'version' field cannot be set to None")
+        super().__setattr__(name, value)
+
+
+class FbMappingResult(TypesyncModel):
+    """Represents a mapswipe result"""
+
+    appVersion: str
+    clientType: str | TypesyncUndefined | None = UNDEFINED
+    endTime: datetime.datetime
+    startTime: datetime.datetime
+    reference: dict[str, FbConflationReferenceEntry] | TypesyncUndefined | None = (
+        UNDEFINED
+    )
+    results: dict[str, int] | TypesyncUndefined | None = UNDEFINED
+    usergroups: dict[str, bool] | TypesyncUndefined | None = UNDEFINED
+
+    class Config:
+        use_enum_values = False
+        extra = "forbid"
+
+    @typing.override
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        if name == "clientType" and value is None:
+            raise ValueError("'clientType' field cannot be set to None")
+        if name == "reference" and value is None:
+            raise ValueError("'reference' field cannot be set to None")
+        if name == "results" and value is None:
+            raise ValueError("'results' field cannot be set to None")
+        if name == "usergroups" and value is None:
+            raise ValueError("'usergroups' field cannot be set to None")
+        super().__setattr__(name, value)
 
 
 class FbProjectStreetCreateOnlyInput(TypesyncModel):
@@ -564,6 +622,20 @@ class FbProjectCompareCreateOnlyInput(TypesyncModel):
     zoomLevel: int
     tileServer: FbObjRasterTileServer
     tileServerB: FbObjRasterTileServer
+
+    class Config:
+        use_enum_values = False
+        extra = "forbid"
+
+    @typing.override
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+
+class FbProjectConflationCreateOnlyInput(TypesyncModel):
+    """Represents CONFLATION project fields that are valid while creating a project"""
+
+    tileServer: FbObjRasterTileServer
 
     class Config:
         use_enum_values = False
@@ -904,6 +976,50 @@ class FbCompletenessTutorial(TypesyncModel):
 class FbCompletenessTutorialTask(TypesyncModel):
     url: str
     urlB: str
+
+    class Config:
+        use_enum_values = False
+        extra = "forbid"
+
+    @typing.override
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+
+class FbConflationTutorial(TypesyncModel):
+    inputGeometries: typing.Annotated[str, pydantic.Field(deprecated=True)]
+    projectType: typing.Literal[8]
+    tileServer: FbObjRasterTileServer
+    zoomLevel: typing.Annotated[int, pydantic.Field(deprecated=True)]
+
+    class Config:
+        use_enum_values = False
+        extra = "forbid"
+
+    @typing.override
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+
+class FbConflationTutorialTaskProperties(TypesyncModel):
+    id: int
+    screen: int
+    reference: int
+
+    class Config:
+        use_enum_values = False
+        extra = "forbid"
+
+    @typing.override
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+
+class FbConflationTutorialTask(TypesyncModel):
+    taskId: str
+    geojson: typing.Any
+    properties: FbConflationTutorialTaskProperties
+    geometry: str
 
     class Config:
         use_enum_values = False

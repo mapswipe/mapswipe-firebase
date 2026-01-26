@@ -1,0 +1,52 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/toggle-corp/typesync/refs/tags/v1.0.0/schema.local.json
+
+FbProjectConflationCreateOnlyInput:
+  model: alias
+  docs: Represents CONFLATION project fields that are valid while creating a project
+  type:
+    type: object
+    fields:
+      tileServer:
+        type: FbObjRasterTileServer
+
+FbMappingGroupConflationCreateOnlyInput:
+  model: alias
+  docs: Represents CONFLATION mapping group fields that are valid while creating a mapping group
+  type:
+    type: object
+    fields:
+      groupId:
+        type: string
+
+FbMappingTaskConflationCreateOnlyInput:
+  model: alias
+  docs: Represents CONFLATION mapping task fields that are valid while creating a task
+  type:
+    type: object
+    fields:
+      taskId:
+        type: string
+      geojson:
+        # NOTE: This is not optional
+        type:
+          type: map
+          valueType: any
+
+FbConflationReferenceEntry:
+  model: alias
+  docs: Represents the OSM reference features in CONFLATION mapping results
+  type:
+    type: object
+    fields:
+      numberIntersecting:
+        type: int
+      # NOTE: osmID, osmType, and version only to be provided when numberIntersection == 1
+      osmId:
+        type: int
+        optional: true
+      osmType:
+        type: string
+        optional: true
+      version:
+        type: int
+        optional: true
