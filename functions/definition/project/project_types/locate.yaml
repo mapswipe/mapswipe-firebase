@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/toggle-corp/typesync/refs/tags/v1.0.0/schema.local.json
+
+FBEnumSubGridSize:
+  model: alias
+  type:
+    type: enum
+    members:
+      - label: 'SIZE_2X2'
+        value: '2x2'
+      - label: 'SIZE_4X4'
+        value: '4x4'
+      - label: 'SIZE_8X8'
+        value: '8x8'
+
+FbProjectLocateCreateOnlyInput:
+  model: alias
+  docs: Represents LOCATE project fields that are valid while creating a project
+  type:
+    type: object
+    fields:
+      zoomLevel:
+        type: int
+      tileServer:
+        type: FbObjRasterTileServer
+      subGridSize:
+        type: FBEnumSubGridSize

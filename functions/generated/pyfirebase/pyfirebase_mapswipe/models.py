@@ -122,6 +122,7 @@ class FbEnumProjectType(enum.Enum):
     COMPARE = 3
     COMPLETENESS = 4
     STREET = 7
+    LOCATE = 8
 
 
 class FbProjectReadonlyType(TypesyncModel):
@@ -356,6 +357,12 @@ class FbEnumOverlayTileServerType(enum.Enum):
     VECTOR = "vector"
 
 
+class FBEnumSubGridSize(enum.Enum):
+    SIZE_2X2 = "2x2"
+    SIZE_4X4 = "4x4"
+    SIZE_8X8 = "8x8"
+
+
 class FbProjectStreetCreateOnlyInput(TypesyncModel):
     """Represents STREET project fields that are valid while creating a project"""
 
@@ -579,6 +586,22 @@ class FbProjectFindCreateOnlyInput(TypesyncModel):
 
     zoomLevel: int
     tileServer: FbObjRasterTileServer
+
+    class Config:
+        use_enum_values = False
+        extra = "forbid"
+
+    @typing.override
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+
+class FbProjectLocateCreateOnlyInput(TypesyncModel):
+    """Represents LOCATE project fields that are valid while creating a project"""
+
+    zoomLevel: int
+    tileServer: FbObjRasterTileServer
+    subGridSize: FBEnumSubGridSize
 
     class Config:
         use_enum_values = False
