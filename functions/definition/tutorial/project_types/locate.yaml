@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/toggle-corp/typesync/refs/tags/v1.0.0/schema.local.json
+
+FbLocateTutorial:
+  model: alias
+  type:
+    type: object
+    fields:
+      projectType:
+        type:
+          type: literal
+          value: 9
+      tileServer:
+        type: FbObjRasterTileServer
+      subGridSize:
+        type: FBEnumSubGridSize
+      zoomLevel:
+        type: int
+
+FbLocateTutorialTask:
+  model: alias
+  type:
+    type: object
+    fields:
+      url:
+        type: string

@@ -76,3 +76,13 @@ class FbCompletenessTutorialTaskComplete(
         use_enum_values = True
         frozen = True
         extra = "forbid"
+
+
+class FbLocateTutorialTaskComplete(
+    models.FbTileMapServiceTutorialTask,
+    models.FbLocateTutorialTask,
+):
+    class Config:  # type: ignore[reportIncompatibleVariableOverride]
+        use_enum_values = True
+        frozen = True
+        extra = "forbid"
