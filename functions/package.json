@@ -5,7 +5,7 @@
     "lint": "eslint --ext .js,.ts .",
     "build": "tsc",
     "build:watch": "tsc --watch",
-    "generate:ts": "typesync generate-ts --target firebase-admin@10 --definition 'definition/**/*.yaml' --indentation 4 --outFile generated/models.ts",
+    "generate:ts": "typesync generate-ts --target firebase-admin@10 --definition 'definition/**/*.yaml' --indentation 4 --outFile generated/tsfirebase/models.ts",
     "generate:py": "typesync generate-py --target firebase-admin@6 --definition 'definition/**/*.yaml' --indentation 4 --outFile generated/pyfirebase/pyfirebase_mapswipe/models.py",
     "generate:rules": "typesync generate-rules --definition 'definition/**/*.yaml' --outFile ../database.rules.json",
     "serve": "pnpm build && firebase emulators:start --only functions",
