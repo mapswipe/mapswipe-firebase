@@ -968,6 +968,33 @@ class FbFindTutorialTask(TypesyncModel):
         super().__setattr__(name, value)
 
 
+class FbLocateTutorial(TypesyncModel):
+    projectType: typing.Literal[9]
+    tileServer: FbObjRasterTileServer
+    subGridSize: FBEnumSubGridSize
+    zoomLevel: int
+
+    class Config:
+        use_enum_values = False
+        extra = "forbid"
+
+    @typing.override
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+
+class FbLocateTutorialTask(TypesyncModel):
+    url: str
+
+    class Config:
+        use_enum_values = False
+        extra = "forbid"
+
+    @typing.override
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
+
+
 class FbStreetTutorial(TypesyncModel):
     projectType: typing.Literal[7]
     customOptions: list[FbObjCustomOption] | TypesyncUndefined | None = UNDEFINED
