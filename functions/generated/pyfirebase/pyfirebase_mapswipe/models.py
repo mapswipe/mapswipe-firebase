@@ -122,7 +122,7 @@ class FbEnumProjectType(enum.Enum):
     COMPARE = 3
     COMPLETENESS = 4
     STREET = 7
-    LOCATE = 8
+    LOCATE = 9
 
 
 class FbProjectReadonlyType(TypesyncModel):
@@ -602,6 +602,9 @@ class FbProjectLocateCreateOnlyInput(TypesyncModel):
     zoomLevel: int
     tileServer: FbObjRasterTileServer
     subGridSize: FBEnumSubGridSize
+    customOptions: list[FbObjCustomOption] | TypesyncUndefined | None = UNDEFINED
+    exportMetaKey: str
+    exportMetaValue: str
 
     class Config:
         use_enum_values = False
@@ -609,6 +612,8 @@ class FbProjectLocateCreateOnlyInput(TypesyncModel):
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
+        if name == "customOptions" and value is None:
+            raise ValueError("'customOptions' field cannot be set to None")
         super().__setattr__(name, value)
 
 

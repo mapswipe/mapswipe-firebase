@@ -12,6 +12,7 @@ FBEnumSubGridSize:
       - label: 'SIZE_8X8'
         value: '8x8'
 
+
 FbProjectLocateCreateOnlyInput:
   model: alias
   docs: Represents LOCATE project fields that are valid while creating a project
@@ -24,3 +25,12 @@ FbProjectLocateCreateOnlyInput:
         type: FbObjRasterTileServer
       subGridSize:
         type: FBEnumSubGridSize
+      customOptions:
+        optional: true
+        type:
+          type: list
+          elementType: FbObjCustomOption
+      exportMetaKey:
+        type: string
+      exportMetaValue:
+        type: string
