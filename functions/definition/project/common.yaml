@@ -41,7 +41,7 @@ FbEnumProjectType:
       - label: 'STREET'
         value: 7
       - label: 'LOCATE'
-        value: 8
+        value: 9
 
 FbProjectReadonlyType:
   model: alias
