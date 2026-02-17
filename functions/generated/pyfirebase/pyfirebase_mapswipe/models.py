@@ -10,14 +10,11 @@ from pydantic_core import core_schema
 
 class TypesyncUndefined:
     """Do not use this class in your code. Use the `UNDEFINED` sentinel instead."""
-
     _instance = None
 
     def __init__(self):
         if TypesyncUndefined._instance is not None:
-            raise RuntimeError(
-                "TypesyncUndefined instances cannot be created directly. Import and use the UNDEFINED sentinel instead.",
-            )
+            raise RuntimeError("TypesyncUndefined instances cannot be created directly. Import and use the UNDEFINED sentinel instead.")
         TypesyncUndefined._instance = self
 
     @classmethod
@@ -30,10 +27,8 @@ class TypesyncUndefined:
             raise ValueError("Undefined field type is not valid")
         return value
 
-
 UNDEFINED = TypesyncUndefined()
 """A sentinel value that can be used to indicate that a value should be undefined. During serialization all values that are marked as undefined will be removed. The difference between `UNDEFINED` and `None` is that values that are set to `None` will serialize to explicit null."""
-
 
 class TypesyncModel(pydantic.BaseModel):
     def model_dump(self, **kwargs) -> dict[str, typing.Any]:
@@ -42,32 +37,19 @@ class TypesyncModel(pydantic.BaseModel):
             if isinstance(field_value, pydantic.BaseModel):
                 processed[field_name] = field_value.model_dump(**kwargs)
             elif isinstance(field_value, list):
-                processed[field_name] = [
-                    item.model_dump(**kwargs)
-                    if isinstance(item, pydantic.BaseModel)
-                    else item
-                    for item in field_value
-                ]
+                processed[field_name] = [item.model_dump(**kwargs) if isinstance(item, pydantic.BaseModel) else item for item in field_value]
             elif isinstance(field_value, dict):
-                processed[field_name] = {
-                    key: value.model_dump(**kwargs)
-                    if isinstance(value, pydantic.BaseModel)
-                    else value
-                    for key, value in field_value.items()
-                }
+                processed[field_name] = {key: value.model_dump(**kwargs) if isinstance(value, pydantic.BaseModel) else value for key, value in field_value.items()}
             elif field_value is UNDEFINED:
                 continue
             else:
                 processed[field_name] = field_value
         return processed
 
-
 # Model Definitions
-
 
 class FbAnnouncement(TypesyncModel):
     """Represents app announcements for the contributors."""
-
     url: str
     text: str
 
@@ -79,10 +61,8 @@ class FbAnnouncement(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-
 class FbOrganisation(TypesyncModel):
     """Represents the requesting organisation."""
-
     name: str
     description: str | TypesyncUndefined | None = UNDEFINED
     nameKey: typing.Annotated[str, pydantic.Field(deprecated=True)]
@@ -101,10 +81,8 @@ class FbOrganisation(TypesyncModel):
             raise ValueError("'abbreviation' field cannot be set to None")
         super().__setattr__(name, value)
 
-
 class FbEnumProjectStatus(enum.Enum):
     """Represents project status"""
-
     ACTIVE = "active"
     INACTIVE = "inactive"
     PRIVATE_INACTIVE = "private_inactive"
@@ -112,10 +90,8 @@ class FbEnumProjectStatus(enum.Enum):
     FINISHED = "finished"
     PRIVATE_FINISHED = "private_finished"
 
-
 class FbEnumProjectType(enum.Enum):
     """Represents project type"""
-
     FIND = 1
     VALIDATE = 2
     VALIDATE_IMAGE = 10
@@ -123,10 +99,8 @@ class FbEnumProjectType(enum.Enum):
     COMPLETENESS = 4
     STREET = 7
 
-
 class FbProjectReadonlyType(TypesyncModel):
     """Represents project fields that cannot be updated from backend"""
-
     resultCount: int
 
     class Config:
@@ -137,10 +111,8 @@ class FbProjectReadonlyType(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-
 class FbProjectUpdateStatsInput(TypesyncModel):
     """Represents project fields that are valid while updating a project stats"""
-
     contributorCount: int
     progress: int
 
@@ -152,10 +124,8 @@ class FbProjectUpdateStatsInput(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-
 class FbProjectUpdateInput(TypesyncModel):
     """Represents project fields that are valid while updating a project"""
-
     image: str | TypesyncUndefined | None = UNDEFINED
     isFeatured: bool
     lookFor: str | TypesyncUndefined | None = UNDEFINED
@@ -196,10 +166,8 @@ class FbProjectUpdateInput(TypesyncModel):
             raise ValueError("'maxTasksPerUser' field cannot be set to None")
         super().__setattr__(name, value)
 
-
 class FbProjectCreateOnlyInput(TypesyncModel):
     """Represents project fields that are valid while creating a project"""
-
     created: datetime.datetime
     createdBy: str
     groupMaxSize: int
@@ -217,10 +185,8 @@ class FbProjectCreateOnlyInput(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-
 class FbMappingGroupReadonlyType(TypesyncModel):
     """Represents mapping group fields that cannot be updated from backend"""
-
     finishedCount: int
     progress: int
 
@@ -232,10 +198,8 @@ class FbMappingGroupReadonlyType(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-
 class FbMappingGroupCreateOnlyInput(TypesyncModel):
     """Represents mapping group fields that are valid while creating a mapping group"""
-
     projectId: str
     numberOfTasks: int
     requiredCount: int
@@ -248,10 +212,8 @@ class FbMappingGroupCreateOnlyInput(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-
 class FbMappingTaskCreateOnlyInput(TypesyncModel):
     """Represents mapping task fields that are valid while creating a task"""
-
     projectId: str
 
     class Config:
@@ -262,10 +224,8 @@ class FbMappingTaskCreateOnlyInput(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-
 class FbMappingResult(TypesyncModel):
     """Represents a mapswipe project"""
-
     appVersion: str
     clientType: str | TypesyncUndefined | None = UNDEFINED
     endTime: datetime.datetime
@@ -287,10 +247,8 @@ class FbMappingResult(TypesyncModel):
             raise ValueError("'usergroups' field cannot be set to None")
         super().__setattr__(name, value)
 
-
 class FbBaseObjCustomSubOption(TypesyncModel):
     """Represents a custom sub-option"""
-
     value: int
     description: str
 
@@ -302,10 +260,8 @@ class FbBaseObjCustomSubOption(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-
 class FbObjCustomOption(TypesyncModel):
     """Represents a custom option"""
-
     value: int
     title: str
     description: str
@@ -323,10 +279,21 @@ class FbObjCustomOption(TypesyncModel):
             raise ValueError("'subOptions' field cannot be set to None")
         super().__setattr__(name, value)
 
+class FbObjImageProvider(TypesyncModel):
+    """Represents an street level image provider for a project"""
+    name: str
+    url: str
+
+    class Config:
+        use_enum_values = False
+        extra = "forbid"
+
+    @typing.override
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        super().__setattr__(name, value)
 
 class FbMappingTaskCompareCreateOnlyInput(TypesyncModel):
     """Represents COMPARE mapping task fields that are valid while creating a task"""
-
     groupId: str
     taskId: str
     taskX: int | TypesyncUndefined | None = UNDEFINED
@@ -350,16 +317,14 @@ class FbMappingTaskCompareCreateOnlyInput(TypesyncModel):
             raise ValueError("'urlB' field cannot be set to None")
         super().__setattr__(name, value)
 
-
 class FbEnumOverlayTileServerType(enum.Enum):
     RASTER = "raster"
     VECTOR = "vector"
 
-
 class FbProjectStreetCreateOnlyInput(TypesyncModel):
     """Represents STREET project fields that are valid while creating a project"""
-
     customOptions: list[FbObjCustomOption] | TypesyncUndefined | None = UNDEFINED
+    imageProvider: FbObjImageProvider | TypesyncUndefined | None = UNDEFINED
     numberOfGroups: int
 
     class Config:
@@ -370,12 +335,12 @@ class FbProjectStreetCreateOnlyInput(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         if name == "customOptions" and value is None:
             raise ValueError("'customOptions' field cannot be set to None")
+        if name == "imageProvider" and value is None:
+            raise ValueError("'imageProvider' field cannot be set to None")
         super().__setattr__(name, value)
-
 
 class FbMappingGroupStreetCreateOnlyInput(TypesyncModel):
     """Represents STREET mapping group fields that are valid while creating a mapping group"""
-
     groupId: str
 
     class Config:
@@ -386,10 +351,8 @@ class FbMappingGroupStreetCreateOnlyInput(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-
 class FbMappingTaskStreetCreateOnlyInput(TypesyncModel):
     """Represents STREET mapping task fields that are valid while creating a task"""
-
     taskId: str
     groupId: str
 
@@ -401,10 +364,8 @@ class FbMappingTaskStreetCreateOnlyInput(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-
 class FbMappingGroupTileMapServiceCreateOnlyInput(TypesyncModel):
     """Represents TILE_MAP_SERVICE mapping group fields that are valid while creating a mapping group"""
-
     groupId: str
     xMax: int
     xMin: int
@@ -419,16 +380,13 @@ class FbMappingGroupTileMapServiceCreateOnlyInput(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-
 class FbEnumValidateInputType(enum.Enum):
     AOI_FILE = "aoi_file"
     LINK = "link"
     TMID = "TMId"
 
-
 class FbMappingGroupValidateCreateOnlyInput(TypesyncModel):
     """Represents VALIDATE mapping group fields that are valid while creating a mapping group"""
-
     groupId: str
 
     class Config:
@@ -439,10 +397,8 @@ class FbMappingGroupValidateCreateOnlyInput(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-
 class FbMappingTaskValidateCreateOnlyInput(TypesyncModel):
     """Represents VALIDATE mapping task fields that are valid while creating a task"""
-
     taskId: str
     geojson: dict[str, typing.Any]
 
@@ -454,15 +410,12 @@ class FbMappingTaskValidateCreateOnlyInput(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-
 class FbEnumValidateImageInputType(enum.Enum):
     DIRECT_IMAGES = "direct_images"
     DATASET_FILE = "dataset_file"
 
-
 class FbProjectValidateImageCreateOnlyInput(TypesyncModel):
     """Represents VALIDATE_IMAGE project fields that are valid while creating a project"""
-
     customOptions: list[FbObjCustomOption] | TypesyncUndefined | None = UNDEFINED
 
     class Config:
@@ -475,10 +428,8 @@ class FbProjectValidateImageCreateOnlyInput(TypesyncModel):
             raise ValueError("'customOptions' field cannot be set to None")
         super().__setattr__(name, value)
 
-
 class FbMappingGroupValidateImageCreateOnlyInput(TypesyncModel):
     """Represents VALIDATE_IMAGE mapping group fields that are valid while creating a mapping group"""
-
     groupId: str
 
     class Config:
@@ -489,10 +440,8 @@ class FbMappingGroupValidateImageCreateOnlyInput(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-
 class FbMappingTaskValidateImageCreateOnlyInput(TypesyncModel):
     """Represents VALIDATE_IMAGE mapping task fields that are valid while creating a task"""
-
     taskId: str
     url: str
     fileName: str
@@ -520,10 +469,8 @@ class FbMappingTaskValidateImageCreateOnlyInput(TypesyncModel):
             raise ValueError("'segmentation' field cannot be set to None")
         super().__setattr__(name, value)
 
-
 class FbEnumRasterTileServerName(enum.Enum):
     """Represents supported raster tile server"""
-
     CUSTOM = "custom"
     BING = "bing"
     MAPBOX = "mapbox"
@@ -532,15 +479,10 @@ class FbEnumRasterTileServerName(enum.Enum):
     ESRI = "esri"
     ESRI_BETA = "esriBeta"
 
-
 class FbObjRasterTileServer(TypesyncModel):
     """Represents a raster tile server configuration"""
-
     apiKey: str | TypesyncUndefined | None = UNDEFINED
-    wmtsLayerName: typing.Annotated[
-        str | TypesyncUndefined | None,
-        pydantic.Field(deprecated=True),
-    ] = UNDEFINED
+    wmtsLayerName: typing.Annotated[str | TypesyncUndefined | None, pydantic.Field(deprecated=True)] = UNDEFINED
     credits: str
     name: FbEnumRasterTileServerName
     url: str
@@ -557,10 +499,8 @@ class FbObjRasterTileServer(TypesyncModel):
             raise ValueError("'wmtsLayerName' field cannot be set to None")
         super().__setattr__(name, value)
 
-
 class FbProjectCompareCreateOnlyInput(TypesyncModel):
     """Represents COMPARE project fields that are valid while creating a project"""
-
     zoomLevel: int
     tileServer: FbObjRasterTileServer
     tileServerB: FbObjRasterTileServer
@@ -573,10 +513,8 @@ class FbProjectCompareCreateOnlyInput(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-
 class FbProjectFindCreateOnlyInput(TypesyncModel):
     """Represents FIND project fields that are valid while creating a project"""
-
     zoomLevel: int
     tileServer: FbObjRasterTileServer
 
@@ -588,10 +526,8 @@ class FbProjectFindCreateOnlyInput(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-
 class FbProjectValidateCreateOnlyInput(TypesyncModel):
     """Represents VALIDATE project fields that are valid while creating a project"""
-
     customOptions: list[FbObjCustomOption] | TypesyncUndefined | None = UNDEFINED
     tileServer: FbObjRasterTileServer
     inputType: FbEnumValidateInputType
@@ -612,10 +548,8 @@ class FbProjectValidateCreateOnlyInput(TypesyncModel):
             raise ValueError("'TMId' field cannot be set to None")
         super().__setattr__(name, value)
 
-
 class FbObjRasterTileServerOverlay(TypesyncModel):
     """Represents an overlay layer for raster layer"""
-
     tileServer: FbObjRasterTileServer
     opacity: float
 
@@ -627,19 +561,15 @@ class FbObjRasterTileServerOverlay(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-
 class FbEnumVectorTileServerName(enum.Enum):
     """Represents supported vector tile server"""
-
     CUSTOM = "custom"
     OPEN_STREET_MAP = "openStreetMap"
     OPEN_FREE_MAP = "openFreeMap"
     VERSATILES = "versatiles"
 
-
 class FbObjVectorTileServer(TypesyncModel):
     """Represents a vector tile server configuration"""
-
     credits: str
     name: FbEnumVectorTileServerName
     sourceLayer: str
@@ -655,10 +585,8 @@ class FbObjVectorTileServer(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-
 class FbObjVectorTileServerOverlay(TypesyncModel):
     """Represents an overlay layer for vector layer"""
-
     tileServer: FbObjVectorTileServer
     fillColor: str
     fillOpacity: float
@@ -678,10 +606,8 @@ class FbObjVectorTileServerOverlay(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-
 class FbObjUnifiedOverlayTileServer(TypesyncModel):
     """Represents an overlay layer"""
-
     type: FbEnumOverlayTileServerType
     raster: FbObjRasterTileServerOverlay | TypesyncUndefined | None = UNDEFINED
     vector: FbObjVectorTileServerOverlay | TypesyncUndefined | None = UNDEFINED
@@ -698,10 +624,8 @@ class FbObjUnifiedOverlayTileServer(TypesyncModel):
             raise ValueError("'vector' field cannot be set to None")
         super().__setattr__(name, value)
 
-
 class FbProjectCompletenessCreateOnlyInput(TypesyncModel):
     """Represents COMPLETNESS project fields that are valid while creating a project"""
-
     zoomLevel: int
     tileServer: FbObjRasterTileServer
     tileServerB: FbObjRasterTileServer
@@ -715,10 +639,8 @@ class FbProjectCompletenessCreateOnlyInput(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-
 class FbTeam(TypesyncModel):
     """Represents a team to limit project visibility."""
-
     teamName: str
     teamToken: str
     isArchived: bool
@@ -731,11 +653,9 @@ class FbTeam(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-
 class FbEnumInformationPageBlockType(enum.Enum):
     TEXT = "text"
     IMAGE = "image"
-
 
 class FbInformationPageBlock(TypesyncModel):
     blockNumber: int
@@ -755,7 +675,6 @@ class FbInformationPageBlock(TypesyncModel):
             raise ValueError("'image' field cannot be set to None")
         super().__setattr__(name, value)
 
-
 class FbInformationPage(TypesyncModel):
     pageNumber: int
     title: str
@@ -771,7 +690,6 @@ class FbInformationPage(TypesyncModel):
             raise ValueError("'blocks' field cannot be set to None")
         super().__setattr__(name, value)
 
-
 class FbScreenBlock(TypesyncModel):
     title: str
     description: str
@@ -784,7 +702,6 @@ class FbScreenBlock(TypesyncModel):
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
-
 
 class FbScreen(TypesyncModel):
     hint: FbScreenBlock
@@ -799,16 +716,9 @@ class FbScreen(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-
 class FbBaseTutorial(TypesyncModel):
-    exampleImage1: typing.Annotated[
-        str | TypesyncUndefined | None,
-        pydantic.Field(deprecated=True),
-    ] = UNDEFINED
-    exampleImage2: typing.Annotated[
-        str | TypesyncUndefined | None,
-        pydantic.Field(deprecated=True),
-    ] = UNDEFINED
+    exampleImage1: typing.Annotated[str | TypesyncUndefined | None, pydantic.Field(deprecated=True)] = UNDEFINED
+    exampleImage2: typing.Annotated[str | TypesyncUndefined | None, pydantic.Field(deprecated=True)] = UNDEFINED
     contributorCount: int
     informationPages: list[FbInformationPage] | TypesyncUndefined | None = UNDEFINED
     lookFor: str | TypesyncUndefined | None = UNDEFINED
@@ -839,7 +749,6 @@ class FbBaseTutorial(TypesyncModel):
             raise ValueError("'screens' field cannot be set to None")
         super().__setattr__(name, value)
 
-
 class FbBaseTutorialGroup(TypesyncModel):
     finishedCount: int
     groupId: int
@@ -856,7 +765,6 @@ class FbBaseTutorialGroup(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-
 class FbCompareTutorial(TypesyncModel):
     projectType: typing.Literal[3]
     tileServer: FbObjRasterTileServer
@@ -871,7 +779,6 @@ class FbCompareTutorial(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-
 class FbCompareTutorialTask(TypesyncModel):
     url: str
     urlB: str
@@ -883,7 +790,6 @@ class FbCompareTutorialTask(TypesyncModel):
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
-
 
 class FbCompletenessTutorial(TypesyncModel):
     projectType: typing.Literal[4]
@@ -900,7 +806,6 @@ class FbCompletenessTutorial(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-
 class FbCompletenessTutorialTask(TypesyncModel):
     url: str
     urlB: str
@@ -912,7 +817,6 @@ class FbCompletenessTutorialTask(TypesyncModel):
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
-
 
 class FbFindTutorial(TypesyncModel):
     projectType: typing.Literal[1]
@@ -927,7 +831,6 @@ class FbFindTutorial(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-
 class FbFindTutorialTask(TypesyncModel):
     url: str
 
@@ -939,10 +842,10 @@ class FbFindTutorialTask(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-
 class FbStreetTutorial(TypesyncModel):
     projectType: typing.Literal[7]
     customOptions: list[FbObjCustomOption] | TypesyncUndefined | None = UNDEFINED
+    imageProvider: FbObjImageProvider | TypesyncUndefined | None = UNDEFINED
 
     class Config:
         use_enum_values = False
@@ -952,8 +855,9 @@ class FbStreetTutorial(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         if name == "customOptions" and value is None:
             raise ValueError("'customOptions' field cannot be set to None")
+        if name == "imageProvider" and value is None:
+            raise ValueError("'imageProvider' field cannot be set to None")
         super().__setattr__(name, value)
-
 
 class FbStreetTutorialTask(TypesyncModel):
     projectId: str
@@ -971,7 +875,6 @@ class FbStreetTutorialTask(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-
 class FbTileMapServiceTutorialGroup(TypesyncModel):
     xMax: int
     xMin: int
@@ -985,7 +888,6 @@ class FbTileMapServiceTutorialGroup(TypesyncModel):
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
-
 
 class FbTileMapServiceTutorialTask(TypesyncModel):
     geometry: str
@@ -1006,7 +908,6 @@ class FbTileMapServiceTutorialTask(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-
 class FbValidateTutorial(TypesyncModel):
     inputGeometries: typing.Annotated[str, pydantic.Field(deprecated=True)]
     projectType: typing.Literal[2]
@@ -1024,7 +925,6 @@ class FbValidateTutorial(TypesyncModel):
             raise ValueError("'customOptions' field cannot be set to None")
         super().__setattr__(name, value)
 
-
 class FbValidateTutorialTaskProperties(TypesyncModel):
     id: int
     screen: int
@@ -1037,7 +937,6 @@ class FbValidateTutorialTaskProperties(TypesyncModel):
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
-
 
 class FbValidateTutorialTask(TypesyncModel):
     taskId: str
@@ -1053,7 +952,6 @@ class FbValidateTutorialTask(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-
 class FbValidateImageTutorial(TypesyncModel):
     projectType: typing.Literal[10]
     customOptions: list[FbObjCustomOption] | TypesyncUndefined | None = UNDEFINED
@@ -1067,7 +965,6 @@ class FbValidateImageTutorial(TypesyncModel):
         if name == "customOptions" and value is None:
             raise ValueError("'customOptions' field cannot be set to None")
         super().__setattr__(name, value)
-
 
 class FbValidateImageTutorialTask(TypesyncModel):
     groupId: int
@@ -1102,20 +999,12 @@ class FbValidateImageTutorialTask(TypesyncModel):
             raise ValueError("'segmentation' field cannot be set to None")
         super().__setattr__(name, value)
 
-
 class FbUserReadonlyType(TypesyncModel):
     """Represents user fields that cannot be updated from backend"""
-
     created: datetime.datetime
     lastAppUse: datetime.datetime | TypesyncUndefined | None = UNDEFINED
-    userName: typing.Annotated[
-        str | TypesyncUndefined | None,
-        pydantic.Field(deprecated=True),
-    ] = UNDEFINED
-    userNameKey: typing.Annotated[
-        str | TypesyncUndefined | None,
-        pydantic.Field(deprecated=True),
-    ] = UNDEFINED
+    userName: typing.Annotated[str | TypesyncUndefined | None, pydantic.Field(deprecated=True)] = UNDEFINED
+    userNameKey: typing.Annotated[str | TypesyncUndefined | None, pydantic.Field(deprecated=True)] = UNDEFINED
     username: str | TypesyncUndefined | None = UNDEFINED
     usernameKey: str | TypesyncUndefined | None = UNDEFINED
     accessibility: bool | TypesyncUndefined | None = UNDEFINED
@@ -1155,10 +1044,8 @@ class FbUserReadonlyType(TypesyncModel):
             raise ValueError("'projectContributionCount' field cannot be set to None")
         super().__setattr__(name, value)
 
-
 class FbUserUpdateInput(TypesyncModel):
     """Represents a user"""
-
     teamId: str | TypesyncUndefined | None = UNDEFINED
 
     class Config:
@@ -1171,10 +1058,8 @@ class FbUserUpdateInput(TypesyncModel):
             raise ValueError("'teamId' field cannot be set to None")
         super().__setattr__(name, value)
 
-
 class FbUserContribution(TypesyncModel):
     """Represents a user contribution"""
-
     endTime: datetime.datetime
     startTime: datetime.datetime
     timestamp: datetime.datetime
@@ -1187,15 +1072,12 @@ class FbUserContribution(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-
 class FbEnumUserGroupMembershipAction(enum.Enum):
     JOIN = "join"
     LEAVE = "leave"
 
-
 class FbUserGroupReadOnlyType(TypesyncModel):
     """Represents a usergroup"""
-
     users: dict[str, typing.Any] | TypesyncUndefined | None = UNDEFINED
 
     class Config:
@@ -1208,10 +1090,8 @@ class FbUserGroupReadOnlyType(TypesyncModel):
             raise ValueError("'users' field cannot be set to None")
         super().__setattr__(name, value)
 
-
 class FbUserGroupCreateOnlyInput(TypesyncModel):
     """Represents a usergroup"""
-
     createdAt: int
     createdBy: str
 
@@ -1223,10 +1103,8 @@ class FbUserGroupCreateOnlyInput(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-
 class FbUserGroupUpdateInput(TypesyncModel):
     """Represents a usergroup"""
-
     description: str
     name: str
     nameKey: typing.Annotated[str, pydantic.Field(deprecated=True)]
@@ -1245,10 +1123,8 @@ class FbUserGroupUpdateInput(TypesyncModel):
             raise ValueError("'archivedBy' field cannot be set to None")
         super().__setattr__(name, value)
 
-
 class FbUserGroupObsolete(TypesyncModel):
     """Represents a usergroup"""
-
     name: str
     description: str
 
@@ -1260,10 +1136,8 @@ class FbUserGroupObsolete(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-
 class FbUserGroupMembership(TypesyncModel):
     """Represents a user contribution"""
-
     action: FbEnumUserGroupMembershipAction
     timestamp: int
     userGroupId: str
@@ -1277,10 +1151,8 @@ class FbUserGroupMembership(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
-
 class FbBackendWait(TypesyncModel):
     """Represents if to wait for firebase."""
-
     ok: bool
     timestamp: datetime.datetime
 
@@ -1291,3 +1163,4 @@ class FbBackendWait(TypesyncModel):
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
+
