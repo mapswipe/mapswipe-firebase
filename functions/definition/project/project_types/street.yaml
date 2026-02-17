@@ -11,6 +11,9 @@ FbProjectStreetCreateOnlyInput:
         type:
           type: list
           elementType: FbObjCustomOption
+      imageProvider:
+        optional: true
+        type: FbObjImageProvider
       numberOfGroups:
         type: int
 
