@@ -283,7 +283,7 @@ class FbObjCustomOption(TypesyncModel):
 class FbObjImageProvider(TypesyncModel):
     """Represents an street level image provider for a project"""
     name: str
-    url: str
+    url: typing.Union[str, TypesyncUndefined, None] = UNDEFINED
 
     class Config:
         use_enum_values = False
@@ -291,6 +291,8 @@ class FbObjImageProvider(TypesyncModel):
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
+        if name == "url" and value is None:
+            raise ValueError("'url' field cannot be set to None")
         super().__setattr__(name, value)
 
 class FbMappingTaskCompareCreateOnlyInput(TypesyncModel):
