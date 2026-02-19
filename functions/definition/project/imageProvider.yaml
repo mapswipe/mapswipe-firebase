@@ -10,3 +10,4 @@ FbObjImageProvider:
         type: string
       url:
         type: string
+        optional: true

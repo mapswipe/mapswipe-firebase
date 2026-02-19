@@ -1,12 +1,11 @@
 from __future__ import annotations
 
+import typing
 import datetime
 import enum
-import typing
-
 import pydantic
 from pydantic_core import core_schema
-
+from typing_extensions import Annotated
 
 class TypesyncUndefined:
     """Do not use this class in your code. Use the `UNDEFINED` sentinel instead."""
@@ -15,7 +14,8 @@ class TypesyncUndefined:
     def __init__(self):
         if TypesyncUndefined._instance is not None:
             raise RuntimeError("TypesyncUndefined instances cannot be created directly. Import and use the UNDEFINED sentinel instead.")
-        TypesyncUndefined._instance = self
+        else:
+            TypesyncUndefined._instance = self
 
     @classmethod
     def __get_pydantic_core_schema__(cls, source, handler) -> core_schema.CoreSchema:
@@ -31,7 +31,7 @@ UNDEFINED = TypesyncUndefined()
 """A sentinel value that can be used to indicate that a value should be undefined. During serialization all values that are marked as undefined will be removed. The difference between `UNDEFINED` and `None` is that values that are set to `None` will serialize to explicit null."""
 
 class TypesyncModel(pydantic.BaseModel):
-    def model_dump(self, **kwargs) -> dict[str, typing.Any]:
+    def model_dump(self, **kwargs) -> typing.Dict[str, typing.Any]:
         processed = {}
         for field_name, field_value in dict(self).items():
             if isinstance(field_value, pydantic.BaseModel):
@@ -55,7 +55,7 @@ class FbAnnouncement(TypesyncModel):
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -64,14 +64,14 @@ class FbAnnouncement(TypesyncModel):
 class FbOrganisation(TypesyncModel):
     """Represents the requesting organisation."""
     name: str
-    description: str | TypesyncUndefined | None = UNDEFINED
+    description: typing.Union[str, TypesyncUndefined, None] = UNDEFINED
     nameKey: typing.Annotated[str, pydantic.Field(deprecated=True)]
-    abbreviation: str | TypesyncUndefined | None = UNDEFINED
+    abbreviation: typing.Union[str, TypesyncUndefined, None] = UNDEFINED
     isArchived: bool
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -105,7 +105,7 @@ class FbProjectReadonlyType(TypesyncModel):
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -118,7 +118,7 @@ class FbProjectUpdateStatsInput(TypesyncModel):
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -126,10 +126,10 @@ class FbProjectUpdateStatsInput(TypesyncModel):
 
 class FbProjectUpdateInput(TypesyncModel):
     """Represents project fields that are valid while updating a project"""
-    image: str | TypesyncUndefined | None = UNDEFINED
+    image: typing.Union[str, TypesyncUndefined, None] = UNDEFINED
     isFeatured: bool
-    lookFor: str | TypesyncUndefined | None = UNDEFINED
-    projectInstruction: str | TypesyncUndefined | None = UNDEFINED
+    lookFor: typing.Union[str, TypesyncUndefined, None] = UNDEFINED
+    projectInstruction: typing.Union[str, TypesyncUndefined, None] = UNDEFINED
     name: str
     projectDetails: str
     projectNumber: int
@@ -139,16 +139,16 @@ class FbProjectUpdateInput(TypesyncModel):
     requestingOrganisation: str
     tutorialId: str
     language: str
-    manualUrl: str | TypesyncUndefined | None = UNDEFINED
-    teamId: str | TypesyncUndefined | None = UNDEFINED
+    manualUrl: typing.Union[str, TypesyncUndefined, None] = UNDEFINED
+    teamId: typing.Union[str, TypesyncUndefined, None] = UNDEFINED
     status: FbEnumProjectStatus
-    maxTasksPerUser: int | TypesyncUndefined | None = UNDEFINED
+    maxTasksPerUser: typing.Union[int, TypesyncUndefined, None] = UNDEFINED
     contributorCount: int
     progress: int
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -179,7 +179,7 @@ class FbProjectCreateOnlyInput(TypesyncModel):
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -192,7 +192,7 @@ class FbMappingGroupReadonlyType(TypesyncModel):
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -206,7 +206,7 @@ class FbMappingGroupCreateOnlyInput(TypesyncModel):
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -218,7 +218,7 @@ class FbMappingTaskCreateOnlyInput(TypesyncModel):
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -227,15 +227,15 @@ class FbMappingTaskCreateOnlyInput(TypesyncModel):
 class FbMappingResult(TypesyncModel):
     """Represents a mapswipe project"""
     appVersion: str
-    clientType: str | TypesyncUndefined | None = UNDEFINED
+    clientType: typing.Union[str, TypesyncUndefined, None] = UNDEFINED
     endTime: datetime.datetime
     startTime: datetime.datetime
-    results: dict[str, int] | TypesyncUndefined | None = UNDEFINED
-    usergroups: dict[str, bool] | TypesyncUndefined | None = UNDEFINED
+    results: typing.Union[typing.Dict[str, int], TypesyncUndefined, None] = UNDEFINED
+    usergroups: typing.Union[typing.Dict[str, bool], TypesyncUndefined, None] = UNDEFINED
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -254,7 +254,7 @@ class FbBaseObjCustomSubOption(TypesyncModel):
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -267,11 +267,11 @@ class FbObjCustomOption(TypesyncModel):
     description: str
     icon: str
     iconColor: str
-    subOptions: list[FbBaseObjCustomSubOption] | TypesyncUndefined | None = UNDEFINED
+    subOptions: typing.Union[typing.List[FbBaseObjCustomSubOption], TypesyncUndefined, None] = UNDEFINED
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -282,28 +282,30 @@ class FbObjCustomOption(TypesyncModel):
 class FbObjImageProvider(TypesyncModel):
     """Represents an street level image provider for a project"""
     name: str
-    url: str
+    url: typing.Union[str, TypesyncUndefined, None] = UNDEFINED
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
+        if name == "url" and value is None:
+            raise ValueError("'url' field cannot be set to None")
         super().__setattr__(name, value)
 
 class FbMappingTaskCompareCreateOnlyInput(TypesyncModel):
     """Represents COMPARE mapping task fields that are valid while creating a task"""
     groupId: str
     taskId: str
-    taskX: int | TypesyncUndefined | None = UNDEFINED
-    taskY: int | TypesyncUndefined | None = UNDEFINED
-    url: str | TypesyncUndefined | None = UNDEFINED
-    urlB: str | TypesyncUndefined | None = UNDEFINED
+    taskX: typing.Union[int, TypesyncUndefined, None] = UNDEFINED
+    taskY: typing.Union[int, TypesyncUndefined, None] = UNDEFINED
+    url: typing.Union[str, TypesyncUndefined, None] = UNDEFINED
+    urlB: typing.Union[str, TypesyncUndefined, None] = UNDEFINED
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -323,13 +325,13 @@ class FbEnumOverlayTileServerType(enum.Enum):
 
 class FbProjectStreetCreateOnlyInput(TypesyncModel):
     """Represents STREET project fields that are valid while creating a project"""
-    customOptions: list[FbObjCustomOption] | TypesyncUndefined | None = UNDEFINED
-    imageProvider: FbObjImageProvider | TypesyncUndefined | None = UNDEFINED
+    customOptions: typing.Union[typing.List[FbObjCustomOption], TypesyncUndefined, None] = UNDEFINED
+    imageProvider: typing.Union[FbObjImageProvider, TypesyncUndefined, None] = UNDEFINED
     numberOfGroups: int
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -345,7 +347,7 @@ class FbMappingGroupStreetCreateOnlyInput(TypesyncModel):
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -358,7 +360,7 @@ class FbMappingTaskStreetCreateOnlyInput(TypesyncModel):
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -374,7 +376,7 @@ class FbMappingGroupTileMapServiceCreateOnlyInput(TypesyncModel):
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -391,7 +393,7 @@ class FbMappingGroupValidateCreateOnlyInput(TypesyncModel):
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -400,11 +402,11 @@ class FbMappingGroupValidateCreateOnlyInput(TypesyncModel):
 class FbMappingTaskValidateCreateOnlyInput(TypesyncModel):
     """Represents VALIDATE mapping task fields that are valid while creating a task"""
     taskId: str
-    geojson: dict[str, typing.Any]
+    geojson: typing.Dict[str, typing.Any]
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -416,11 +418,11 @@ class FbEnumValidateImageInputType(enum.Enum):
 
 class FbProjectValidateImageCreateOnlyInput(TypesyncModel):
     """Represents VALIDATE_IMAGE project fields that are valid while creating a project"""
-    customOptions: list[FbObjCustomOption] | TypesyncUndefined | None = UNDEFINED
+    customOptions: typing.Union[typing.List[FbObjCustomOption], TypesyncUndefined, None] = UNDEFINED
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -434,7 +436,7 @@ class FbMappingGroupValidateImageCreateOnlyInput(TypesyncModel):
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -445,15 +447,15 @@ class FbMappingTaskValidateImageCreateOnlyInput(TypesyncModel):
     taskId: str
     url: str
     fileName: str
-    width: int | TypesyncUndefined | None = UNDEFINED
-    height: int | TypesyncUndefined | None = UNDEFINED
-    annotationId: str | TypesyncUndefined | None = UNDEFINED
-    bbox: list[float] | TypesyncUndefined | None = UNDEFINED
-    segmentation: list[list[float]] | TypesyncUndefined | None = UNDEFINED
+    width: typing.Union[int, TypesyncUndefined, None] = UNDEFINED
+    height: typing.Union[int, TypesyncUndefined, None] = UNDEFINED
+    annotationId: typing.Union[str, TypesyncUndefined, None] = UNDEFINED
+    bbox: typing.Union[typing.List[float], TypesyncUndefined, None] = UNDEFINED
+    segmentation: typing.Union[typing.List[typing.List[float]], TypesyncUndefined, None] = UNDEFINED
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -481,15 +483,15 @@ class FbEnumRasterTileServerName(enum.Enum):
 
 class FbObjRasterTileServer(TypesyncModel):
     """Represents a raster tile server configuration"""
-    apiKey: str | TypesyncUndefined | None = UNDEFINED
-    wmtsLayerName: typing.Annotated[str | TypesyncUndefined | None, pydantic.Field(deprecated=True)] = UNDEFINED
+    apiKey: typing.Union[str, TypesyncUndefined, None] = UNDEFINED
+    wmtsLayerName: typing.Annotated[typing.Union[str, TypesyncUndefined, None], pydantic.Field(deprecated=True)] = UNDEFINED
     credits: str
     name: FbEnumRasterTileServerName
     url: str
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -507,7 +509,7 @@ class FbProjectCompareCreateOnlyInput(TypesyncModel):
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -520,7 +522,7 @@ class FbProjectFindCreateOnlyInput(TypesyncModel):
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -528,15 +530,15 @@ class FbProjectFindCreateOnlyInput(TypesyncModel):
 
 class FbProjectValidateCreateOnlyInput(TypesyncModel):
     """Represents VALIDATE project fields that are valid while creating a project"""
-    customOptions: list[FbObjCustomOption] | TypesyncUndefined | None = UNDEFINED
+    customOptions: typing.Union[typing.List[FbObjCustomOption], TypesyncUndefined, None] = UNDEFINED
     tileServer: FbObjRasterTileServer
     inputType: FbEnumValidateInputType
-    filter: str | TypesyncUndefined | None = UNDEFINED
-    TMId: str | TypesyncUndefined | None = UNDEFINED
+    filter: typing.Union[str, TypesyncUndefined, None] = UNDEFINED
+    TMId: typing.Union[str, TypesyncUndefined, None] = UNDEFINED
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -555,7 +557,7 @@ class FbObjRasterTileServerOverlay(TypesyncModel):
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -579,7 +581,7 @@ class FbObjVectorTileServer(TypesyncModel):
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -593,14 +595,14 @@ class FbObjVectorTileServerOverlay(TypesyncModel):
     lineColor: str
     lineOpacity: float
     lineWidth: float
-    lineDasharray: list[int]
+    lineDasharray: typing.List[int]
     circleColor: str
     circleOpacity: float
     circleRadius: float
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -609,12 +611,12 @@ class FbObjVectorTileServerOverlay(TypesyncModel):
 class FbObjUnifiedOverlayTileServer(TypesyncModel):
     """Represents an overlay layer"""
     type: FbEnumOverlayTileServerType
-    raster: FbObjRasterTileServerOverlay | TypesyncUndefined | None = UNDEFINED
-    vector: FbObjVectorTileServerOverlay | TypesyncUndefined | None = UNDEFINED
+    raster: typing.Union[FbObjRasterTileServerOverlay, TypesyncUndefined, None] = UNDEFINED
+    vector: typing.Union[FbObjVectorTileServerOverlay, TypesyncUndefined, None] = UNDEFINED
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -633,7 +635,7 @@ class FbProjectCompletenessCreateOnlyInput(TypesyncModel):
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -647,7 +649,7 @@ class FbTeam(TypesyncModel):
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -660,12 +662,12 @@ class FbEnumInformationPageBlockType(enum.Enum):
 class FbInformationPageBlock(TypesyncModel):
     blockNumber: int
     blockType: FbEnumInformationPageBlockType
-    textDescription: str | TypesyncUndefined | None = UNDEFINED
-    image: str | TypesyncUndefined | None = UNDEFINED
+    textDescription: typing.Union[str, TypesyncUndefined, None] = UNDEFINED
+    image: typing.Union[str, TypesyncUndefined, None] = UNDEFINED
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -678,11 +680,11 @@ class FbInformationPageBlock(TypesyncModel):
 class FbInformationPage(TypesyncModel):
     pageNumber: int
     title: str
-    blocks: list[FbInformationPageBlock] | TypesyncUndefined | None = UNDEFINED
+    blocks: typing.Union[typing.List[FbInformationPageBlock], TypesyncUndefined, None] = UNDEFINED
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -697,7 +699,7 @@ class FbScreenBlock(TypesyncModel):
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -710,18 +712,18 @@ class FbScreen(TypesyncModel):
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
 class FbBaseTutorial(TypesyncModel):
-    exampleImage1: typing.Annotated[str | TypesyncUndefined | None, pydantic.Field(deprecated=True)] = UNDEFINED
-    exampleImage2: typing.Annotated[str | TypesyncUndefined | None, pydantic.Field(deprecated=True)] = UNDEFINED
+    exampleImage1: typing.Annotated[typing.Union[str, TypesyncUndefined, None], pydantic.Field(deprecated=True)] = UNDEFINED
+    exampleImage2: typing.Annotated[typing.Union[str, TypesyncUndefined, None], pydantic.Field(deprecated=True)] = UNDEFINED
     contributorCount: int
-    informationPages: list[FbInformationPage] | TypesyncUndefined | None = UNDEFINED
-    lookFor: str | TypesyncUndefined | None = UNDEFINED
+    informationPages: typing.Union[typing.List[FbInformationPage], TypesyncUndefined, None] = UNDEFINED
+    lookFor: typing.Union[str, TypesyncUndefined, None] = UNDEFINED
     name: str
     progress: int
     projectDetails: str
@@ -729,11 +731,11 @@ class FbBaseTutorial(TypesyncModel):
     projectTopicKey: typing.Annotated[str, pydantic.Field(deprecated=True)]
     status: typing.Literal["tutorial"]
     tutorialDraftId: typing.Annotated[str, pydantic.Field(deprecated=True)]
-    screens: list[FbScreen] | TypesyncUndefined | None = UNDEFINED
+    screens: typing.Union[typing.List[FbScreen], TypesyncUndefined, None] = UNDEFINED
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -759,7 +761,7 @@ class FbBaseTutorialGroup(TypesyncModel):
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -773,7 +775,7 @@ class FbCompareTutorial(TypesyncModel):
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -785,7 +787,7 @@ class FbCompareTutorialTask(TypesyncModel):
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -800,7 +802,7 @@ class FbCompletenessTutorial(TypesyncModel):
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -812,7 +814,7 @@ class FbCompletenessTutorialTask(TypesyncModel):
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -825,7 +827,7 @@ class FbFindTutorial(TypesyncModel):
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -836,7 +838,7 @@ class FbFindTutorialTask(TypesyncModel):
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -844,12 +846,12 @@ class FbFindTutorialTask(TypesyncModel):
 
 class FbStreetTutorial(TypesyncModel):
     projectType: typing.Literal[7]
-    customOptions: list[FbObjCustomOption] | TypesyncUndefined | None = UNDEFINED
-    imageProvider: FbObjImageProvider | TypesyncUndefined | None = UNDEFINED
+    customOptions: typing.Union[typing.List[FbObjCustomOption], TypesyncUndefined, None] = UNDEFINED
+    imageProvider: typing.Union[FbObjImageProvider, TypesyncUndefined, None] = UNDEFINED
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -869,7 +871,7 @@ class FbStreetTutorialTask(TypesyncModel):
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -883,7 +885,7 @@ class FbTileMapServiceTutorialGroup(TypesyncModel):
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -902,7 +904,7 @@ class FbTileMapServiceTutorialTask(TypesyncModel):
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -913,11 +915,11 @@ class FbValidateTutorial(TypesyncModel):
     projectType: typing.Literal[2]
     tileServer: FbObjRasterTileServer
     zoomLevel: typing.Annotated[int, pydantic.Field(deprecated=True)]
-    customOptions: list[FbObjCustomOption] | TypesyncUndefined | None = UNDEFINED
+    customOptions: typing.Union[typing.List[FbObjCustomOption], TypesyncUndefined, None] = UNDEFINED
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -932,7 +934,7 @@ class FbValidateTutorialTaskProperties(TypesyncModel):
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -946,7 +948,7 @@ class FbValidateTutorialTask(TypesyncModel):
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -954,11 +956,11 @@ class FbValidateTutorialTask(TypesyncModel):
 
 class FbValidateImageTutorial(TypesyncModel):
     projectType: typing.Literal[10]
-    customOptions: list[FbObjCustomOption] | TypesyncUndefined | None = UNDEFINED
+    customOptions: typing.Union[typing.List[FbObjCustomOption], TypesyncUndefined, None] = UNDEFINED
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -975,15 +977,15 @@ class FbValidateImageTutorialTask(TypesyncModel):
     taskId: str
     fileName: str
     url: str
-    width: int | TypesyncUndefined | None = UNDEFINED
-    height: int | TypesyncUndefined | None = UNDEFINED
-    annotationId: str | TypesyncUndefined | None = UNDEFINED
-    bbox: list[float] | TypesyncUndefined | None = UNDEFINED
-    segmentation: list[list[float]] | TypesyncUndefined | None = UNDEFINED
+    width: typing.Union[int, TypesyncUndefined, None] = UNDEFINED
+    height: typing.Union[int, TypesyncUndefined, None] = UNDEFINED
+    annotationId: typing.Union[str, TypesyncUndefined, None] = UNDEFINED
+    bbox: typing.Union[typing.List[float], TypesyncUndefined, None] = UNDEFINED
+    segmentation: typing.Union[typing.List[typing.List[float]], TypesyncUndefined, None] = UNDEFINED
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -1002,21 +1004,21 @@ class FbValidateImageTutorialTask(TypesyncModel):
 class FbUserReadonlyType(TypesyncModel):
     """Represents user fields that cannot be updated from backend"""
     created: datetime.datetime
-    lastAppUse: datetime.datetime | TypesyncUndefined | None = UNDEFINED
-    userName: typing.Annotated[str | TypesyncUndefined | None, pydantic.Field(deprecated=True)] = UNDEFINED
-    userNameKey: typing.Annotated[str | TypesyncUndefined | None, pydantic.Field(deprecated=True)] = UNDEFINED
-    username: str | TypesyncUndefined | None = UNDEFINED
-    usernameKey: str | TypesyncUndefined | None = UNDEFINED
-    accessibility: bool | TypesyncUndefined | None = UNDEFINED
-    userGroups: dict[str, typing.Any] | TypesyncUndefined | None = UNDEFINED
-    contributions: dict[str, typing.Any] | TypesyncUndefined | None = UNDEFINED
-    taskContributionCount: int | TypesyncUndefined | None = UNDEFINED
-    groupContributionCount: int | TypesyncUndefined | None = UNDEFINED
-    projectContributionCount: int | TypesyncUndefined | None = UNDEFINED
+    lastAppUse: typing.Union[datetime.datetime, TypesyncUndefined, None] = UNDEFINED
+    userName: typing.Annotated[typing.Union[str, TypesyncUndefined, None], pydantic.Field(deprecated=True)] = UNDEFINED
+    userNameKey: typing.Annotated[typing.Union[str, TypesyncUndefined, None], pydantic.Field(deprecated=True)] = UNDEFINED
+    username: typing.Union[str, TypesyncUndefined, None] = UNDEFINED
+    usernameKey: typing.Union[str, TypesyncUndefined, None] = UNDEFINED
+    accessibility: typing.Union[bool, TypesyncUndefined, None] = UNDEFINED
+    userGroups: typing.Union[typing.Dict[str, typing.Any], TypesyncUndefined, None] = UNDEFINED
+    contributions: typing.Union[typing.Dict[str, typing.Any], TypesyncUndefined, None] = UNDEFINED
+    taskContributionCount: typing.Union[int, TypesyncUndefined, None] = UNDEFINED
+    groupContributionCount: typing.Union[int, TypesyncUndefined, None] = UNDEFINED
+    projectContributionCount: typing.Union[int, TypesyncUndefined, None] = UNDEFINED
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -1046,11 +1048,11 @@ class FbUserReadonlyType(TypesyncModel):
 
 class FbUserUpdateInput(TypesyncModel):
     """Represents a user"""
-    teamId: str | TypesyncUndefined | None = UNDEFINED
+    teamId: typing.Union[str, TypesyncUndefined, None] = UNDEFINED
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -1066,7 +1068,7 @@ class FbUserContribution(TypesyncModel):
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -1078,11 +1080,11 @@ class FbEnumUserGroupMembershipAction(enum.Enum):
 
 class FbUserGroupReadOnlyType(TypesyncModel):
     """Represents a usergroup"""
-    users: dict[str, typing.Any] | TypesyncUndefined | None = UNDEFINED
+    users: typing.Union[typing.Dict[str, typing.Any], TypesyncUndefined, None] = UNDEFINED
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -1097,7 +1099,7 @@ class FbUserGroupCreateOnlyInput(TypesyncModel):
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -1108,12 +1110,12 @@ class FbUserGroupUpdateInput(TypesyncModel):
     description: str
     name: str
     nameKey: typing.Annotated[str, pydantic.Field(deprecated=True)]
-    archivedAt: int | TypesyncUndefined | None = UNDEFINED
-    archivedBy: str | TypesyncUndefined | None = UNDEFINED
+    archivedAt: typing.Union[int, TypesyncUndefined, None] = UNDEFINED
+    archivedBy: typing.Union[str, TypesyncUndefined, None] = UNDEFINED
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -1130,7 +1132,7 @@ class FbUserGroupObsolete(TypesyncModel):
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -1145,7 +1147,7 @@ class FbUserGroupMembership(TypesyncModel):
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
@@ -1158,7 +1160,7 @@ class FbBackendWait(TypesyncModel):
 
     class Config:
         use_enum_values = False
-        extra = "forbid"
+        extra = 'forbid'
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
