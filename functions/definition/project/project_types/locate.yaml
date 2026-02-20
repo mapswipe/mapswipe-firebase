@@ -34,3 +34,35 @@ FbProjectLocateCreateOnlyInput:
         type: string
       exportMetaValue:
         type: string
+
+
+FbProjectLocateMappingResult:
+  model: alias
+  docs: Represents LOCATE mapswipe project results
+  # path: results/{projectId}/{groupId}/{userId}
+  type:
+    type: object
+    fields:
+      appVersion:
+        type: string
+      clientType:
+        # FIXME: this is an enum
+        type: string
+        optional: true
+      endTime:
+        type: timestamp
+      startTime:
+        type: timestamp
+      results:
+        optional: true
+        type:
+          type: map
+          valueType:
+            type: list
+            elementType: int
+      usergroups:
+        optional: true
+        type:
+          # NOTE: The key is usergroupId
+          type: map
+          valueType: boolean

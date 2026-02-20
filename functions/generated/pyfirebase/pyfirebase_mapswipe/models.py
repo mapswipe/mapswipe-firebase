@@ -16,7 +16,7 @@ class TypesyncUndefined:
     def __init__(self):
         if TypesyncUndefined._instance is not None:
             raise RuntimeError(
-                "TypesyncUndefined instances cannot be created directly. Import and use the UNDEFINED sentinel instead."
+                "TypesyncUndefined instances cannot be created directly. Import and use the UNDEFINED sentinel instead.",
             )
         TypesyncUndefined._instance = self
 
@@ -363,6 +363,31 @@ class FBEnumSubGridSize(enum.Enum):
     SIZE_8X8 = "8x8"
 
 
+class FbProjectLocateMappingResult(TypesyncModel):
+    """Represents LOCATE mapswipe project results"""
+
+    appVersion: str
+    clientType: str | TypesyncUndefined | None = UNDEFINED
+    endTime: datetime.datetime
+    startTime: datetime.datetime
+    results: dict[str, list[int]] | TypesyncUndefined | None = UNDEFINED
+    usergroups: dict[str, bool] | TypesyncUndefined | None = UNDEFINED
+
+    class Config:
+        use_enum_values = False
+        extra = "forbid"
+
+    @typing.override
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        if name == "clientType" and value is None:
+            raise ValueError("'clientType' field cannot be set to None")
+        if name == "results" and value is None:
+            raise ValueError("'results' field cannot be set to None")
+        if name == "usergroups" and value is None:
+            raise ValueError("'usergroups' field cannot be set to None")
+        super().__setattr__(name, value)
+
+
 class FbProjectStreetCreateOnlyInput(TypesyncModel):
     """Represents STREET project fields that are valid while creating a project"""
 
@@ -545,7 +570,8 @@ class FbObjRasterTileServer(TypesyncModel):
 
     apiKey: str | TypesyncUndefined | None = UNDEFINED
     wmtsLayerName: typing.Annotated[
-        str | TypesyncUndefined | None, pydantic.Field(deprecated=True)
+        str | TypesyncUndefined | None,
+        pydantic.Field(deprecated=True),
     ] = UNDEFINED
     credits: str
     name: FbEnumRasterTileServerName
@@ -829,10 +855,12 @@ class FbScreen(TypesyncModel):
 
 class FbBaseTutorial(TypesyncModel):
     exampleImage1: typing.Annotated[
-        str | TypesyncUndefined | None, pydantic.Field(deprecated=True)
+        str | TypesyncUndefined | None,
+        pydantic.Field(deprecated=True),
     ] = UNDEFINED
     exampleImage2: typing.Annotated[
-        str | TypesyncUndefined | None, pydantic.Field(deprecated=True)
+        str | TypesyncUndefined | None,
+        pydantic.Field(deprecated=True),
     ] = UNDEFINED
     contributorCount: int
     informationPages: list[FbInformationPage] | TypesyncUndefined | None = UNDEFINED
@@ -1164,10 +1192,12 @@ class FbUserReadonlyType(TypesyncModel):
     created: datetime.datetime
     lastAppUse: datetime.datetime | TypesyncUndefined | None = UNDEFINED
     userName: typing.Annotated[
-        str | TypesyncUndefined | None, pydantic.Field(deprecated=True)
+        str | TypesyncUndefined | None,
+        pydantic.Field(deprecated=True),
     ] = UNDEFINED
     userNameKey: typing.Annotated[
-        str | TypesyncUndefined | None, pydantic.Field(deprecated=True)
+        str | TypesyncUndefined | None,
+        pydantic.Field(deprecated=True),
     ] = UNDEFINED
     username: str | TypesyncUndefined | None = UNDEFINED
     usernameKey: str | TypesyncUndefined | None = UNDEFINED
