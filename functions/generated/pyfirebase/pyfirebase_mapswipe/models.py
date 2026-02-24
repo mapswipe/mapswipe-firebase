@@ -16,7 +16,7 @@ class TypesyncUndefined:
     def __init__(self):
         if TypesyncUndefined._instance is not None:
             raise RuntimeError(
-                "TypesyncUndefined instances cannot be created directly. Import and use the UNDEFINED sentinel instead."
+                "TypesyncUndefined instances cannot be created directly. Import and use the UNDEFINED sentinel instead.",
             )
         TypesyncUndefined._instance = self
 
@@ -558,7 +558,8 @@ class FbObjRasterTileServer(TypesyncModel):
 
     apiKey: str | TypesyncUndefined | None = UNDEFINED
     wmtsLayerName: typing.Annotated[
-        str | TypesyncUndefined | None, pydantic.Field(deprecated=True)
+        str | TypesyncUndefined | None,
+        pydantic.Field(deprecated=True),
     ] = UNDEFINED
     credits: str
     name: FbEnumRasterTileServerName
@@ -818,12 +819,17 @@ class FbScreen(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
+
 class FbBaseTutorial(TypesyncModel):
-    exampleImage1: typing.Annotated[typing.Union[str, TypesyncUndefined, None], pydantic.Field(deprecated=True)] = UNDEFINED
-    exampleImage2: typing.Annotated[typing.Union[str, TypesyncUndefined, None], pydantic.Field(deprecated=True)] = UNDEFINED
+    exampleImage1: typing.Annotated[
+        str | TypesyncUndefined | None, pydantic.Field(deprecated=True)
+    ] = UNDEFINED
+    exampleImage2: typing.Annotated[
+        str | TypesyncUndefined | None, pydantic.Field(deprecated=True)
+    ] = UNDEFINED
     contributorCount: int
-    informationPages: typing.Union[typing.List[FbInformationPage], TypesyncUndefined, None] = UNDEFINED
-    lookFor: typing.Union[str, TypesyncUndefined, None] = UNDEFINED
+    informationPages: list[FbInformationPage] | TypesyncUndefined | None = UNDEFINED
+    lookFor: str | TypesyncUndefined | None = UNDEFINED
     name: str
     progress: int
     projectDetails: str
@@ -831,7 +837,7 @@ class FbBaseTutorial(TypesyncModel):
     projectTopicKey: typing.Annotated[str, pydantic.Field(deprecated=True)]
     status: typing.Literal["tutorial"]
     tutorialDraftId: typing.Annotated[str, pydantic.Field(deprecated=True)]
-    screens: typing.Union[typing.List[FbScreen], TypesyncUndefined, None] = UNDEFINED
+    screens: list[FbScreen] | TypesyncUndefined | None = UNDEFINED
 
     class Config:
         use_enum_values = False
@@ -851,6 +857,7 @@ class FbBaseTutorial(TypesyncModel):
             raise ValueError("'screens' field cannot be set to None")
         super().__setattr__(name, value)
 
+
 class FbBaseTutorialGroup(TypesyncModel):
     finishedCount: int
     groupId: int
@@ -867,6 +874,7 @@ class FbBaseTutorialGroup(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
+
 class FbCompareTutorial(TypesyncModel):
     projectType: typing.Literal[3]
     tileServer: FbObjRasterTileServer
@@ -881,6 +889,7 @@ class FbCompareTutorial(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
+
 class FbCompareTutorialTask(TypesyncModel):
     url: str
     urlB: str
@@ -892,6 +901,7 @@ class FbCompareTutorialTask(TypesyncModel):
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
+
 
 class FbCompletenessTutorial(TypesyncModel):
     projectType: typing.Literal[4]
@@ -908,6 +918,7 @@ class FbCompletenessTutorial(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
+
 class FbCompletenessTutorialTask(TypesyncModel):
     url: str
     urlB: str
@@ -919,6 +930,7 @@ class FbCompletenessTutorialTask(TypesyncModel):
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
+
 
 class FbFindTutorial(TypesyncModel):
     projectType: typing.Literal[1]
@@ -933,6 +945,7 @@ class FbFindTutorial(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
+
 class FbFindTutorialTask(TypesyncModel):
     url: str
 
@@ -944,10 +957,11 @@ class FbFindTutorialTask(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
+
 class FbStreetTutorial(TypesyncModel):
     projectType: typing.Literal[7]
-    customOptions: typing.Union[typing.List[FbObjCustomOption], TypesyncUndefined, None] = UNDEFINED
-    imageProvider: typing.Union[FbObjImageProvider, TypesyncUndefined, None] = UNDEFINED
+    customOptions: list[FbObjCustomOption] | TypesyncUndefined | None = UNDEFINED
+    imageProvider: FbObjImageProvider | TypesyncUndefined | None = UNDEFINED
 
     class Config:
         use_enum_values = False
@@ -960,6 +974,7 @@ class FbStreetTutorial(TypesyncModel):
         if name == "imageProvider" and value is None:
             raise ValueError("'imageProvider' field cannot be set to None")
         super().__setattr__(name, value)
+
 
 class FbStreetTutorialTask(TypesyncModel):
     projectId: str
@@ -977,6 +992,7 @@ class FbStreetTutorialTask(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
+
 class FbTileMapServiceTutorialGroup(TypesyncModel):
     xMax: int
     xMin: int
@@ -990,6 +1006,7 @@ class FbTileMapServiceTutorialGroup(TypesyncModel):
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
+
 
 class FbTileMapServiceTutorialTask(TypesyncModel):
     geometry: str
@@ -1010,12 +1027,13 @@ class FbTileMapServiceTutorialTask(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
+
 class FbValidateTutorial(TypesyncModel):
     inputGeometries: typing.Annotated[str, pydantic.Field(deprecated=True)]
     projectType: typing.Literal[2]
     tileServer: FbObjRasterTileServer
     zoomLevel: typing.Annotated[int, pydantic.Field(deprecated=True)]
-    customOptions: typing.Union[typing.List[FbObjCustomOption], TypesyncUndefined, None] = UNDEFINED
+    customOptions: list[FbObjCustomOption] | TypesyncUndefined | None = UNDEFINED
 
     class Config:
         use_enum_values = False
@@ -1026,6 +1044,7 @@ class FbValidateTutorial(TypesyncModel):
         if name == "customOptions" and value is None:
             raise ValueError("'customOptions' field cannot be set to None")
         super().__setattr__(name, value)
+
 
 class FbValidateTutorialTaskProperties(TypesyncModel):
     id: int
@@ -1039,6 +1058,7 @@ class FbValidateTutorialTaskProperties(TypesyncModel):
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
+
 
 class FbValidateTutorialTask(TypesyncModel):
     taskId: str
@@ -1054,9 +1074,10 @@ class FbValidateTutorialTask(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
+
 class FbValidateImageTutorial(TypesyncModel):
     projectType: typing.Literal[10]
-    customOptions: typing.Union[typing.List[FbObjCustomOption], TypesyncUndefined, None] = UNDEFINED
+    customOptions: list[FbObjCustomOption] | TypesyncUndefined | None = UNDEFINED
 
     class Config:
         use_enum_values = False
@@ -1068,6 +1089,7 @@ class FbValidateImageTutorial(TypesyncModel):
             raise ValueError("'customOptions' field cannot be set to None")
         super().__setattr__(name, value)
 
+
 class FbValidateImageTutorialTask(TypesyncModel):
     groupId: int
     projectId: str
@@ -1077,11 +1099,11 @@ class FbValidateImageTutorialTask(TypesyncModel):
     taskId: str
     fileName: str
     url: str
-    width: typing.Union[int, TypesyncUndefined, None] = UNDEFINED
-    height: typing.Union[int, TypesyncUndefined, None] = UNDEFINED
-    annotationId: typing.Union[str, TypesyncUndefined, None] = UNDEFINED
-    bbox: typing.Union[typing.List[float], TypesyncUndefined, None] = UNDEFINED
-    segmentation: typing.Union[typing.List[typing.List[float]], TypesyncUndefined, None] = UNDEFINED
+    width: int | TypesyncUndefined | None = UNDEFINED
+    height: int | TypesyncUndefined | None = UNDEFINED
+    annotationId: str | TypesyncUndefined | None = UNDEFINED
+    bbox: list[float] | TypesyncUndefined | None = UNDEFINED
+    segmentation: list[list[float]] | TypesyncUndefined | None = UNDEFINED
 
     class Config:
         use_enum_values = False
@@ -1101,20 +1123,26 @@ class FbValidateImageTutorialTask(TypesyncModel):
             raise ValueError("'segmentation' field cannot be set to None")
         super().__setattr__(name, value)
 
+
 class FbUserReadonlyType(TypesyncModel):
     """Represents user fields that cannot be updated from backend"""
+
     created: datetime.datetime
-    lastAppUse: typing.Union[datetime.datetime, TypesyncUndefined, None] = UNDEFINED
-    userName: typing.Annotated[typing.Union[str, TypesyncUndefined, None], pydantic.Field(deprecated=True)] = UNDEFINED
-    userNameKey: typing.Annotated[typing.Union[str, TypesyncUndefined, None], pydantic.Field(deprecated=True)] = UNDEFINED
-    username: typing.Union[str, TypesyncUndefined, None] = UNDEFINED
-    usernameKey: typing.Union[str, TypesyncUndefined, None] = UNDEFINED
-    accessibility: typing.Union[bool, TypesyncUndefined, None] = UNDEFINED
-    userGroups: typing.Union[typing.Dict[str, typing.Any], TypesyncUndefined, None] = UNDEFINED
-    contributions: typing.Union[typing.Dict[str, typing.Any], TypesyncUndefined, None] = UNDEFINED
-    taskContributionCount: typing.Union[int, TypesyncUndefined, None] = UNDEFINED
-    groupContributionCount: typing.Union[int, TypesyncUndefined, None] = UNDEFINED
-    projectContributionCount: typing.Union[int, TypesyncUndefined, None] = UNDEFINED
+    lastAppUse: datetime.datetime | TypesyncUndefined | None = UNDEFINED
+    userName: typing.Annotated[
+        str | TypesyncUndefined | None, pydantic.Field(deprecated=True)
+    ] = UNDEFINED
+    userNameKey: typing.Annotated[
+        str | TypesyncUndefined | None, pydantic.Field(deprecated=True)
+    ] = UNDEFINED
+    username: str | TypesyncUndefined | None = UNDEFINED
+    usernameKey: str | TypesyncUndefined | None = UNDEFINED
+    accessibility: bool | TypesyncUndefined | None = UNDEFINED
+    userGroups: dict[str, typing.Any] | TypesyncUndefined | None = UNDEFINED
+    contributions: dict[str, typing.Any] | TypesyncUndefined | None = UNDEFINED
+    taskContributionCount: int | TypesyncUndefined | None = UNDEFINED
+    groupContributionCount: int | TypesyncUndefined | None = UNDEFINED
+    projectContributionCount: int | TypesyncUndefined | None = UNDEFINED
 
     class Config:
         use_enum_values = False
@@ -1146,9 +1174,11 @@ class FbUserReadonlyType(TypesyncModel):
             raise ValueError("'projectContributionCount' field cannot be set to None")
         super().__setattr__(name, value)
 
+
 class FbUserUpdateInput(TypesyncModel):
     """Represents a user"""
-    teamId: typing.Union[str, TypesyncUndefined, None] = UNDEFINED
+
+    teamId: str | TypesyncUndefined | None = UNDEFINED
 
     class Config:
         use_enum_values = False
@@ -1160,8 +1190,10 @@ class FbUserUpdateInput(TypesyncModel):
             raise ValueError("'teamId' field cannot be set to None")
         super().__setattr__(name, value)
 
+
 class FbUserContribution(TypesyncModel):
     """Represents a user contribution"""
+
     endTime: datetime.datetime
     startTime: datetime.datetime
     timestamp: datetime.datetime
@@ -1174,13 +1206,16 @@ class FbUserContribution(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
+
 class FbEnumUserGroupMembershipAction(enum.Enum):
     JOIN = "join"
     LEAVE = "leave"
 
+
 class FbUserGroupReadOnlyType(TypesyncModel):
     """Represents a usergroup"""
-    users: typing.Union[typing.Dict[str, typing.Any], TypesyncUndefined, None] = UNDEFINED
+
+    users: dict[str, typing.Any] | TypesyncUndefined | None = UNDEFINED
 
     class Config:
         use_enum_values = False
@@ -1192,8 +1227,10 @@ class FbUserGroupReadOnlyType(TypesyncModel):
             raise ValueError("'users' field cannot be set to None")
         super().__setattr__(name, value)
 
+
 class FbUserGroupCreateOnlyInput(TypesyncModel):
     """Represents a usergroup"""
+
     createdAt: int
     createdBy: str
 
@@ -1205,13 +1242,15 @@ class FbUserGroupCreateOnlyInput(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
+
 class FbUserGroupUpdateInput(TypesyncModel):
     """Represents a usergroup"""
+
     description: str
     name: str
     nameKey: typing.Annotated[str, pydantic.Field(deprecated=True)]
-    archivedAt: typing.Union[int, TypesyncUndefined, None] = UNDEFINED
-    archivedBy: typing.Union[str, TypesyncUndefined, None] = UNDEFINED
+    archivedAt: int | TypesyncUndefined | None = UNDEFINED
+    archivedBy: str | TypesyncUndefined | None = UNDEFINED
 
     class Config:
         use_enum_values = False
@@ -1225,8 +1264,10 @@ class FbUserGroupUpdateInput(TypesyncModel):
             raise ValueError("'archivedBy' field cannot be set to None")
         super().__setattr__(name, value)
 
+
 class FbUserGroupObsolete(TypesyncModel):
     """Represents a usergroup"""
+
     name: str
     description: str
 
@@ -1238,8 +1279,10 @@ class FbUserGroupObsolete(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
+
 class FbUserGroupMembership(TypesyncModel):
     """Represents a user contribution"""
+
     action: FbEnumUserGroupMembershipAction
     timestamp: int
     userGroupId: str
@@ -1253,8 +1296,10 @@ class FbUserGroupMembership(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
+
 class FbBackendWait(TypesyncModel):
     """Represents if to wait for firebase."""
+
     ok: bool
     timestamp: datetime.datetime
 
