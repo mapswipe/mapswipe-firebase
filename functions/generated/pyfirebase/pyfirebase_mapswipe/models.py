@@ -874,10 +874,12 @@ class FbScreen(TypesyncModel):
 
 class FbBaseTutorial(TypesyncModel):
     exampleImage1: typing.Annotated[
-        str | TypesyncUndefined | None, pydantic.Field(deprecated=True)
+        str | TypesyncUndefined | None,
+        pydantic.Field(deprecated=True),
     ] = UNDEFINED
     exampleImage2: typing.Annotated[
-        str | TypesyncUndefined | None, pydantic.Field(deprecated=True)
+        str | TypesyncUndefined | None,
+        pydantic.Field(deprecated=True),
     ] = UNDEFINED
     contributorCount: int
     informationPages: list[FbInformationPage] | TypesyncUndefined | None = UNDEFINED
@@ -1212,10 +1214,12 @@ class FbUserReadonlyType(TypesyncModel):
     created: datetime.datetime
     lastAppUse: datetime.datetime | TypesyncUndefined | None = UNDEFINED
     userName: typing.Annotated[
-        str | TypesyncUndefined | None, pydantic.Field(deprecated=True)
+        str | TypesyncUndefined | None,
+        pydantic.Field(deprecated=True),
     ] = UNDEFINED
     userNameKey: typing.Annotated[
-        str | TypesyncUndefined | None, pydantic.Field(deprecated=True)
+        str | TypesyncUndefined | None,
+        pydantic.Field(deprecated=True),
     ] = UNDEFINED
     username: str | TypesyncUndefined | None = UNDEFINED
     usernameKey: str | TypesyncUndefined | None = UNDEFINED
