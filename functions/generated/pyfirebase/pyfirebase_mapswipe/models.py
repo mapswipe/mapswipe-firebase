@@ -1047,6 +1047,7 @@ class FbTileMapServiceTutorialTask(TypesyncModel):
     groupId: int
     projectId: str
     referenceAnswer: int
+    taskPartitionIndex: int | TypesyncUndefined | None = UNDEFINED
     screen: int
     taskId: str
     taskId_real: str
@@ -1059,6 +1060,8 @@ class FbTileMapServiceTutorialTask(TypesyncModel):
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
+        if name == "taskPartitionIndex" and value is None:
+            raise ValueError("'taskPartitionIndex' field cannot be set to None")
         super().__setattr__(name, value)
 
 
