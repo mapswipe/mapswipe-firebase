@@ -17,7 +17,7 @@ cd "$FIREBASE_FUNCTIONS_DIR"
 
 cd "$BASE_DIR"
 
-firebase use ${FIREBASE_PROJECT?error}
+firebase use "${FIREBASE_PROJECT?error}"
 
 firebase target:apply hosting auth "$FIREBASE_AUTH_SITE"
 
@@ -32,6 +32,27 @@ firebase functions:config:set \
   osm.client_secret="$OSM_OAUTH_CLIENT_SECRET" \
   osm.client_secret_web="$OSM_OAUTH_CLIENT_SECRET_WEB"
 
-firebase deploy --only hosting
+SKIP_HOSTING=false
+FORCE=false
+
+for arg in "$@"; do
+  case $arg in
+    --skip-hosting) SKIP_HOSTING=true ;;
+    --force)        FORCE=true ;;
+  esac
+done
+
+# HOSTING
+if [ "$SKIP_HOSTING" = false ]; then
+  firebase deploy --only hosting
+fi
+
+# DATABASE
 firebase deploy --only database
-firebase deploy --only functions
+
+# FUNCTIONS
+FUNCTIONS_CMD="firebase deploy --only functions"
+if [ "$FORCE" = true ]; then
+  FUNCTIONS_CMD="$FUNCTIONS_CMD --force"
+fi
+eval $FUNCTIONS_CMD
