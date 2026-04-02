@@ -410,7 +410,7 @@ class FbMappingGroupStreetCreateOnlyInput(TypesyncModel):
 class FbMappingTaskStreetCreateOnlyInput(TypesyncModel):
     """Represents STREET mapping task fields that are valid while creating a task"""
 
-    taskId: str
+    taskId: str | int
     groupId: str
 
     class Config:
