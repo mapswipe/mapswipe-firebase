@@ -325,6 +325,23 @@ class FbObjCustomOption(TypesyncModel):
         super().__setattr__(name, value)
 
 
+class FbObjImageProvider(TypesyncModel):
+    """Represents an street level image provider for a project"""
+
+    name: str
+    url: str | TypesyncUndefined | None = UNDEFINED
+
+    class Config:
+        use_enum_values = False
+        extra = "forbid"
+
+    @typing.override
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        if name == "url" and value is None:
+            raise ValueError("'url' field cannot be set to None")
+        super().__setattr__(name, value)
+
+
 class FbMappingTaskCompareCreateOnlyInput(TypesyncModel):
     """Represents COMPARE mapping task fields that are valid while creating a task"""
 
@@ -392,6 +409,7 @@ class FbProjectStreetCreateOnlyInput(TypesyncModel):
     """Represents STREET project fields that are valid while creating a project"""
 
     customOptions: list[FbObjCustomOption] | TypesyncUndefined | None = UNDEFINED
+    imageProvider: FbObjImageProvider | TypesyncUndefined | None = UNDEFINED
     numberOfGroups: int
 
     class Config:
@@ -402,6 +420,8 @@ class FbProjectStreetCreateOnlyInput(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         if name == "customOptions" and value is None:
             raise ValueError("'customOptions' field cannot be set to None")
+        if name == "imageProvider" and value is None:
+            raise ValueError("'imageProvider' field cannot be set to None")
         super().__setattr__(name, value)
 
 
@@ -422,7 +442,7 @@ class FbMappingGroupStreetCreateOnlyInput(TypesyncModel):
 class FbMappingTaskStreetCreateOnlyInput(TypesyncModel):
     """Represents STREET mapping task fields that are valid while creating a task"""
 
-    taskId: int
+    taskId: str | int
     groupId: str
 
     class Config:
@@ -1023,6 +1043,7 @@ class FbLocateTutorialTask(TypesyncModel):
 class FbStreetTutorial(TypesyncModel):
     projectType: typing.Literal[7]
     customOptions: list[FbObjCustomOption] | TypesyncUndefined | None = UNDEFINED
+    imageProvider: FbObjImageProvider | TypesyncUndefined | None = UNDEFINED
 
     class Config:
         use_enum_values = False
@@ -1032,6 +1053,8 @@ class FbStreetTutorial(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         if name == "customOptions" and value is None:
             raise ValueError("'customOptions' field cannot be set to None")
+        if name == "imageProvider" and value is None:
+            raise ValueError("'imageProvider' field cannot be set to None")
         super().__setattr__(name, value)
 
 
