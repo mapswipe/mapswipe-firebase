@@ -25,6 +25,9 @@ FbTileMapServiceTutorialTask:
         type: string
       referenceAnswer:
         type: int
+      taskPartitionIndex:
+        type: int
+        optional: true
       screen:
         type: int
       taskId:
