@@ -17,7 +17,7 @@ cd "$FIREBASE_FUNCTIONS_DIR"
 
 cd "$BASE_DIR"
 
-firebase use ${FIREBASE_PROJECT?error}
+firebase use "${FIREBASE_PROJECT?error}"
 
 firebase target:apply hosting auth "$FIREBASE_AUTH_SITE"
 
@@ -32,6 +32,11 @@ firebase functions:config:set \
   osm.client_secret="$OSM_OAUTH_CLIENT_SECRET" \
   osm.client_secret_web="$OSM_OAUTH_CLIENT_SECRET_WEB"
 
-firebase deploy --only hosting
+if [ "${SKIP_HOSTING:-false}" != "true" ]; then
+  firebase deploy --only hosting
+fi
+
 firebase deploy --only database
-firebase deploy --only functions
+
+export FIREBASE_CLI_IMAGE_CLEANUP_DAYS=${FIREBASE_CLI_IMAGE_CLEANUP_DAYS:-30}
+firebase deploy --only functions --non-interactive
