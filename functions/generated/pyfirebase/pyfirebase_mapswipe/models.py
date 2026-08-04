@@ -1203,7 +1203,9 @@ class FbUserReadonlyType(TypesyncModel):
     usernameKey: str | TypesyncUndefined | None = UNDEFINED
     accessibility: bool | TypesyncUndefined | None = UNDEFINED
     userGroups: dict[str, typing.Any] | TypesyncUndefined | None = UNDEFINED
-    contributions: dict[str, typing.Any] | TypesyncUndefined | None = UNDEFINED
+    contributions: dict[str, dict[str, int | bool]] | TypesyncUndefined | None = (
+        UNDEFINED
+    )
     taskContributionCount: int | TypesyncUndefined | None = UNDEFINED
     groupContributionCount: int | TypesyncUndefined | None = UNDEFINED
     projectContributionCount: int | TypesyncUndefined | None = UNDEFINED
@@ -1252,22 +1254,6 @@ class FbUserUpdateInput(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         if name == "teamId" and value is None:
             raise ValueError("'teamId' field cannot be set to None")
-        super().__setattr__(name, value)
-
-
-class FbUserContribution(TypesyncModel):
-    """Represents a user contribution"""
-
-    endTime: datetime.datetime
-    startTime: datetime.datetime
-    timestamp: datetime.datetime
-
-    class Config:
-        use_enum_values = False
-        extra = "forbid"
-
-    @typing.override
-    def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
 

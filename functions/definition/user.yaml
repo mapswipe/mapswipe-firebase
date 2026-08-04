@@ -36,9 +36,17 @@ FbUserReadonlyType:
           valueType: unknown
       contributions:
         optional: true
+        # Written by the groupUsersCounter cloud function as:
+        #   contributions/{projectId} -> { <groupId>: true, ..., "taskContributionCount": <int> }
         type:
-          type: map
-          valueType: unknown
+          type: map # keyed by projectId
+          valueType:
+            type: map # keyed by groupId
+            valueType:
+              type: union
+              variants:
+                - int
+                - boolean
       taskContributionCount:
         optional: true
         type: int
