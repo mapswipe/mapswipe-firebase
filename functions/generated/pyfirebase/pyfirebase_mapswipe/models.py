@@ -272,7 +272,7 @@ class FbMappingResult(TypesyncModel):
     endTime: datetime.datetime
     startTime: datetime.datetime
     results: dict[str, int] | TypesyncUndefined | None = UNDEFINED
-    usergroups: dict[str, bool] | TypesyncUndefined | None = UNDEFINED
+    userGroups: dict[str, bool] | TypesyncUndefined | None = UNDEFINED
 
     class Config:
         use_enum_values = False
@@ -284,8 +284,8 @@ class FbMappingResult(TypesyncModel):
             raise ValueError("'clientType' field cannot be set to None")
         if name == "results" and value is None:
             raise ValueError("'results' field cannot be set to None")
-        if name == "usergroups" and value is None:
-            raise ValueError("'usergroups' field cannot be set to None")
+        if name == "userGroups" and value is None:
+            raise ValueError("'userGroups' field cannot be set to None")
         super().__setattr__(name, value)
 
 
@@ -371,7 +371,7 @@ class FbProjectLocateMappingResult(TypesyncModel):
     endTime: datetime.datetime
     startTime: datetime.datetime
     results: dict[str, list[int]] | TypesyncUndefined | None = UNDEFINED
-    usergroups: dict[str, bool] | TypesyncUndefined | None = UNDEFINED
+    userGroups: dict[str, bool] | TypesyncUndefined | None = UNDEFINED
 
     class Config:
         use_enum_values = False
@@ -383,8 +383,8 @@ class FbProjectLocateMappingResult(TypesyncModel):
             raise ValueError("'clientType' field cannot be set to None")
         if name == "results" and value is None:
             raise ValueError("'results' field cannot be set to None")
-        if name == "usergroups" and value is None:
-            raise ValueError("'usergroups' field cannot be set to None")
+        if name == "userGroups" and value is None:
+            raise ValueError("'userGroups' field cannot be set to None")
         super().__setattr__(name, value)
 
 
