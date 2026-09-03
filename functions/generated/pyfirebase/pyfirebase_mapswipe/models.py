@@ -20,6 +20,10 @@ class TypesyncUndefined:
             )
         TypesyncUndefined._instance = self
 
+    def __bool__(self) -> bool:
+        """Make UNDEFINED behave like False in boolean contexts."""
+        return False
+
     @classmethod
     def __get_pydantic_core_schema__(cls, source, handler) -> core_schema.CoreSchema:
         return core_schema.with_info_plain_validator_function(cls.validate)
