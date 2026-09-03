@@ -198,7 +198,7 @@ FbMappingResult:
           # NOTE: The key is taskId
           type: map
           valueType: int
-      usergroups:
+      userGroups:
         optional: true
         type:
           # NOTE: The key is usergroupId

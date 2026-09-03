@@ -30,6 +30,8 @@ FbMappingTaskStreetCreateOnlyInput:
     type: object
     fields:
       taskId:
+        # FIXME: STREET projects use an int taskId; every other project type
+        # uses a string taskId.
         type: int
       groupId:
         type: string
