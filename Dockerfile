@@ -1,14 +1,14 @@
 # NOTE: If you make any BREAKING CHANGE:
 # - Update the Docker image tag in `./.github/workflows/docker-push-dev.yml`
 # - Update the `mapswipe-backend` workflow to use the new image tag
-FROM node:20-bullseye-slim AS base
+FROM node:20-bookworm-slim AS base
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 
 RUN apt-get update -y \
     && apt-get install -y --no-install-recommends \
-        openjdk-11-jdk bash procps git \
+        openjdk-17-jdk-headless bash procps git \
     && corepack enable \
     && corepack prepare pnpm@10.6.1 --activate
 
