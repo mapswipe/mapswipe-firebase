@@ -60,7 +60,7 @@ FbProjectLocateMappingResult:
           valueType:
             type: list
             elementType: int
-      usergroups:
+      userGroups:
         optional: true
         type:
           # NOTE: The key is usergroupId

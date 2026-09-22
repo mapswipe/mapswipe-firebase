@@ -121,6 +121,8 @@ FbBaseTutorialGroup:
       finishedCount: # NOTE: initially zero
         type: int
       groupId: # NOTE: initially 101
+        # NOTE: Tutorials use an int groupId, while projects use a string
+        # groupId (e.g. "g354").
         type: int
       numberOfTasks:
         type: int

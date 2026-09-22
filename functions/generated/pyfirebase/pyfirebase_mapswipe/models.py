@@ -272,7 +272,7 @@ class FbMappingResult(TypesyncModel):
     endTime: datetime.datetime
     startTime: datetime.datetime
     results: dict[str, int] | TypesyncUndefined | None = UNDEFINED
-    usergroups: dict[str, bool] | TypesyncUndefined | None = UNDEFINED
+    userGroups: dict[str, bool] | TypesyncUndefined | None = UNDEFINED
 
     class Config:
         use_enum_values = False
@@ -284,8 +284,8 @@ class FbMappingResult(TypesyncModel):
             raise ValueError("'clientType' field cannot be set to None")
         if name == "results" and value is None:
             raise ValueError("'results' field cannot be set to None")
-        if name == "usergroups" and value is None:
-            raise ValueError("'usergroups' field cannot be set to None")
+        if name == "userGroups" and value is None:
+            raise ValueError("'userGroups' field cannot be set to None")
         super().__setattr__(name, value)
 
 
@@ -371,7 +371,7 @@ class FbProjectLocateMappingResult(TypesyncModel):
     endTime: datetime.datetime
     startTime: datetime.datetime
     results: dict[str, list[int]] | TypesyncUndefined | None = UNDEFINED
-    usergroups: dict[str, bool] | TypesyncUndefined | None = UNDEFINED
+    userGroups: dict[str, bool] | TypesyncUndefined | None = UNDEFINED
 
     class Config:
         use_enum_values = False
@@ -383,8 +383,8 @@ class FbProjectLocateMappingResult(TypesyncModel):
             raise ValueError("'clientType' field cannot be set to None")
         if name == "results" and value is None:
             raise ValueError("'results' field cannot be set to None")
-        if name == "usergroups" and value is None:
-            raise ValueError("'usergroups' field cannot be set to None")
+        if name == "userGroups" and value is None:
+            raise ValueError("'userGroups' field cannot be set to None")
         super().__setattr__(name, value)
 
 
@@ -1203,7 +1203,9 @@ class FbUserReadonlyType(TypesyncModel):
     usernameKey: str | TypesyncUndefined | None = UNDEFINED
     accessibility: bool | TypesyncUndefined | None = UNDEFINED
     userGroups: dict[str, typing.Any] | TypesyncUndefined | None = UNDEFINED
-    contributions: dict[str, typing.Any] | TypesyncUndefined | None = UNDEFINED
+    contributions: dict[str, dict[str, int | bool]] | TypesyncUndefined | None = (
+        UNDEFINED
+    )
     taskContributionCount: int | TypesyncUndefined | None = UNDEFINED
     groupContributionCount: int | TypesyncUndefined | None = UNDEFINED
     projectContributionCount: int | TypesyncUndefined | None = UNDEFINED
@@ -1252,22 +1254,6 @@ class FbUserUpdateInput(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         if name == "teamId" and value is None:
             raise ValueError("'teamId' field cannot be set to None")
-        super().__setattr__(name, value)
-
-
-class FbUserContribution(TypesyncModel):
-    """Represents a user contribution"""
-
-    endTime: datetime.datetime
-    startTime: datetime.datetime
-    timestamp: datetime.datetime
-
-    class Config:
-        use_enum_values = False
-        extra = "forbid"
-
-    @typing.override
-    def __setattr__(self, name: str, value: typing.Any) -> None:
         super().__setattr__(name, value)
 
 
