@@ -25,6 +25,12 @@ FbProjectValidateCreateOnlyInput:
           elementType: FbObjCustomOption
       tileServer:
         type: FbObjRasterTileServer
+      preEventTileServer:
+        optional: true
+        type: FbObjRasterTileServer
+      postEventTileServer:
+        optional: true
+        type: FbObjRasterTileServer
       inputType:
         type: FbEnumValidateInputType
 

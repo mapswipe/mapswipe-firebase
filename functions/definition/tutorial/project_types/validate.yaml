@@ -15,6 +15,12 @@ FbValidateTutorial:
           value: 2
       tileServer:
         type: FbObjRasterTileServer
+      preEventTileServer:
+        optional: true
+        type: FbObjRasterTileServer
+      postEventTileServer:
+        optional: true
+        type: FbObjRasterTileServer
       zoomLevel:
         type: int
         deprecated: true
