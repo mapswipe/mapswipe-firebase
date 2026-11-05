@@ -673,6 +673,7 @@ class FbProjectValidateCreateOnlyInput(TypesyncModel):
 
     customOptions: list[FbObjCustomOption] | TypesyncUndefined | None = UNDEFINED
     tileServer: FbObjRasterTileServer
+    hasPreImagery: bool | TypesyncUndefined | None = UNDEFINED
     preEventTileServer: FbObjRasterTileServer | TypesyncUndefined | None = UNDEFINED
     postEventTileServer: FbObjRasterTileServer | TypesyncUndefined | None = UNDEFINED
     inputType: FbEnumValidateInputType
@@ -687,6 +688,8 @@ class FbProjectValidateCreateOnlyInput(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         if name == "customOptions" and value is None:
             raise ValueError("'customOptions' field cannot be set to None")
+        if name == "hasPreImagery" and value is None:
+            raise ValueError("'hasPreImagery' field cannot be set to None")
         if name == "preEventTileServer" and value is None:
             raise ValueError("'preEventTileServer' field cannot be set to None")
         if name == "postEventTileServer" and value is None:
@@ -1129,6 +1132,7 @@ class FbValidateTutorial(TypesyncModel):
     inputGeometries: typing.Annotated[str, pydantic.Field(deprecated=True)]
     projectType: typing.Literal[2]
     tileServer: FbObjRasterTileServer
+    hasPreImagery: bool | TypesyncUndefined | None = UNDEFINED
     preEventTileServer: FbObjRasterTileServer | TypesyncUndefined | None = UNDEFINED
     postEventTileServer: FbObjRasterTileServer | TypesyncUndefined | None = UNDEFINED
     zoomLevel: typing.Annotated[int, pydantic.Field(deprecated=True)]
@@ -1140,6 +1144,8 @@ class FbValidateTutorial(TypesyncModel):
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
+        if name == "hasPreImagery" and value is None:
+            raise ValueError("'hasPreImagery' field cannot be set to None")
         if name == "preEventTileServer" and value is None:
             raise ValueError("'preEventTileServer' field cannot be set to None")
         if name == "postEventTileServer" and value is None:

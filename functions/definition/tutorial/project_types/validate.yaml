@@ -15,6 +15,11 @@ FbValidateTutorial:
           value: 2
       tileServer:
         type: FbObjRasterTileServer
+      # NOTE: Explicit flag for pre-event imagery. When true, preEventTileServer and postEventTileServer
+      # are set and tileServer is the fallback image for older apps. Missing on older projects (false)
+      hasPreImagery:
+        optional: true
+        type: boolean
       preEventTileServer:
         optional: true
         type: FbObjRasterTileServer
