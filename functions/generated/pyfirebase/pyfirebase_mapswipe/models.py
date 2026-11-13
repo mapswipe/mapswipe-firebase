@@ -80,6 +80,53 @@ class FbAnnouncement(TypesyncModel):
         super().__setattr__(name, value)
 
 
+class FbAppInfoRelease(TypesyncModel):
+    """Release notes for a single app version on a platform."""
+
+    version: str
+    versionCode: int
+    """Sortable number of the version used for range queries. Eg. 3.0.10 -> 3000010"""
+    updates: str | TypesyncUndefined | None = UNDEFINED
+    """What's new in this version (markdown)."""
+    incompatibleChanges: str | TypesyncUndefined | None = UNDEFINED
+    """What won't work on older versions after this release (markdown)."""
+
+    class Config:
+        use_enum_values = False
+        extra = "forbid"
+
+    @typing.override
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        if name == "updates" and value is None:
+            raise ValueError("'updates' field cannot be set to None")
+        if name == "incompatibleChanges" and value is None:
+            raise ValueError("'incompatibleChanges' field cannot be set to None")
+        super().__setattr__(name, value)
+
+
+class FbAppInfo(TypesyncModel):
+    """Represents version information of the mobile app for a platform (ios/android)."""
+
+    latestVersion: str | TypesyncUndefined | None = UNDEFINED
+    """Latest version available on the store."""
+    minSupportedVersion: str
+    """Installed versions below this must update."""
+    releases: dict[str, FbAppInfoRelease] | TypesyncUndefined | None = UNDEFINED
+    """Release notes up to the latest version, keyed by version with "." replaced by "_". Eg. 3_0_10"""
+
+    class Config:
+        use_enum_values = False
+        extra = "forbid"
+
+    @typing.override
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        if name == "latestVersion" and value is None:
+            raise ValueError("'latestVersion' field cannot be set to None")
+        if name == "releases" and value is None:
+            raise ValueError("'releases' field cannot be set to None")
+        super().__setattr__(name, value)
+
+
 class FbOrganisation(TypesyncModel):
     """Represents the requesting organisation."""
 
