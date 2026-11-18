@@ -80,6 +80,57 @@ class FbAnnouncement(TypesyncModel):
         super().__setattr__(name, value)
 
 
+class FbAppInfoRelease(TypesyncModel):
+    """Release notes for a single app version on a platform."""
+
+    version: str
+    versionCode: int
+    """Sortable number of the version used for range queries. Eg. 3.0.10 -> 3000010"""
+    updates: str | TypesyncUndefined | None = UNDEFINED
+    """What's new in this version (markdown)."""
+    incompatibleChanges: str | TypesyncUndefined | None = UNDEFINED
+    """What won't work on older versions after this release (markdown)."""
+    supportedFeatures: list[str] | TypesyncUndefined | None = UNDEFINED
+    """Features (AppFeatureEnum values) supported by this version. When set, it overrides the list bundled in the app."""
+
+    class Config:
+        use_enum_values = False
+        extra = "forbid"
+
+    @typing.override
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        if name == "updates" and value is None:
+            raise ValueError("'updates' field cannot be set to None")
+        if name == "incompatibleChanges" and value is None:
+            raise ValueError("'incompatibleChanges' field cannot be set to None")
+        if name == "supportedFeatures" and value is None:
+            raise ValueError("'supportedFeatures' field cannot be set to None")
+        super().__setattr__(name, value)
+
+
+class FbAppInfo(TypesyncModel):
+    """Represents version information of the mobile app for a platform (ios/android)."""
+
+    latestVersion: str | TypesyncUndefined | None = UNDEFINED
+    """Latest version available on the store."""
+    minSupportedVersion: str
+    """Installed versions below this must update."""
+    releases: dict[str, FbAppInfoRelease] | TypesyncUndefined | None = UNDEFINED
+    """Release notes up to the latest version, keyed by version with "." replaced by "_". Eg. 3_0_10"""
+
+    class Config:
+        use_enum_values = False
+        extra = "forbid"
+
+    @typing.override
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        if name == "latestVersion" and value is None:
+            raise ValueError("'latestVersion' field cannot be set to None")
+        if name == "releases" and value is None:
+            raise ValueError("'releases' field cannot be set to None")
+        super().__setattr__(name, value)
+
+
 class FbOrganisation(TypesyncModel):
     """Represents the requesting organisation."""
 
@@ -176,6 +227,8 @@ class FbProjectUpdateInput(TypesyncModel):
     maxTasksPerUser: int | TypesyncUndefined | None = UNDEFINED
     contributorCount: int
     progress: int
+    requiredFeatures: list[str] | TypesyncUndefined | None = UNDEFINED
+    """Features (AppFeatureEnum values) a client must support to open this. Unknown values must be treated as unsupported."""
 
     class Config:
         use_enum_values = False
@@ -195,6 +248,8 @@ class FbProjectUpdateInput(TypesyncModel):
             raise ValueError("'teamId' field cannot be set to None")
         if name == "maxTasksPerUser" and value is None:
             raise ValueError("'maxTasksPerUser' field cannot be set to None")
+        if name == "requiredFeatures" and value is None:
+            raise ValueError("'requiredFeatures' field cannot be set to None")
         super().__setattr__(name, value)
 
 
@@ -892,6 +947,8 @@ class FbBaseTutorial(TypesyncModel):
     projectTopicKey: typing.Annotated[str, pydantic.Field(deprecated=True)]
     status: typing.Literal["tutorial"]
     tutorialDraftId: typing.Annotated[str, pydantic.Field(deprecated=True)]
+    requiredFeatures: list[str] | TypesyncUndefined | None = UNDEFINED
+    """Features (AppFeatureEnum values) a client must support to open this. Unknown values must be treated as unsupported."""
     screens: list[FbScreen] | TypesyncUndefined | None = UNDEFINED
 
     class Config:
@@ -908,6 +965,8 @@ class FbBaseTutorial(TypesyncModel):
             raise ValueError("'informationPages' field cannot be set to None")
         if name == "lookFor" and value is None:
             raise ValueError("'lookFor' field cannot be set to None")
+        if name == "requiredFeatures" and value is None:
+            raise ValueError("'requiredFeatures' field cannot be set to None")
         if name == "screens" and value is None:
             raise ValueError("'screens' field cannot be set to None")
         super().__setattr__(name, value)

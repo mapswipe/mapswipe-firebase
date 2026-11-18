@@ -7,6 +7,18 @@
         ".write": false,
         ".read": "auth != null"
       },
+      "appInfo": {
+        // written only by the backend (admin SDK); readable before login so
+        // the app can show the update prompt on the login screen too
+        ".write": false,
+        ".read": true,
+        "$platform": {
+          "releases": {
+            // the app range-queries the releases it is missing
+            ".indexOn": ["versionCode"]
+          }
+        }
+      },
       "projects": {
         ".write": false,
         ".read": "
