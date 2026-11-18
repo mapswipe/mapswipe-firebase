@@ -19,6 +19,12 @@ FbAppInfoRelease:
         docs: What won't work on older versions after this release (markdown).
         optional: true
         type: string
+      supportedFeatures:
+        docs: Features (AppFeatureEnum values) supported by this version. When set, it overrides the list bundled in the app.
+        optional: true
+        type:
+          type: list
+          elementType: string
 
 FbAppInfo:
   model: alias

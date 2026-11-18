@@ -107,6 +107,12 @@ FbBaseTutorial:
       tutorialDraftId:
         type: string
         deprecated: true
+      requiredFeatures:
+        docs: Features (AppFeatureEnum values) a client must support to open this. Unknown values must be treated as unsupported.
+        optional: true
+        type:
+          type: list
+          elementType: string
       screens:
         type:
           type: list
