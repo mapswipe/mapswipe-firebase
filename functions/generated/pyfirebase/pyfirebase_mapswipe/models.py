@@ -596,6 +596,8 @@ class FbObjRasterTileServer(TypesyncModel):
     credits: str
     name: FbEnumRasterTileServerName
     url: str
+    minZoom: int | TypesyncUndefined | None = UNDEFINED
+    maxZoom: int | TypesyncUndefined | None = UNDEFINED
 
     class Config:
         use_enum_values = False
@@ -607,6 +609,10 @@ class FbObjRasterTileServer(TypesyncModel):
             raise ValueError("'apiKey' field cannot be set to None")
         if name == "wmtsLayerName" and value is None:
             raise ValueError("'wmtsLayerName' field cannot be set to None")
+        if name == "minZoom" and value is None:
+            raise ValueError("'minZoom' field cannot be set to None")
+        if name == "maxZoom" and value is None:
+            raise ValueError("'maxZoom' field cannot be set to None")
         super().__setattr__(name, value)
 
 
@@ -667,6 +673,9 @@ class FbProjectValidateCreateOnlyInput(TypesyncModel):
 
     customOptions: list[FbObjCustomOption] | TypesyncUndefined | None = UNDEFINED
     tileServer: FbObjRasterTileServer
+    hasPreImagery: bool | TypesyncUndefined | None = UNDEFINED
+    preEventTileServer: FbObjRasterTileServer | TypesyncUndefined | None = UNDEFINED
+    postEventTileServer: FbObjRasterTileServer | TypesyncUndefined | None = UNDEFINED
     inputType: FbEnumValidateInputType
     filter: str | TypesyncUndefined | None = UNDEFINED
     TMId: str | TypesyncUndefined | None = UNDEFINED
@@ -679,6 +688,12 @@ class FbProjectValidateCreateOnlyInput(TypesyncModel):
     def __setattr__(self, name: str, value: typing.Any) -> None:
         if name == "customOptions" and value is None:
             raise ValueError("'customOptions' field cannot be set to None")
+        if name == "hasPreImagery" and value is None:
+            raise ValueError("'hasPreImagery' field cannot be set to None")
+        if name == "preEventTileServer" and value is None:
+            raise ValueError("'preEventTileServer' field cannot be set to None")
+        if name == "postEventTileServer" and value is None:
+            raise ValueError("'postEventTileServer' field cannot be set to None")
         if name == "filter" and value is None:
             raise ValueError("'filter' field cannot be set to None")
         if name == "TMId" and value is None:
@@ -1117,6 +1132,9 @@ class FbValidateTutorial(TypesyncModel):
     inputGeometries: typing.Annotated[str, pydantic.Field(deprecated=True)]
     projectType: typing.Literal[2]
     tileServer: FbObjRasterTileServer
+    hasPreImagery: bool | TypesyncUndefined | None = UNDEFINED
+    preEventTileServer: FbObjRasterTileServer | TypesyncUndefined | None = UNDEFINED
+    postEventTileServer: FbObjRasterTileServer | TypesyncUndefined | None = UNDEFINED
     zoomLevel: typing.Annotated[int, pydantic.Field(deprecated=True)]
     customOptions: list[FbObjCustomOption] | TypesyncUndefined | None = UNDEFINED
 
@@ -1126,6 +1144,12 @@ class FbValidateTutorial(TypesyncModel):
 
     @typing.override
     def __setattr__(self, name: str, value: typing.Any) -> None:
+        if name == "hasPreImagery" and value is None:
+            raise ValueError("'hasPreImagery' field cannot be set to None")
+        if name == "preEventTileServer" and value is None:
+            raise ValueError("'preEventTileServer' field cannot be set to None")
+        if name == "postEventTileServer" and value is None:
+            raise ValueError("'postEventTileServer' field cannot be set to None")
         if name == "customOptions" and value is None:
             raise ValueError("'customOptions' field cannot be set to None")
         super().__setattr__(name, value)

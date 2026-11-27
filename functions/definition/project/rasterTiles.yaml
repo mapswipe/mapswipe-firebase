@@ -40,6 +40,13 @@ FbObjRasterTileServer:
         type: FbEnumRasterTileServerName
       url:
         type: string
+      # NOTE: only written by VALIDATE and COMPLETENESS projects
+      minZoom:
+        optional: true
+        type: int
+      maxZoom:
+        optional: true
+        type: int
 
 FbObjRasterTileServerOverlay:
   model: alias
